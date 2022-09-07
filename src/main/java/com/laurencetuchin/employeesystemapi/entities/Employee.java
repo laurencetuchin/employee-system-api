@@ -14,5 +14,8 @@ public class Employee {
     Long id;
 
 
+    private String name;
+
+    private String role;
 
 }
