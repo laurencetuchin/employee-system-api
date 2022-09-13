@@ -26,4 +26,24 @@ public class EmployeeService {
         return employeeRepository.findById(id);
     }
 
+    public List<Employee> getAllEmployees(){
+        return employeeRepository.findAll();
+    }
+
+    // add check for already exists
+    public void addNewEmployee(Employee employee){
+        employeeRepository.save(employee);
+    }
+
+    public void deleteStudentById(Long id){
+        boolean employeeExists = employeeRepository.existsById(id);
+        if (!employeeExists) {
+            throw new IllegalStateException("Employee with id" + id + "does not exist");
+
+        }
+        employeeRepository.deleteById(id);
+    }
+
+
+
 }
