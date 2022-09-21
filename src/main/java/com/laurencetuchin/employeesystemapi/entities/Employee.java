@@ -17,6 +17,9 @@ public class Employee {
 
     private String role;
 
+    private boolean isCurrentlyWorkingAtCompany;
+
+
     public Employee() {
     }
 

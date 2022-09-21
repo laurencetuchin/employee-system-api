@@ -16,6 +16,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
 
 
+    List<Employee> findByIsCurrentlyWorkingAtCompany(boolean isCurrentlyWorkingAtCompany);
+
 
 
 }
