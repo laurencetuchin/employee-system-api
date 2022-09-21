@@ -1,9 +1,6 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "employees")
@@ -13,10 +10,13 @@ public class Employee {
     @GeneratedValue
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "role")
     private String role;
 
+    @Column(name = "employed")
     private boolean isCurrentlyWorkingAtCompany;
 
 
