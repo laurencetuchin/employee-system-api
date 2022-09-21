@@ -7,9 +7,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Configuration
 public class EmployeeConfig {
+
 
     @Bean
     CommandLineRunner commandLineRunner(EmployeeRepository repository){
