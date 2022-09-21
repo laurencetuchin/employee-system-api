@@ -3,14 +3,12 @@ package com.laurencetuchin.employeesystemapi.controllers;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class EmployeeController {
 
     @Autowired
@@ -22,17 +20,26 @@ public class EmployeeController {
     }
 
 
-    @GetMapping("/api/search/{partialName}")
+    @GetMapping("/search/{partialName}")
     List<Employee> findByNameIgnoreCaseContains(@PathVariable String partialName){
         return employeeService.findByNameIgnoreCaseContains(partialName);
     }
 
 
-    @PostMapping("/api/employee/create")
+    @PostMapping("/employee/create")
     public void addNewEmployee(Employee employee){
         employeeService.addNewEmployee(employee);
     }
 
+    @DeleteMapping("/employee/delete/{id}")
+    public void deleteEmployee(Long id){
+        employeeService.deleteEmployeeById(id);
+    }
 
+
+//    @PutMapping("/employee/update/{id}")
+//    public void updateEmployee(Long id){
+//        employeeService.
+//    }
 
 }
