@@ -2,7 +2,7 @@ package com.laurencetuchin.employeesystemapi.entities;
 
 import javax.persistence.*;
 
-@Entity
+@Entity // @Table not needed for object storage
 //@Table(name = "employees")
 public class Employee {
 
