@@ -16,7 +16,7 @@ public class Employee {
     @Column(name = "role")
     private String role;
 
-    @Column(name = "employed")
+    @Column(name = "employment_status")
     private boolean isCurrentlyWorkingAtCompany;
 
 

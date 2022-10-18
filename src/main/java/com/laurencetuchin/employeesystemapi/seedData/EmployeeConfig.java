@@ -9,19 +9,19 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 import java.util.logging.Logger;
 
-@Configuration
-public class EmployeeConfig {
-
-
-    @Bean
-    CommandLineRunner commandLineRunner(EmployeeRepository repository){
-        return args -> {
-            repository.save(new Employee("Frodo", "ring bearer"));
-            repository.save(new Employee("Bilbo", "ring bearer"));
-            repository.save(new Employee("samwise gamgee", "ring friend"));
-        };
-
-
-
-    }
-}
+//@Configuration
+//public class EmployeeConfig {
+//
+//
+//    @Bean
+//    CommandLineRunner commandLineRunner(EmployeeRepository repository){
+//        return args -> {
+//            repository.save(new Employee("Frodo", "ring bearer"));
+//            repository.save(new Employee("Bilbo", "ring bearer"));
+//            repository.save(new Employee("samwise gamgee", "ring friend"));
+//        };
+//
+//
+//
+//    }
+//}
