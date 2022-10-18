@@ -3,7 +3,7 @@ package com.laurencetuchin.employeesystemapi.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "employees")
+//@Table(name = "employees")
 public class Employee {
 
     @Id

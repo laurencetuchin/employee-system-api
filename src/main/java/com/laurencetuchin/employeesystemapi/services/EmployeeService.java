@@ -3,6 +3,7 @@ package com.laurencetuchin.employeesystemapi.services;
 import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +60,7 @@ public class EmployeeService {
         employeeRepository.deleteById(id);
     }
 
-    public Employee updateEmployeeById(Employee employee){
+    public Employee updateEmployeeById(@NotNull Employee employee){
         boolean employeeExists = employeeRepository.existsById(employee.getId());
         if (!employeeExists){
             throw new IllegalStateException("Employee with id" + employee.getId() + "does not exist");
