@@ -15,8 +15,8 @@ public class DataLoader {
 
     private static final Logger log = LoggerFactory.getLogger(DataLoader.class);
 
-    @Autowired
-    private EmployeeRepository repository;
+//    @Autowired
+//    private EmployeeRepository repository;
 
     @Bean
     CommandLineRunner loadData(EmployeeRepository repository){

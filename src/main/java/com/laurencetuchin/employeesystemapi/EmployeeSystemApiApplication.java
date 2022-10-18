@@ -8,8 +8,9 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
-@ComponentScan("com.laurencetuchin.employeesystemapi.repositories")
+@SpringBootApplication
+
+@ComponentScan({"com.laurencetuchin.employeesystemapi.repositories", "com.laurencetuchin.employeesyemapi.seedData"})
 public class EmployeeSystemApiApplication {
 
 	public static void main(String[] args) {
