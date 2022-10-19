@@ -27,7 +27,8 @@ public class DataLoader {
             log.info("Employee 2 saved in Database");
             repository.save(new Employee("samwise","ring friend"));
             log.info("preloading" + repository.save(new Employee("Mr Log","information provider")));
-            log.info(" 3 Employees saved in Database");
+            repository.save(new Employee("John Smith","Hardest worker", true));
+            log.info("Total employees: " + repository.count());
 
         };
     }

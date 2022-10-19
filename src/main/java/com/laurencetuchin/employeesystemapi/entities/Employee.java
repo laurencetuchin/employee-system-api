@@ -28,6 +28,12 @@ public class Employee {
         this.role = role;
     }
 
+    public Employee(String name, String role, boolean isCurrentlyWorkingAtCompany) {
+        this.name = name;
+        this.role = role;
+        this.isCurrentlyWorkingAtCompany = isCurrentlyWorkingAtCompany;
+    }
+
     public Long getId() {
         return id;
     }
