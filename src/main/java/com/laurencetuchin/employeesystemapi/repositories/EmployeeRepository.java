@@ -10,11 +10,7 @@ import java.util.List;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-
-
     List<Employee> findByNameIgnoreCaseContains(String partialName);
-
-
 
     List<Employee> findByIsCurrentlyWorkingAtCompany(boolean isCurrentlyWorkingAtCompany);
 

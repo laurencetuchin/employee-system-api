@@ -86,7 +86,8 @@ public class EmployeeController {
     // Search result based on employment status
     @GetMapping("/employment{result}")
     public List<Employee> getCurrentlyEmployedEmployees(@RequestParam boolean result) {
-        return employeeService.findCurrentlyEmployedEmployees(result);
+            return employeeService.findCurrentlyEmployedEmployees(result);
+        // add in error handling
     }
 
 
