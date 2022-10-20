@@ -80,10 +80,13 @@ public class EmployeeController {
     public String testMethod(){
         return "test method";
     }
+
     // Returns employees that currently work at company
-    @GetMapping("/employment/true")
-    public List<Employee> getCurrentlyEmployedEmployees() {
-        return employeeService.findCurrentlyEmployedEmployees(true);
+
+    // Search result based on employment status
+    @GetMapping("/employment{result}")
+    public List<Employee> getCurrentlyEmployedEmployees(@RequestParam boolean result) {
+        return employeeService.findCurrentlyEmployedEmployees(result);
     }
 
 
