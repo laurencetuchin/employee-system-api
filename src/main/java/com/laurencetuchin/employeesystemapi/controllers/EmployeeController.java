@@ -88,12 +88,13 @@ public class EmployeeController {
 
 
 
-    @GetMapping("/search/{partialName}")
+    @GetMapping("/search{partialName}")
+//    @ResponseBody
     List<Employee> findByNameIgnoreCaseContains(@RequestParam String partialName){
         return employeeService.findByNameIgnoreCaseContains(partialName);
     }
 
-    // need @RequestParams?
+
 
     @PostMapping("/employee/create")
     public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
