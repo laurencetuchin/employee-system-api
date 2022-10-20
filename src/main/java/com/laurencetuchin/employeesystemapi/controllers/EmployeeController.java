@@ -1,6 +1,6 @@
 package com.laurencetuchin.employeesystemapi.controllers;
 
-import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
+//import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +14,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:8081")
+@RequestMapping("/api") // Need to add in API versioning
+//@CrossOrigin(origins = "http://localhost:8081")
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
+
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GetMapping("/")
     public String home() {
@@ -55,22 +59,41 @@ public class EmployeeController {
 
 
     // Return Employee DTO for client
+//
+//    @GetMapping("/employees")
+//    @ResponseBody
+//    public List<EmployeeDTO> getAllEmployeesDTO() {
+//        return employeeService.getAllEmployees().stream()
+//                .map(EmployeeDTO::new)
+//                .collect(Collectors.toList());
+//    }
 
-    @GetMapping("/employees")
-    public List<EmployeeDTO> getAllEmployeesDTO() {
-        return employeeService.getAllEmployees().stream()
-                .map(EmployeeDTO::new)
-                .collect(Collectors.toList());
+
+    @GetMapping("/employees/all")
+    @ResponseBody
+    public List<Employee> getAllEmployees() {
+        return employeeService.getAllEmployees();
     }
 
+    @GetMapping("/test")
+    @ResponseBody
+    public String testMethod(){
+        return "test method";
+    }
+    // Returns employees that currently work at company
+    @GetMapping("/employment/true")
+    public List<Employee> getCurrentlyEmployedEmployees() {
+        return employeeService.findCurrentlyEmployedEmployees(true);
+    }
 
 
 
     @GetMapping("/search/{partialName}")
-    List<Employee> findByNameIgnoreCaseContains(@PathVariable String partialName){
+    List<Employee> findByNameIgnoreCaseContains(@RequestParam String partialName){
         return employeeService.findByNameIgnoreCaseContains(partialName);
     }
 
+    // need @RequestParams?
 
     @PostMapping("/employee/create")
     public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {

@@ -1,5 +1,7 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
+import org.springframework.context.annotation.Bean;
+
 import javax.persistence.*;
 
 @Entity // @Table not needed for object storage

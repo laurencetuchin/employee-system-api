@@ -1,6 +1,5 @@
 package com.laurencetuchin.employeesystemapi.services;
 
-import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +22,11 @@ public class EmployeeService {
     public List<Employee> findByNameIgnoreCaseContains(String partialName){
         return employeeRepository.findByNameIgnoreCaseContains(partialName);
     }
+
+    public List<Employee> findCurrentlyEmployedEmployees(boolean isCurrentlyEmployedAtCompany){
+        return employeeRepository.findByIsCurrentlyWorkingAtCompany(isCurrentlyEmployedAtCompany);
+    }
+
 
     public Optional<Employee> findEmployeeById(Long id){
         return employeeRepository.findById(id);
