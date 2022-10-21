@@ -108,7 +108,7 @@ public class EmployeeController {
     }
 
 
-
+    // add handler for no result
     @GetMapping("/search{partialName}")
 //    @ResponseBody
     List<Employee> findByNameIgnoreCaseContains(@RequestParam String partialName){
