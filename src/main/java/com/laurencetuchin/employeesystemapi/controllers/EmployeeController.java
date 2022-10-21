@@ -2,6 +2,7 @@ package com.laurencetuchin.employeesystemapi.controllers;
 
 //import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
+import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
 import com.laurencetuchin.employeesystemapi.seedData.DataLoader;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
 import org.slf4j.Logger;
@@ -91,16 +92,16 @@ public class EmployeeController {
 
     // Search result based on employment status
     @GetMapping("/employment{result}")
-    public List<Employee> getCurrentlyEmployedEmployees(@RequestParam boolean result) {
+    public ResponseEntity<List<Employee>> getCurrentlyEmployedEmployees(@RequestParam boolean result) {
 //            return employeeService.findCurrentlyEmployedEmployees(result);
         // add in error handling
 
         try {
-            return employeeService.findCurrentlyEmployedEmployees(result);
-        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(employeeService.findCurrentlyEmployedEmployees(result), HttpStatus.OK);
+        } catch (EmployeeNotFoundException e) {
 //             return "Error " + e;
 //            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
-            throw new IllegalArgumentException(e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
 
