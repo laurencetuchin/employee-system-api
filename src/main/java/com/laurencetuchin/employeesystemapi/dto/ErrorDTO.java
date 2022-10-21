@@ -74,7 +74,7 @@ public class ErrorDTO {
         this.timestamp = timestamp;
     }
 
-    public class ErrorDTOBuilder {
+    public static class ErrorDTOBuilder {
         public String title;
         public String detail;
         public int status;
