@@ -2,11 +2,15 @@ package com.laurencetuchin.employeesystemapi.controllers;
 
 //import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
+import com.laurencetuchin.employeesystemapi.seedData.DataLoader;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +24,8 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
+
+    private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
@@ -86,8 +92,18 @@ public class EmployeeController {
     // Search result based on employment status
     @GetMapping("/employment{result}")
     public List<Employee> getCurrentlyEmployedEmployees(@RequestParam boolean result) {
-            return employeeService.findCurrentlyEmployedEmployees(result);
+//            return employeeService.findCurrentlyEmployedEmployees(result);
         // add in error handling
+
+        try {
+            return employeeService.findCurrentlyEmployedEmployees(result);
+        } catch (IllegalArgumentException e) {
+//             return "Error " + e;
+//            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException(e);
+        }
+
+
     }
 
 
