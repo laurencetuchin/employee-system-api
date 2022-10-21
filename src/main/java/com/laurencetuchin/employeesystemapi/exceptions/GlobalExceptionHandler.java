@@ -20,4 +20,17 @@ public class GlobalExceptionHandler {
                         .withErrorCode("Custom Error Code XXX").build(),
                 HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorDTO> handleOtherException(final Exception exception) {
+
+        return new ResponseEntity<>(
+                ErrorDTO.builder()
+                        .withDetail(exception.getMessage())
+                        .withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                        .withErrorType(exception.getClass().getSimpleName())
+                        .withErrorCode("Other Error Code XXX")
+                        .build(),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
