@@ -24,6 +24,7 @@ public class DataLoader {
             repository.save(new Employee("Frodo","Ring bearer"));
             log.info("Employee 1 saved in Database");
             repository.save(new Employee("Bilbo","Ring bearer"));
+            repository.save(new Employee("Bilbo2","Delivery"));
             log.info("Employee 2 saved in Database");
             repository.save(new Employee("samwise","ring friend"));
             log.info("preloading" + repository.save(new Employee("Mr Log","information provider")));

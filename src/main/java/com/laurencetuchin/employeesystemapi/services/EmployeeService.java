@@ -23,12 +23,16 @@ public class EmployeeService {
         return employeeRepository.findByNameIgnoreCaseContains(partialName);
     }
 
+    public List<Employee> findByRoleIgnoreCaseContains(String role){
+        return employeeRepository.findByRoleIgnoreCaseContains(role);
+    }
+
     public List<Employee> findCurrentlyEmployedEmployees(boolean isCurrentlyEmployedAtCompany){
         return employeeRepository.findByIsCurrentlyWorkingAtCompany(isCurrentlyEmployedAtCompany);
     }
 
-    public List<Employee> findByNameAndRoleIgnoreCaseContains(String partialName, String role){
-        return employeeRepository.findByNameAndRoleIgnoreCaseContains(partialName, role);
+    public List<Employee> findEmployeeByNameAndRole(String partialName, String role){
+        return employeeRepository.findEmployeeByNameAndRole(partialName, role);
     }
 
 

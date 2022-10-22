@@ -3,7 +3,6 @@ package com.laurencetuchin.employeesystemapi.controllers;
 //import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
-import com.laurencetuchin.employeesystemapi.seedData.DataLoader;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,12 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api") // Need to add in API versioning
@@ -114,6 +110,28 @@ public class EmployeeController {
     ResponseEntity<List<Employee>> findByNameIgnoreCaseContains(@RequestParam String partialName){
         try {
             return new ResponseEntity<>(employeeService.findByNameIgnoreCaseContains(partialName), HttpStatus.FOUND);
+        } catch (EmployeeNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/search/role{role}")
+//    @ResponseBody
+    ResponseEntity<List<Employee>> findByRoleIgnoreCaseContains(@RequestParam String role){
+        try {
+            return new ResponseEntity<>(employeeService.findByRoleIgnoreCaseContains(role), HttpStatus.FOUND);
+        } catch (EmployeeNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/search/partialNameAndRole{partialName}") // pushes URL string like ?partialName=example&role=example
+    @ResponseBody
+    ResponseEntity<List<Employee>> findEmployeeByNameAndRole(@RequestParam String partialName, @RequestParam String role){
+        try {
+            System.out.println("name is: " + partialName + "role is : " + role);
+
+            return new ResponseEntity<>(employeeService.findEmployeeByNameAndRole(partialName,role), HttpStatus.FOUND);
         } catch (EmployeeNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }

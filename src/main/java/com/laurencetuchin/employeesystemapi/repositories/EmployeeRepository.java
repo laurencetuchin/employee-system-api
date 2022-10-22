@@ -11,10 +11,11 @@ import java.util.List;
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findByNameIgnoreCaseContains(String partialName);
+    List<Employee> findByRoleIgnoreCaseContains(String role);
 
     List<Employee> findByIsCurrentlyWorkingAtCompany(boolean isCurrentlyWorkingAtCompany);
 
 
-    List<Employee> findByNameAndRoleIgnoreCaseContains(String partialName, String role);
+    List<Employee> findEmployeeByNameAndRole(String partialName, String role);
 
 }
