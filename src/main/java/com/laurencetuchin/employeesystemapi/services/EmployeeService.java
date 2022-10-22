@@ -27,6 +27,10 @@ public class EmployeeService {
         return employeeRepository.findByIsCurrentlyWorkingAtCompany(isCurrentlyEmployedAtCompany);
     }
 
+    public List<Employee> findByNameAndRoleIgnoreCaseContains(String partialName, String role){
+        return employeeRepository.findByNameAndRoleIgnoreCaseContains(partialName, role);
+    }
+
 
     public Optional<Employee> findEmployeeById(Long id){
         return employeeRepository.findById(id);
