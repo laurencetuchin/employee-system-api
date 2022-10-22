@@ -15,5 +15,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findByIsCurrentlyWorkingAtCompany(boolean isCurrentlyWorkingAtCompany);
 
 
+    List<Employee> findByNameAndRoleIgnoreCaseContains(String partialName, String role);
 
 }
