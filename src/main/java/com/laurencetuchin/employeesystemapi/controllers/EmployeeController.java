@@ -28,10 +28,6 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/")
-    public String home() {
-        return "You are home";
-    }
 
 //    @GetMapping("/employees/all")
 //    public ResponseEntity<List<Employee>> getAllEmployees(@RequestParam(required = false) String name) {
