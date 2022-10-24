@@ -76,7 +76,7 @@ public class EmployeeController {
     }
 
 
-    @GetMapping("/employeees/dto")
+    @GetMapping("/employees/dto")
     public List<EmployeeDTO> getAllEmployeesDTO() {
         return employeeService.getAllEmployees()
                 .stream()

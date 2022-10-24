@@ -19,4 +19,10 @@ public class EmployeeDTO {
     }
 
 
+    @Override
+    public String toString() {
+        return "EmployeeDTO{" +
+                "employee=" + employee +
+                '}';
+    }
 }
