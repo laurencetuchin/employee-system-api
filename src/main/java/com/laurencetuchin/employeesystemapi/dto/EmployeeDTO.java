@@ -10,6 +10,8 @@ public class EmployeeDTO {
         this.employee = employee;
     }
 
+    // Only return client friendly information from Employee Object to client
+
     public String getEmployeeName() {
         return this.employee.getName();
     }
