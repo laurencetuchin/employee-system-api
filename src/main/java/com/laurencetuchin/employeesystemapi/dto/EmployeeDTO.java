@@ -14,6 +14,9 @@ public class EmployeeDTO {
         return this.employee.getName();
     }
 
+    public String getEmployeeRole(){
+        return this.employee.getRole();
+    }
 
     @Override
     public String toString() {
