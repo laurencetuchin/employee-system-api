@@ -74,12 +74,6 @@ public class EmployeeController {
         return employeeService.getAllEmployees();
     }
 
-    @GetMapping("/test")
-    @ResponseBody
-    public String testMethod(){
-        return "test method";
-    }
-
     // Returns employees that currently work at company
 
     // Search result based on employment status
