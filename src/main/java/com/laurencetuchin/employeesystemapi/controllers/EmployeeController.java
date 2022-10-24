@@ -1,6 +1,6 @@
 package com.laurencetuchin.employeesystemapi.controllers;
 
-//import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
+import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api") // Need to add in API versioning
@@ -72,6 +73,15 @@ public class EmployeeController {
     @ResponseBody
     public List<Employee> getAllEmployees() {
         return employeeService.getAllEmployees();
+    }
+
+
+    @GetMapping("/employeees/dto")
+    public List<EmployeeDTO> getAllEmployeesDTO() {
+        return employeeService.getAllEmployees()
+                .stream()
+                .map(EmployeeDTO::new)
+                .collect(Collectors.toList());
     }
 
     // Returns employees that currently work at company
