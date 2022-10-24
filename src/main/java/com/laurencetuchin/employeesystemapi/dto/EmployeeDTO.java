@@ -10,10 +10,6 @@ public class EmployeeDTO {
         this.employee = employee;
     }
 
-    public Long getEmployeeId() {
-        return this.employee.getId();
-    }
-
     public String getEmployeeName() {
         return this.employee.getName();
     }
