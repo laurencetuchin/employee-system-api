@@ -4,7 +4,7 @@ import com.laurencetuchin.employeesystemapi.entities.Employee;
 
 public class EmployeeDTO {
 
-    private Employee employee;
+    private final Employee employee;
 
     public EmployeeDTO(Employee employee) {
         this.employee = employee;
