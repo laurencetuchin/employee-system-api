@@ -1,11 +1,16 @@
 package com.laurencetuchin.employeesystemapi.controllers;
 
+import com.laurencetuchin.employeesystemapi.services.EmployeeService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeControllerTest {
 
+
+    @Autowired
+    private EmployeeService employeeService;
 
     @Test
     void itShouldGetEmployeeByIdAndReturnEmployeeIfExists() {
