@@ -6,8 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeControllerTest {
 
+
     @Test
-    void getEmployeeById() {
+    void itShouldGetEmployeeByIdAndReturnEmployeeIfExists() {
+
     }
 
     @Test
