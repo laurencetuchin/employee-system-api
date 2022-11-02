@@ -1,6 +1,8 @@
 package com.laurencetuchin.employeesystemapi;
 
 import com.laurencetuchin.employeesystemapi.controllers.EmployeeController;
+import com.laurencetuchin.employeesystemapi.entities.Employee;
+import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,14 @@ class EmployeeSystemApiApplicationTests {
 	@Autowired
 	private EmployeeService employeeService;
 
+	@Autowired
+	private EmployeeRepository employeeRepository;
+
 	@Test
 	void contextLoads() throws Exception {
 		assertThat(controller).isNotNull();
 		assertThat(employeeService).isNotNull();
+		assertThat(employeeRepository).isNotNull();
 	}
 
 }
