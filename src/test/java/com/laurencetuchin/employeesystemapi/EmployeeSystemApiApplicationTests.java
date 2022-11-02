@@ -22,11 +22,16 @@ class EmployeeSystemApiApplicationTests {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
+
+
+	private Employee employee = new Employee("Tom", "potato maker",true);
+
 	@Test
 	void contextLoads() throws Exception {
 		assertThat(controller).isNotNull();
 		assertThat(employeeService).isNotNull();
 		assertThat(employeeRepository).isNotNull();
+		assertThat(employee).isNotNull();
 	}
 
 }
