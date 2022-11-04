@@ -23,7 +23,7 @@ class EmployeeControllerTest {
 
 
     @MockBean
-    private EmployeeService employeeService;
+    private EmployeeService employeeService; // Injects during runtime
 
     @MockBean
     private MockMvc mockMvc;
