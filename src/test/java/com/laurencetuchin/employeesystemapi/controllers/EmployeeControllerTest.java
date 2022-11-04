@@ -30,6 +30,12 @@ class EmployeeControllerTest {
 
 
     @Test
+    void shouldCreateMockMvc() {
+        assertNotNull(mockMvc);
+    }
+
+
+    @Test
     public void itShouldGetEmployeeByIdAndReturnEmployeeIfExists() {
 
 
