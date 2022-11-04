@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class EmployeeControllerTest {
 
 
-    @Autowired
+    @MockBean
     private EmployeeService employeeService;
 
     @MockBean
@@ -40,6 +40,7 @@ class EmployeeControllerTest {
 
     @Test
     void getAllEmployees() {
+
     }
 
     @Test
