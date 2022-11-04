@@ -46,6 +46,11 @@ public class EmployeeController {
 //        return new ResponseEntity<>
 //    }
 
+    @GetMapping("/")
+    public String greeting(){
+        return "Hello, World!";
+    }
+
     @GetMapping("/employees/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long id) {
         Optional<Employee> employeeIfExists = employeeService.findEmployeeById(id);
