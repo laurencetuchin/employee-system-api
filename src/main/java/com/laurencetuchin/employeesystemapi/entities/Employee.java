@@ -1,6 +1,7 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
@@ -20,7 +21,7 @@ public class Employee {
     private String role;
 
     @Column(name = "employment_status")
-    private boolean isCurrentlyWorkingAtCompany;
+    private boolean isCurrentlyWorkingAtCompany = true;
 
 
     public Employee() {
