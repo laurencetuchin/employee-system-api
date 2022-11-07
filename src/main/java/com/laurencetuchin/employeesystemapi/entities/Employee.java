@@ -61,6 +61,14 @@ public class Employee {
         this.role = role;
     }
 
+    public boolean isCurrentlyWorkingAtCompany() {
+        return isCurrentlyWorkingAtCompany;
+    }
+
+    public void setCurrentlyWorkingAtCompany(boolean currentlyWorkingAtCompany) {
+        isCurrentlyWorkingAtCompany = currentlyWorkingAtCompany;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
