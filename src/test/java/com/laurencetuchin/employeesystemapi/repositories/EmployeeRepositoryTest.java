@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 class EmployeeRepositoryTest {
@@ -15,6 +16,17 @@ class EmployeeRepositoryTest {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Test
+    void save() {
+        Employee employee1 = new Employee();
+        employee1.setName("Sarah Peterson");
+        employee1.setRole("Executive Producer");
+        employeeRepository.save(employee1);
+
+        assertNotNull(employee1);
+        assertThat(employee1.getName()).isEqualTo("Sarah Peterson");
+    }
 
     @Test
     void itShouldFindByNameIgnoreCaseContains() {
