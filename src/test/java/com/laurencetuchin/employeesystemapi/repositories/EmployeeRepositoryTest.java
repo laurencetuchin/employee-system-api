@@ -29,6 +29,23 @@ class EmployeeRepositoryTest {
     }
 
     @Test
+    void update(){
+        Employee employee1 = new Employee();
+        employee1.setName("Sarah Peterson");
+        employee1.setRole("Executive Producer");
+        employeeRepository.save(employee1);
+        // saves Employee
+        assertThat(employee1.getName()).isEqualTo("Sarah Peterson");
+        // checks Employee saved has correct information
+
+        employee1.setName("Sarah Petoria");
+        employeeRepository.save(employee1);
+        // saves Employee with updated name
+        assertThat(employee1.getName()).isEqualTo("Sarah Petoria");
+        // checks that Employee is saved with updated name
+    }
+
+    @Test
     void itShouldFindByNameIgnoreCaseContains() {
 
         // given
