@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 class EmployeeRepositoryTest {
@@ -174,6 +176,28 @@ class EmployeeRepositoryTest {
         assertThat(correctLowercaseName).isEmpty();
 
 
+    }
+
+    @Test
+    void itShouldReturnThreeMatchesForFindByNameIgnoreCaseContains() {
+        // given
+        Employee employee3 = new Employee("anne Hathaway","Catwoman");
+        Employee employee1 = new Employee("Anne hathaway","Bane");
+        Employee employee2 = new Employee("anNe holloway","Batman");
+        employeeRepository.save(employee1);
+        employeeRepository.save(employee2);
+        employeeRepository.save(employee3);
+
+        List<Employee> employees = new ArrayList<>();
+
+        employees.add(employee1);
+        employees.add(employee2);
+        employees.add(employee3);
+
+        List<Employee> correctLowercaseName = employeeRepository.findByNameIgnoreCaseContains("anne");
+//        assertThat(correctLowercaseName.listIterator().next().getName()).contains(employees.listIterator().next().getName());
+//        assertTrue(correctLowercaseName.stream().allMatch(correctLowercaseName.stream().collect(Collectors.toList())));
+        assertThat(correctLowercaseName.stream().count()).isEqualTo(3);
     }
 
     @Test
