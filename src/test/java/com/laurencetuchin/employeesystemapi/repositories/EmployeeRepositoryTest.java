@@ -133,6 +133,7 @@ class EmployeeRepositoryTest {
     @Test
     void itShouldFindByNameIgnoreCaseContains() {
 
+
         // given
         Employee employee = new Employee(
                 "Tom",
@@ -141,13 +142,16 @@ class EmployeeRepositoryTest {
         );
         employeeRepository.save(employee);
         // when
-        Employee correctName = employeeRepository.findByNameIgnoreCaseContains("Tom");
+        List<Employee> correctName = employeeRepository.findByNameIgnoreCaseContains("tom");
 
         // then
-        assertThat(employee.getName()).isEqualTo("Tom");
+//        assertThat(employee.getName()).isEqualTo("Tom");
 //        assertThat(employee.getName()).isEqualTo(correctName);
 //        assertThat(correctName).isEqualTo(employee.getName());
-        assertThat(correctName.getName()).isEqualTo(employee.getName());
+//        assertThat(correctName.getName()).isEqualTo(employee.getName());
+//        assertThat(correctName.contains("Tom")).isEqualTo(employee.getName());
+//        assertThat(correctName.contains("Tom")).isEqualTo("Tom");
+        assertThat(correctName.listIterator().next().getName()).isEqualTo(employee.getName());
     }
 
     @Test
