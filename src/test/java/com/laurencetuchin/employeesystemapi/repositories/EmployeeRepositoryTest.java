@@ -196,8 +196,6 @@ class EmployeeRepositoryTest {
 
         List<Employee> correctLowercaseName = employeeRepository.findByNameIgnoreCaseContains("anne");
         assertThat(correctLowercaseName.stream().count()).isEqualTo(3);
-        List<Employee> twoMatchesLastName = employeeRepository.findByNameIgnoreCaseContains("hathaway");
-        assertThat(twoMatchesLastName.stream().count()).isEqualTo(2);
     }
 
     @Test
