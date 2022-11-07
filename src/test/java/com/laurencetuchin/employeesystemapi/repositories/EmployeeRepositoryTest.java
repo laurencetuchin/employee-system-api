@@ -46,6 +46,24 @@ class EmployeeRepositoryTest {
     }
 
     @Test
+    void itShouldUpdateRoleWhenSaved() {
+
+        Employee employee1 = new Employee();
+        employee1.setName("Sarah Peterson");
+        employee1.setRole("Executive Producer");
+        employeeRepository.save(employee1);
+        // saves Employee
+        assertThat(employee1.getRole()).isEqualTo("Executive Producer");
+        // checks Employee saved has correct information
+
+        employee1.setRole("Vice Executive Producer");
+        employeeRepository.save(employee1);
+        // saves Employee with updated name
+        assertThat(employee1.getRole()).isEqualTo("Vice Executive Producer");
+        // checks that Employee is saved with updated role
+    }
+
+    @Test
     void itShouldFindByNameIgnoreCaseContains() {
 
         // given
