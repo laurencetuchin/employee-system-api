@@ -23,9 +23,6 @@ public class EmployeeService {
         return employeeRepository.findByNameIgnoreCaseContains(partialName);
     }
 
-//    public Employee findByNameIgnoreCaseContains(String partialName){
-//        return employeeRepository.findByNameIgnoreCaseContains(partialName);
-//    }
     public List<Employee> findByRoleIgnoreCaseContains(String role){
         return employeeRepository.findByRoleIgnoreCaseContains(role);
     }
