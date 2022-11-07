@@ -142,16 +142,18 @@ class EmployeeRepositoryTest {
         );
         employeeRepository.save(employee);
         // when
-        List<Employee> correctName = employeeRepository.findByNameIgnoreCaseContains("tom");
+        List<Employee> correctLowercaseName = employeeRepository.findByNameIgnoreCaseContains("tom");
 
         // then
 //        assertThat(employee.getName()).isEqualTo("Tom");
-//        assertThat(employee.getName()).isEqualTo(correctName);
-//        assertThat(correctName).isEqualTo(employee.getName());
-//        assertThat(correctName.getName()).isEqualTo(employee.getName());
-//        assertThat(correctName.contains("Tom")).isEqualTo(employee.getName());
-//        assertThat(correctName.contains("Tom")).isEqualTo("Tom");
-        assertThat(correctName.listIterator().next().getName()).isEqualTo(employee.getName());
+//        assertThat(employee.getName()).isEqualTo(correctLowercaseName);
+//        assertThat(correctLowercaseName).isEqualTo(employee.getName());
+//        assertThat(correctLowercaseName.getName()).isEqualTo(employee.getName());
+//        assertThat(correctLowercaseName.contains("Tom")).isEqualTo(employee.getName());
+//        assertThat(correctLowercaseName.contains("Tom")).isEqualTo("Tom");
+        assertThat(correctLowercaseName.listIterator().next().getName()).isEqualTo(employee.getName());
+        assertThat(correctLowercaseName.listIterator().next().getName()).isEqualTo("Tom");
+        assertThat(correctLowercaseName.listIterator().next().getName()).isEqualTo("To");
     }
 
     @Test
