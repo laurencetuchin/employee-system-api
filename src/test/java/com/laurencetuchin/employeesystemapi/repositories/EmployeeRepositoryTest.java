@@ -109,6 +109,16 @@ class EmployeeRepositoryTest {
     }
 
     @Test
+    void itShouldGiveADefaultEmploymentStatusOfTrue() {
+        Employee employee1 = new Employee();
+        employee1.setName("Sarah Peterson");
+        employee1.setRole("Executive Producer");
+        employeeRepository.save(employee1);
+
+        assertThat(employee1.isCurrentlyWorkingAtCompany()).isTrue();
+    }
+
+    @Test
     void itShouldFindByNameIgnoreCaseContains() {
 
         // given
