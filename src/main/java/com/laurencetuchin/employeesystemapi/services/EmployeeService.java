@@ -19,10 +19,13 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> findByNameIgnoreCaseContains(String partialName){
+//    public List<Employee> findByNameIgnoreCaseContains(String partialName){
+//        return employeeRepository.findByNameIgnoreCaseContains(partialName);
+//    }
+
+    public Employee findByNameIgnoreCaseContains(String partialName){
         return employeeRepository.findByNameIgnoreCaseContains(partialName);
     }
-
     public List<Employee> findByRoleIgnoreCaseContains(String role){
         return employeeRepository.findByRoleIgnoreCaseContains(role);
     }

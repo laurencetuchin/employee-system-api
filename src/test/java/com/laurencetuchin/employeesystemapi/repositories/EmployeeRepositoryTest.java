@@ -141,10 +141,13 @@ class EmployeeRepositoryTest {
         );
         employeeRepository.save(employee);
         // when
-        List<Employee> correctName = employeeRepository.findByNameIgnoreCaseContains("Tom");
+        Employee correctName = employeeRepository.findByNameIgnoreCaseContains("Tom");
 
         // then
-        assertThat(correctName).isEqualTo(employee.getName());
+        assertThat(employee.getName()).isEqualTo("Tom");
+//        assertThat(employee.getName()).isEqualTo(correctName);
+//        assertThat(correctName).isEqualTo(employee.getName());
+        assertThat(correctName.getName()).isEqualTo(employee.getName());
     }
 
     @Test
