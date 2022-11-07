@@ -143,6 +143,8 @@ class EmployeeRepositoryTest {
         employeeRepository.save(employee);
         // when
         List<Employee> correctLowercaseName = employeeRepository.findByNameIgnoreCaseContains("tom");
+        List<Employee> correctUppercaseName = employeeRepository.findByNameIgnoreCaseContains("TOM");
+        List<Employee> correctMixedcaseName = employeeRepository.findByNameIgnoreCaseContains("ToM");
 
         // then
 //        assertThat(employee.getName()).isEqualTo("Tom");
@@ -153,7 +155,8 @@ class EmployeeRepositoryTest {
 //        assertThat(correctLowercaseName.contains("Tom")).isEqualTo("Tom");
         assertThat(correctLowercaseName.listIterator().next().getName()).isEqualTo(employee.getName());
         assertThat(correctLowercaseName.listIterator().next().getName()).isEqualTo("Tom");
-        assertThat(correctLowercaseName.listIterator().next().getName()).isEqualTo("To");
+        assertThat(correctUppercaseName.listIterator().next().getName()).isEqualTo(employee.getName());
+        assertThat(correctMixedcaseName.listIterator().next().getName()).isEqualTo(employee.getName());
     }
 
     @Test
