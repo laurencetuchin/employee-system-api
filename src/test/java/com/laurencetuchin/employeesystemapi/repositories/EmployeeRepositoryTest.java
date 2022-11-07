@@ -1,11 +1,12 @@
 package com.laurencetuchin.employeesystemapi.repositories;
 
 import com.laurencetuchin.employeesystemapi.entities.Employee;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -151,6 +152,28 @@ class EmployeeRepositoryTest {
         assertThat(correctLowercaseName.listIterator().next().getName()).isEqualTo("Tom");
         assertThat(correctUppercaseName.listIterator().next().getName()).isEqualTo(employee.getName());
         assertThat(correctMixedcaseName.listIterator().next().getName()).isEqualTo(employee.getName());
+    }
+
+    @Test
+    void itShouldNotReturnAnyMatchForFindByNameIgnoreCaseContains() {
+        // given
+        Employee employee3 = new Employee("Anne Hathaway","Catwoman");
+        Employee employee1 = new Employee("Tom Hardy","Bane");
+        Employee employee2 = new Employee("Christian Bale","Batman");
+        employeeRepository.save(employee1);
+        employeeRepository.save(employee2);
+        employeeRepository.save(employee3);
+        List<Employee> employees = new ArrayList<>();
+
+        employees.add(employee1);
+        employees.add(employee2);
+        employees.add(employee3);
+
+
+        List<Employee> correctLowercaseName = employeeRepository.findByNameIgnoreCaseContains("Amy");
+        assertThat(correctLowercaseName).isEmpty();
+
+
     }
 
     @Test
