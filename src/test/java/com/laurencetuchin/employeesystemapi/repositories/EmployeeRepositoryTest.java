@@ -92,22 +92,9 @@ class EmployeeRepositoryTest {
 
     @Test
     void itShouldSaveThreeEmployeesToRepository() {
-        Employee employee1 = new Employee();
-        employee1.setName("Sarah Peterson");
-        employee1.setRole("Executive Producer");
-        employeeRepository.save(employee1);
 
-        Employee employee2 = new Employee();
-        employee2.setName("Marcus Rashford");
-        employee2.setRole("Left Winger");
-        employeeRepository.save(employee2);
-
-        Employee employee3 = new Employee();
-        employee3.setName("Cristiano Ronaldo");
-        employee3.setRole("Striker");
-        employeeRepository.save(employee3);
-
-        assertThat(employeeRepository.count()).isEqualTo(3);
+        long employeesTotal = employeeRepository.count();
+        assertThat(employeesTotal).isEqualTo(3);
 
     }
 
