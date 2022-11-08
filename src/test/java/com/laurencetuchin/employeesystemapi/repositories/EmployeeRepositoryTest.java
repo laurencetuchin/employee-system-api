@@ -266,14 +266,16 @@ class EmployeeRepositoryTest {
 
     @Test
     void itShouldReturnAListForFindByNameIgnoreCaseContains(){
-
+        // given
         Employee employee1 = new Employee("Anne hathaway","Bane");
         employeeRepository.save(employee1);
 
 
-
+        // when
         List<Employee> optionalEmployee = employeeRepository.findByNameIgnoreCaseContains("Jar Jar Binks");
+        // then
         assertThat(optionalEmployee).isInstanceOf(List.class);
+        assertThat(optionalEmployee).isNotInstanceOf(String.class);
     }
 
     @Test
