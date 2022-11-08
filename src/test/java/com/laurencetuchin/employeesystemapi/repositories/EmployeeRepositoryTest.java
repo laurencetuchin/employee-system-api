@@ -135,14 +135,17 @@ class EmployeeRepositoryTest {
 
     @Test
     void itShouldAssignAFalseValueWhenSpecified() {
-        Employee employee1 = new Employee();
-        employee1.setName("Sarah Peterson");
-        employee1.setRole("Executive Producer");
-        employee1.setCurrentlyWorkingAtCompany(false);
-        employeeRepository.save(employee1);
+        // given Employee with default true
+        Employee employmentStatusDefaultTrue = employeeRepository.getReferenceById(4L);
+        // checks value is true before updating
+        assertThat(employmentStatusDefaultTrue.isCurrentlyWorkingAtCompany()).isTrue();
 
-        assertThat(employee1.isCurrentlyWorkingAtCompany()).isFalse();
-        assertThat(employee1.isCurrentlyWorkingAtCompany()).isEqualTo(false);
+        // when updated to false
+        employmentStatusDefaultTrue.setCurrentlyWorkingAtCompany(false);
+
+        // then assert
+        assertThat(employmentStatusDefaultTrue.isCurrentlyWorkingAtCompany()).isFalse();
+        assertThat(employmentStatusDefaultTrue.isCurrentlyWorkingAtCompany()).isEqualTo(false);
     }
 
     @Test
