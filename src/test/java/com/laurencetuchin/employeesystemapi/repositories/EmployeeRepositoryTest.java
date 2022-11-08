@@ -237,11 +237,9 @@ class EmployeeRepositoryTest {
 
         List<Employee> threeMatchesFirstName = employeeRepository.findByNameIgnoreCaseContains("anne");
 
-//        assertThat(threeMatchesFirstName.containsAll(threeMatchesFirstName)).isEqualTo(employeeList);
         assertTrue(threeMatchesFirstName.containsAll(employeeList));
         assertThat(threeMatchesFirstName).isEqualTo(employeeList);
         assertThat(threeMatchesFirstName).isEqualTo(employees);
-        assertThat(threeMatchesFirstName).isInstanceOf(List.class);
     }
 
     @Test
