@@ -29,7 +29,7 @@ class EmployeeRepositoryTest {
 
         // Employee 4,5,6 used for edge case Search matching
         Employee employee4 = new Employee("anne Hathaway","Catwoman");
-        Employee employee5 = new Employee("Anne hathaway","Bane");
+        Employee employee5 = new Employee("ANNE hathaway","Bane");
         Employee employee6 = new Employee("anNe holloway","Batman");
 
         List<Employee> employees = new ArrayList<>();
@@ -40,15 +40,15 @@ class EmployeeRepositoryTest {
         employees.add(employee5);
         employees.add(employee6);
 
-//        employeeRepository.saveAllAndFlush(employees);
-        employeeRepository.saveAll(employees);
+        employeeRepository.saveAllAndFlush(employees);
+//        employeeRepository.saveAll(employees);
 
     }
 
     @Test
     void itShouldCreateThreeEmployeesForSetup(){
         Long totalEmployees = employeeRepository.count();
-        assertThat(totalEmployees).isEqualTo(3);
+        assertThat(totalEmployees).isEqualTo(6);
     }
 
 
@@ -124,34 +124,36 @@ class EmployeeRepositoryTest {
     @Test
     void itShouldGiveADefaultEmploymentStatusOfTrue() {
         // given no assigned employment status value
-
+        Employee employee1 = new Employee("Kylian Mbappe","Striker");
         // when
         // created variable to Employee with no employment status assigned
-        Employee employmentStatusDefaultTrue = employeeRepository.getReferenceById(4L);
+//        boolean employmentStatusDefaultTrue = employeeRepository.getReferenceById(1L).isCurrentlyWorkingAtCompany();
+//        Employee employmentStatusDefaultFalse = employeeRepository.getById(3L);
         // then
-
-        assertThat(employmentStatusDefaultTrue.isCurrentlyWorkingAtCompany()).isTrue();
+//        assertThat(employmentStatusDefaultTrue.isCurrentlyWorkingAtCompany()).isTrue();
+        assertTrue(employee1.isCurrentlyWorkingAtCompany());
     }
 
     @Test
     void itShouldAssignAFalseValueWhenSpecified() {
         // given Employee with default true
-        Employee employmentStatusDefaultTrue = employeeRepository.getReferenceById(4L);
+        Employee employee1 = new Employee("Kylian Mbappe", "Striker", false);
+//        Employee employmentStatusDefaultTrue = employeeRepository.findById(4L).get();
         // checks value is true before updating
-        assertThat(employmentStatusDefaultTrue.isCurrentlyWorkingAtCompany()).isTrue();
+//        assertThat(employmentStatusDefaultTrue.isCurrentlyWorkingAtCompany()).isTrue();
 
         // when updated to false
-        employmentStatusDefaultTrue.setCurrentlyWorkingAtCompany(false);
+//        employmentStatusDefaultTrue.setCurrentlyWorkingAtCompany(false);
 
         // then assert
-        assertThat(employmentStatusDefaultTrue.isCurrentlyWorkingAtCompany()).isFalse();
-        assertThat(employmentStatusDefaultTrue.isCurrentlyWorkingAtCompany()).isEqualTo(false);
+        assertThat(employee1.isCurrentlyWorkingAtCompany()).isFalse();
+        assertThat(employee1.isCurrentlyWorkingAtCompany()).isEqualTo(false);
     }
 
     @Test
     void itShouldFindByNameIgnoreCaseContains() {
 
-
+        Employee employee1;
         // given
         Employee employee = new Employee(
                 "Tom",
