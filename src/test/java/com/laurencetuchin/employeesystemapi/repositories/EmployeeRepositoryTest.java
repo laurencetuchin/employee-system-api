@@ -10,8 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class EmployeeRepositoryTest {
@@ -216,6 +215,31 @@ class EmployeeRepositoryTest {
 
         List<Employee> twoMatchesLastName = employeeRepository.findByNameIgnoreCaseContains("hathaway");
         assertThat(twoMatchesLastName.stream().count()).isEqualTo(2);
+    }
+
+    @Test
+    void itShouldReturnListOfEmployeesForFindByNameIgnoreCaseContains(){
+        // given
+        Employee employee3 = new Employee("anne Hathaway","Catwoman");
+        Employee employee1 = new Employee("Anne hathaway","Bane");
+        Employee employee2 = new Employee("anNe holloway","Batman");
+        employeeRepository.save(employee1);
+        employeeRepository.save(employee2);
+        employeeRepository.save(employee3);
+
+        List<Employee> employees = new ArrayList<>();
+
+        employees.add(employee1);
+        employees.add(employee2);
+        employees.add(employee3);
+
+        List<Employee> employeeList = employeeRepository.findAll();
+
+        List<Employee> threeMatchesFirstName = employeeRepository.findByNameIgnoreCaseContains("anne");
+
+//        assertThat(threeMatchesFirstName.containsAll(threeMatchesFirstName)).isEqualTo(employeeList);
+        assertTrue(threeMatchesFirstName.containsAll(employeeList));
+        assertThat(threeMatchesFirstName).isEqualTo(employeeList);
     }
 
     @Test
