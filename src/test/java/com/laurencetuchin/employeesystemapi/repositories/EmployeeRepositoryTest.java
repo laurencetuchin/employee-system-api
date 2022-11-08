@@ -240,6 +240,27 @@ class EmployeeRepositoryTest {
 //        assertThat(threeMatchesFirstName.containsAll(threeMatchesFirstName)).isEqualTo(employeeList);
         assertTrue(threeMatchesFirstName.containsAll(employeeList));
         assertThat(threeMatchesFirstName).isEqualTo(employeeList);
+        assertThat(threeMatchesFirstName).isEqualTo(employees);
+        assertThat(threeMatchesFirstName).isInstanceOf(List.class);
+    }
+
+    @Test
+    void itShouldNotReturnAnyEmployeesForFindByNameIgnoreCaseContains() {
+        // given
+        Employee employee3 = new Employee("anne Hathaway","Catwoman");
+        Employee employee1 = new Employee("Anne hathaway","Bane");
+        Employee employee2 = new Employee("anNe holloway","Batman");
+        employeeRepository.save(employee1);
+        employeeRepository.save(employee2);
+        employeeRepository.save(employee3);
+
+        List<Employee> employees = new ArrayList<>();
+
+        employees.add(employee1);
+        employees.add(employee2);
+        employees.add(employee3);
+
+        List<Employee> employeeList = employeeRepository.findAll();
 
         List<Employee> noMatches = employeeRepository.findByNameIgnoreCaseContains("Jar Jar Binks");
         assertThat(noMatches).isNotEqualTo(employeeList);
