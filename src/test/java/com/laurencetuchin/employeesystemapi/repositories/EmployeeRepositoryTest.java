@@ -102,7 +102,7 @@ class EmployeeRepositoryTest {
     void itShouldSaveThreeEmployeesToRepository() {
 
         long employeesTotal = employeeRepository.count();
-        assertThat(employeesTotal).isEqualTo(3);
+        assertThat(employeesTotal).isEqualTo(6);
 
     }
 
@@ -123,12 +123,14 @@ class EmployeeRepositoryTest {
 
     @Test
     void itShouldGiveADefaultEmploymentStatusOfTrue() {
-        Employee employee1 = new Employee();
-        employee1.setName("Sarah Peterson");
-        employee1.setRole("Executive Producer");
-        employeeRepository.save(employee1);
+        // given no assigned employment status value
 
-        assertThat(employee1.isCurrentlyWorkingAtCompany()).isTrue();
+        // when
+        // created variable to Employee with no employment status assigned
+        Employee employmentStatusDefaultTrue = employeeRepository.getReferenceById(4L);
+        // then
+
+        assertThat(employmentStatusDefaultTrue.isCurrentlyWorkingAtCompany()).isTrue();
     }
 
     @Test
