@@ -2,6 +2,8 @@ package com.laurencetuchin.employeesystemapi.repositories;
 
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -18,6 +20,29 @@ class EmployeeRepositoryTest {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @BeforeEach
+    void setup(){
+        Employee employee1 = new Employee("Cristiano Ronaldo","Striker",true);
+        Employee employee2 = new Employee("Marcus Rashford", "Left winger",true);
+        Employee employee3 = new Employee("Zlatan Ibrahimovic","Striker",false);
+
+        List<Employee> employees = new ArrayList<>();
+        employees.add(employee1);
+        employees.add(employee2);
+        employees.add(employee3);
+
+//        employeeRepository.saveAllAndFlush(employees);
+        employeeRepository.saveAll(employees);
+
+    }
+
+    @Test
+    void itShouldCreateThreeEmployeesForSetup(){
+        Long totalEmployees = employeeRepository.count();
+        assertThat(totalEmployees).isEqualTo(3);
+    }
+
 
     @Test
     void save() {
