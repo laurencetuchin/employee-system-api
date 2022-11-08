@@ -27,10 +27,18 @@ class EmployeeRepositoryTest {
         Employee employee2 = new Employee("Marcus Rashford", "Left winger",true);
         Employee employee3 = new Employee("Zlatan Ibrahimovic","Striker",false);
 
+        // Employee 4,5,6 used for edge case Search matching
+        Employee employee4 = new Employee("anne Hathaway","Catwoman");
+        Employee employee5 = new Employee("Anne hathaway","Bane");
+        Employee employee6 = new Employee("anNe holloway","Batman");
+
         List<Employee> employees = new ArrayList<>();
         employees.add(employee1);
         employees.add(employee2);
         employees.add(employee3);
+        employees.add(employee4);
+        employees.add(employee5);
+        employees.add(employee6);
 
 //        employeeRepository.saveAllAndFlush(employees);
         employeeRepository.saveAll(employees);
