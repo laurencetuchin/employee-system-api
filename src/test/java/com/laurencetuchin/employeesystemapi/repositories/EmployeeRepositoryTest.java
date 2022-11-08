@@ -267,6 +267,18 @@ class EmployeeRepositoryTest {
     }
 
     @Test
+    void itShouldReturnAListForFindByNameIgnoreCaseContains(){
+
+        Employee employee1 = new Employee("Anne hathaway","Bane");
+        employeeRepository.save(employee1);
+
+
+
+        List<Employee> optionalEmployee = employeeRepository.findByNameIgnoreCaseContains("Jar Jar Binks");
+        assertThat(optionalEmployee).isInstanceOf(List.class);
+    }
+
+    @Test
     void itShouldFindByRoleIgnoreCaseContains() {
     }
 
