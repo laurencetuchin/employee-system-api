@@ -240,6 +240,9 @@ class EmployeeRepositoryTest {
 //        assertThat(threeMatchesFirstName.containsAll(threeMatchesFirstName)).isEqualTo(employeeList);
         assertTrue(threeMatchesFirstName.containsAll(employeeList));
         assertThat(threeMatchesFirstName).isEqualTo(employeeList);
+
+        List<Employee> noMatches = employeeRepository.findByNameIgnoreCaseContains("Jar Jar Binks");
+        assertThat(noMatches).isNotEqualTo(employeeList);
     }
 
     @Test
