@@ -287,10 +287,9 @@ class EmployeeRepositoryTest {
         // given
         List<Employee> currentlyEmployed = employeeRepository.findByIsCurrentlyWorkingAtCompany(true);
         // when
+        List<Employee> expectedEmployee = employeeRepository.findAll().stream().filter(employee -> employee.isCurrentlyWorkingAtCompany()).collect(Collectors.toList());
 
         // then
-//        Stream<Employee> expected = employeeRepository.findAll().stream().collect(Collectors.toList()).stream().filter(Employee::isCurrentlyWorkingAtCompany);
-        List<Employee> expectedEmployee = employeeRepository.findAll().stream().filter(employee -> employee.isCurrentlyWorkingAtCompany()).collect(Collectors.toList());
         assertThat(currentlyEmployed).isEqualTo(expectedEmployee);
 
     }
