@@ -273,8 +273,6 @@ class EmployeeRepositoryTest {
         // given
         List<Employee> employeeRole = employeeRepository.findByRoleIgnoreCaseContains("Left Winger"); // Actual role is "Left winger"
         // when
-        Employee employee = new Employee("Marcus Rashford", "Left winger",true);
-        employeeRepository.save(employee);
 
         List<Employee> expected = Collections.singletonList(employeeRepository.findAll().get(1));
         assertThat(employeeRole).isEqualTo(expected);
@@ -284,7 +282,9 @@ class EmployeeRepositoryTest {
 
     @Test
     void itShouldFindByIsCurrentlyWorkingAtCompany() {
-
+        // given
+        List<Employee> currentlyEmployed = employeeRepository.findByIsCurrentlyWorkingAtCompany(true);
+        // when
     }
 
     @Test
