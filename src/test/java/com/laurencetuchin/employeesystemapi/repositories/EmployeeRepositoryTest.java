@@ -296,6 +296,14 @@ class EmployeeRepositoryTest {
 
     @Test
     void itShouldFindEmployeeByNameAndRole() {
+        // given
+        List<Employee> employeeNameAndRole = employeeRepository.findEmployeeByNameAndRole("Cristiano Ronaldo","Striker");
+
+        // when
+        List<Employee> expectedEmployee = employeeRepository.findAll().stream().filter(employee -> employee.getRole().matches("Striker") && employee.getName().matches("Cristiano Ronaldo")).collect(Collectors.toList());
+
+        // then
+        assertThat(employeeNameAndRole).isEqualTo(expectedEmployee);
     }
 
 
