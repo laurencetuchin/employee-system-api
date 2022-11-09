@@ -202,20 +202,9 @@ class EmployeeRepositoryTest {
     @Test
     void itShouldReturnThreeMatchesForFindByNameIgnoreCaseContains() {
         // given
-        Employee employee3 = new Employee("anne Hathaway","Catwoman");
-        Employee employee1 = new Employee("Anne hathaway","Bane");
-        Employee employee2 = new Employee("anNe holloway","Batman");
-        employeeRepository.save(employee1);
-        employeeRepository.save(employee2);
-        employeeRepository.save(employee3);
-
-        List<Employee> employees = new ArrayList<>();
-
-        employees.add(employee1);
-        employees.add(employee2);
-        employees.add(employee3);
 
         List<Employee> correctLowercaseName = employeeRepository.findByNameIgnoreCaseContains("anne");
+
         assertThat(correctLowercaseName.stream().count()).isEqualTo(3);
     }
 
