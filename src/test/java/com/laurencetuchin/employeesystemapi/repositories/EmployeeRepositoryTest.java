@@ -224,26 +224,16 @@ class EmployeeRepositoryTest {
     @Test
     void itShouldReturnListOfEmployeesForFindByNameIgnoreCaseContains(){
         // given
-        Employee employee3 = new Employee("anne Hathaway","Catwoman");
-        Employee employee1 = new Employee("Anne hathaway","Bane");
-        Employee employee2 = new Employee("anNe holloway","Batman");
-        employeeRepository.save(employee1);
-        employeeRepository.save(employee2);
-        employeeRepository.save(employee3);
-
-        List<Employee> employees = new ArrayList<>();
-
-        employees.add(employee1);
-        employees.add(employee2);
-        employees.add(employee3);
-
         List<Employee> employeeList = employeeRepository.findAll();
 
         List<Employee> threeMatchesFirstName = employeeRepository.findByNameIgnoreCaseContains("anne");
 
-        assertTrue(threeMatchesFirstName.containsAll(employeeList));
-        assertThat(threeMatchesFirstName).isEqualTo(employeeList);
-        assertThat(threeMatchesFirstName).isEqualTo(employees);
+//        assertTrue(threeMatchesFirstName.containsAll(employeeList));
+//        assertThat(threeMatchesFirstName).isEqualTo(3);
+//        assertThat(threeMatchesFirstName).isEqualTo(employees);
+//        assertThat(threeMatchesFirstName).isSameAs(employeeList.subList(3,6));
+//        assertEquals(threeMatchesFirstName);
+//        assertThat(threeMatchesFirstName).isSameAs(employeeList.listIterator(4,5,6))
     }
 
     @Test
@@ -272,6 +262,14 @@ class EmployeeRepositoryTest {
 
     @Test
     void itShouldFindByRoleIgnoreCaseContains() {
+        // given
+        List<Employee> employeeRole = employeeRepository.findByRoleIgnoreCaseContains("Left Winger");
+        List<Employee> targetEmployee = Collections.singletonList(employeeRepository.getReferenceById(2L));
+        // when
+//        assertThat(employeeRole).isEqualTo(employeeRepository.getReferenceById(2L));
+        assertThat(employeeRole).isEqualTo(targetEmployee);
+
+
     }
 
     @Test
