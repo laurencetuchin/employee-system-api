@@ -266,7 +266,7 @@ class EmployeeRepositoryTest {
         List<Employee> employeeRole = employeeRepository.findByRoleIgnoreCaseContains("Left Winger");
         List<Employee> targetEmployee = Collections.singletonList(employeeRepository.getReferenceById(2L));
         // when
-//        assertThat(employeeRole).isEqualTo(employeeRepository.getReferenceById(2L));
+//        assertThat(employeeRole).isEqualTo(employeeRepository.getReferenceById(2L)); // fails returns Employee instead of List<Employee>
         assertThat(employeeRole).isEqualTo(targetEmployee);
 
 
