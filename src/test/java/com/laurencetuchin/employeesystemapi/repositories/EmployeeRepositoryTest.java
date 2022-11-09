@@ -4,10 +4,13 @@ import com.laurencetuchin.employeesystemapi.entities.Employee;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.core.Ordered;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,8 +43,8 @@ class EmployeeRepositoryTest {
         employees.add(employee5);
         employees.add(employee6);
 
-        employeeRepository.saveAllAndFlush(employees);
-//        employeeRepository.saveAll(employees);
+//        employeeRepository.saveAllAndFlush(employees);
+        employeeRepository.saveAll(employees);
 
     }
 
@@ -254,21 +257,38 @@ class EmployeeRepositoryTest {
 
 
         // when
-        List<Employee> optionalEmployee = employeeRepository.findByNameIgnoreCaseContains("Jar Jar Binks");
+        List<Employee> optionalEmployee = employeeRepository.findByNameIgnoreCaseContains("anne");
         // then
         assertThat(optionalEmployee).isInstanceOf(List.class);
         assertThat(optionalEmployee).isNotInstanceOf(String.class);
     }
 
     @Test
+    void itShouldThrowEntityNotFoundExceptionWhenAccessedForFirstTime(){
+
+//        assertThrows(EntityNotFoundException.class);
+    }
+    @Test
     void itShouldFindByRoleIgnoreCaseContains() {
         // given
         List<Employee> employeeRole = employeeRepository.findByRoleIgnoreCaseContains("Left Winger"); // Actual role is "Left winger"
         // when
-        List<Employee> targetEmployee = Collections.singletonList(employeeRepository.getReferenceById(2L));
+        Employee employee = new Employee("Marcus Rashford", "Left winger",true);
+        employeeRepository.save(employee);
+        List<Employee> employeeList = new ArrayList<>();
+        employeeList.add(employee);
+        Long employeeId = employee.getId();
+//        List<Employee> marcus = employeeRepository.findById(employeeId);
+//        List<Employee> targetEmployee = Collections.singletonList(employeeRepository.findById(2L));
+//        List<Optional<Employee>> targetEmployee1 = Collections.singletonList(employeeRepository.findById(Long.valueOf(2)));
+//        List<Long> idList = Arrays.asList(2L);
+//        List<Employee> idealEmployee = employeeRepository.findAllById(idList);
+//        List<Employee> idealEmployee1 = employeeRepository.findById(2L);
         // then
 //        assertThat(employeeRole).isEqualTo(employeeRepository.getReferenceById(2L)); // fails returns Employee instead of List<Employee>
-        assertThat(employeeRole).isEqualTo(targetEmployee);
+//        assertThat(employeeRole).isEqualTo(targetEmployee);
+        List<Employee> expected = Collections.singletonList(employeeRepository.findAll().get(1));
+        assertThat(employeeRole).isEqualTo(expected);
 
 
     }
