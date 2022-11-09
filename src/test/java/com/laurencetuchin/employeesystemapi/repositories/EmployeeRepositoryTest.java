@@ -13,6 +13,7 @@ import org.springframework.core.Ordered;
 import javax.persistence.EntityNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -275,6 +276,7 @@ class EmployeeRepositoryTest {
         // when
 
         List<Employee> expected = Collections.singletonList(employeeRepository.findAll().get(1));
+        // then
         assertThat(employeeRole).isEqualTo(expected);
 
 
@@ -285,6 +287,12 @@ class EmployeeRepositoryTest {
         // given
         List<Employee> currentlyEmployed = employeeRepository.findByIsCurrentlyWorkingAtCompany(true);
         // when
+
+        // then
+//        Stream<Employee> expected = employeeRepository.findAll().stream().collect(Collectors.toList()).stream().filter(Employee::isCurrentlyWorkingAtCompany);
+        List<Employee> expectedEmployee = employeeRepository.findAll().stream().filter(employee -> employee.isCurrentlyWorkingAtCompany()).collect(Collectors.toList());
+        assertThat(currentlyEmployed).isEqualTo(expectedEmployee);
+
     }
 
     @Test
