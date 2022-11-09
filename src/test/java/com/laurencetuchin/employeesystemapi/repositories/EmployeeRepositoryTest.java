@@ -176,21 +176,11 @@ class EmployeeRepositoryTest {
 
     @Test
     void itShouldNotReturnAnyMatchForFindByNameIgnoreCaseContains() {
-        // given
-        Employee employee3 = new Employee("Anne Hathaway", "Catwoman");
-        Employee employee1 = new Employee("Tom Hardy", "Bane");
-        Employee employee2 = new Employee("Christian Bale", "Batman");
-        employeeRepository.save(employee1);
-        employeeRepository.save(employee2);
-        employeeRepository.save(employee3);
-        List<Employee> employees = new ArrayList<>();
-
-        employees.add(employee1);
-        employees.add(employee2);
-        employees.add(employee3);
 
 
+        // when
         List<Employee> correctLowercaseName = employeeRepository.findByNameIgnoreCaseContains("Amy");
+        // then
         assertThat(correctLowercaseName).isEmpty();
 
 
