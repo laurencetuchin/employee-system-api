@@ -238,10 +238,6 @@ class EmployeeRepositoryTest {
 
     @Test
     void itShouldReturnAListForFindByNameIgnoreCaseContains() {
-        // given
-        Employee employee1 = new Employee("Anne hathaway", "Bane");
-        employeeRepository.save(employee1);
-
 
         // when
         List<Employee> optionalEmployee = employeeRepository.findByNameIgnoreCaseContains("anne");
@@ -250,11 +246,6 @@ class EmployeeRepositoryTest {
         assertThat(optionalEmployee).isNotInstanceOf(String.class);
     }
 
-    @Test
-    void itShouldThrowEntityNotFoundExceptionWhenAccessedForFirstTime() {
-
-//        assertThrows(EntityNotFoundException.class);
-    }
 
     @Test
     void itShouldFindByRoleIgnoreCaseContains() {
