@@ -1,22 +1,19 @@
 package com.laurencetuchin.employeesystemapi.repositories;
 
 import com.laurencetuchin.employeesystemapi.entities.Employee;
-import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.core.Ordered;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 class EmployeeRepositoryTest {
@@ -26,15 +23,15 @@ class EmployeeRepositoryTest {
     private EmployeeRepository employeeRepository;
 
     @BeforeEach
-    void setup(){
-        Employee employee1 = new Employee("Cristiano Ronaldo","Striker",true);
-        Employee employee2 = new Employee("Marcus Rashford", "Left winger",true);
-        Employee employee3 = new Employee("Zlatan Ibrahimovic","Striker",false);
+    void setup() {
+        Employee employee1 = new Employee("Cristiano Ronaldo", "Striker", true);
+        Employee employee2 = new Employee("Marcus Rashford", "Left winger", true);
+        Employee employee3 = new Employee("Zlatan Ibrahimovic", "Striker", false);
 
         // Employee 4,5,6 used for edge case Search matching
-        Employee employee4 = new Employee("anne Hathaway","Catwoman");
-        Employee employee5 = new Employee("ANNE hathaway","Bane");
-        Employee employee6 = new Employee("anNe holloway","Batman");
+        Employee employee4 = new Employee("anne Hathaway", "Catwoman");
+        Employee employee5 = new Employee("ANNE hathaway", "Bane");
+        Employee employee6 = new Employee("anNe holloway", "Batman");
 
         List<Employee> employees = new ArrayList<>();
         employees.add(employee1);
@@ -50,7 +47,7 @@ class EmployeeRepositoryTest {
     }
 
     @Test
-    void itShouldCreateThreeEmployeesForSetup(){
+    void itShouldCreateThreeEmployeesForSetup() {
         Long totalEmployees = employeeRepository.count();
         assertThat(totalEmployees).isEqualTo(6);
     }
@@ -68,7 +65,7 @@ class EmployeeRepositoryTest {
     }
 
     @Test
-    void update(){
+    void update() {
         Employee employee1 = new Employee();
         employee1.setName("Sarah Peterson");
         employee1.setRole("Executive Producer");
@@ -128,7 +125,7 @@ class EmployeeRepositoryTest {
     @Test
     void itShouldGiveADefaultEmploymentStatusOfTrue() {
         // given no assigned employment status value
-        Employee employee1 = new Employee("Kylian Mbappe","Striker");
+        Employee employee1 = new Employee("Kylian Mbappe", "Striker");
         // when
         // created variable to Employee with no employment status assigned
 //        boolean employmentStatusDefaultTrue = employeeRepository.getReferenceById(1L).isCurrentlyWorkingAtCompany();
@@ -180,9 +177,9 @@ class EmployeeRepositoryTest {
     @Test
     void itShouldNotReturnAnyMatchForFindByNameIgnoreCaseContains() {
         // given
-        Employee employee3 = new Employee("Anne Hathaway","Catwoman");
-        Employee employee1 = new Employee("Tom Hardy","Bane");
-        Employee employee2 = new Employee("Christian Bale","Batman");
+        Employee employee3 = new Employee("Anne Hathaway", "Catwoman");
+        Employee employee1 = new Employee("Tom Hardy", "Bane");
+        Employee employee2 = new Employee("Christian Bale", "Batman");
         employeeRepository.save(employee1);
         employeeRepository.save(employee2);
         employeeRepository.save(employee3);
@@ -209,13 +206,13 @@ class EmployeeRepositoryTest {
     }
 
     @Test
-    void itShouldReturnTwoMatchesForLastNameForFindByNameIgnoreCaseContains(){
+    void itShouldReturnTwoMatchesForLastNameForFindByNameIgnoreCaseContains() {
         List<Employee> twoMatchesLastName = employeeRepository.findByNameIgnoreCaseContains("hathaway");
         assertThat(twoMatchesLastName.stream().count()).isEqualTo(2);
     }
 
     @Test
-    void itShouldReturnListOfEmployeesForFindByNameIgnoreCaseContains(){
+    void itShouldReturnListOfEmployeesForFindByNameIgnoreCaseContains() {
         // given
         List<Employee> employeeList = employeeRepository.findAll();
 
@@ -240,9 +237,9 @@ class EmployeeRepositoryTest {
     }
 
     @Test
-    void itShouldReturnAListForFindByNameIgnoreCaseContains(){
+    void itShouldReturnAListForFindByNameIgnoreCaseContains() {
         // given
-        Employee employee1 = new Employee("Anne hathaway","Bane");
+        Employee employee1 = new Employee("Anne hathaway", "Bane");
         employeeRepository.save(employee1);
 
 
@@ -254,10 +251,11 @@ class EmployeeRepositoryTest {
     }
 
     @Test
-    void itShouldThrowEntityNotFoundExceptionWhenAccessedForFirstTime(){
+    void itShouldThrowEntityNotFoundExceptionWhenAccessedForFirstTime() {
 
 //        assertThrows(EntityNotFoundException.class);
     }
+
     @Test
     void itShouldFindByRoleIgnoreCaseContains() {
         // given
@@ -286,7 +284,7 @@ class EmployeeRepositoryTest {
     @Test
     void itShouldFindEmployeeByNameAndRole() {
         // given
-        List<Employee> employeeNameAndRole = employeeRepository.findEmployeeByNameAndRole("Cristiano Ronaldo","Striker");
+        List<Employee> employeeNameAndRole = employeeRepository.findEmployeeByNameAndRole("Cristiano Ronaldo", "Striker");
 
         // when
         List<Employee> expectedEmployee = employeeRepository.findAll().stream().filter(employee -> employee.getRole().matches("Striker") && employee.getName().matches("Cristiano Ronaldo")).collect(Collectors.toList());
