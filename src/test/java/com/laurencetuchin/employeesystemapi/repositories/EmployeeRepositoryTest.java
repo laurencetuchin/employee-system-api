@@ -263,7 +263,7 @@ class EmployeeRepositoryTest {
     @Test
     void itShouldFindByRoleIgnoreCaseContains() {
         // given
-        List<Employee> employeeRole = employeeRepository.findByRoleIgnoreCaseContains("Left Winger");
+        List<Employee> employeeRole = employeeRepository.findByRoleIgnoreCaseContains("Left Winger"); // Actual role is "Left winger"
         List<Employee> targetEmployee = Collections.singletonList(employeeRepository.getReferenceById(2L));
         // when
 //        assertThat(employeeRole).isEqualTo(employeeRepository.getReferenceById(2L)); // fails returns Employee instead of List<Employee>
