@@ -275,18 +275,7 @@ class EmployeeRepositoryTest {
         // when
         Employee employee = new Employee("Marcus Rashford", "Left winger",true);
         employeeRepository.save(employee);
-        List<Employee> employeeList = new ArrayList<>();
-        employeeList.add(employee);
-        Long employeeId = employee.getId();
-//        List<Employee> marcus = employeeRepository.findById(employeeId);
-//        List<Employee> targetEmployee = Collections.singletonList(employeeRepository.findById(2L));
-//        List<Optional<Employee>> targetEmployee1 = Collections.singletonList(employeeRepository.findById(Long.valueOf(2)));
-//        List<Long> idList = Arrays.asList(2L);
-//        List<Employee> idealEmployee = employeeRepository.findAllById(idList);
-//        List<Employee> idealEmployee1 = employeeRepository.findById(2L);
-        // then
-//        assertThat(employeeRole).isEqualTo(employeeRepository.getReferenceById(2L)); // fails returns Employee instead of List<Employee>
-//        assertThat(employeeRole).isEqualTo(targetEmployee);
+
         List<Employee> expected = Collections.singletonList(employeeRepository.findAll().get(1));
         assertThat(employeeRole).isEqualTo(expected);
 
@@ -295,6 +284,7 @@ class EmployeeRepositoryTest {
 
     @Test
     void itShouldFindByIsCurrentlyWorkingAtCompany() {
+
     }
 
     @Test
