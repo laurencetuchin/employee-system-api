@@ -1,5 +1,6 @@
 package com.laurencetuchin.employeesystemapi.services;
 
+import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import org.jetbrains.annotations.NotNull;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
@@ -44,7 +46,14 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    // Add employee DTO list 
+    // Add employee DTO list
+    public List<EmployeeDTO> getAllEmployeesDTO(){
+        return getAllEmployees()
+                .stream()
+                .map(EmployeeDTO::new)
+                .collect(Collectors.toList());
+    }
+
     public Optional<Employee> getEmployeeDTOById(Long id){
         return employeeRepository.findById(id);
     }
