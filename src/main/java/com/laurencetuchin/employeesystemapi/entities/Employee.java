@@ -32,6 +32,7 @@ public class Employee {
         this.role = role;
     }
 
+    @Autowired
     public Employee(String name, String role, boolean isCurrentlyWorkingAtCompany) {
         this.name = name;
         this.role = role;

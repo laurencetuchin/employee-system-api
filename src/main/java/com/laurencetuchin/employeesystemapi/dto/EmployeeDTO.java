@@ -1,11 +1,14 @@
 package com.laurencetuchin.employeesystemapi.dto;
 
 import com.laurencetuchin.employeesystemapi.entities.Employee;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class EmployeeDTO {
 
+
     private final Employee employee;
 
+   @Autowired
     public EmployeeDTO(Employee employee) {
         this.employee = employee;
     }
