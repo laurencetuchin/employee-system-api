@@ -89,6 +89,11 @@ public class EmployeeController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("employees/dto/20")
+    public List<EmployeeDTO> getAllEmployeesInDTO(){
+        return employeeService.getAllEmployeesDTO();
+    }
+
     // Returns employees that currently work at company
 
     // Search result based on employment status
