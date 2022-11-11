@@ -2,6 +2,7 @@ package com.laurencetuchin.employeesystemapi.services;
 
 import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
+import com.laurencetuchin.employeesystemapi.mappers.EmployeeMapper;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    private EmployeeMapper employeeMapper;
 
     public EmployeeService(EmployeeRepository employeeRepository){
         this.employeeRepository = employeeRepository;
@@ -50,7 +53,7 @@ public class EmployeeService {
     public List<EmployeeDTO> getAllEmployeesDTO(){
         return getAllEmployees()
                 .stream()
-                .map(EmployeeDTO::new)
+                .map(employee -> employeeMapper.toDto(employee))
                 .collect(Collectors.toList());
     }
 
