@@ -129,6 +129,30 @@ class EmployeeServiceTest {
 
     @Test
     void deleteEmployeeById() {
+        // given
+        EmployeeService service = new EmployeeService(employeeRepository);
+        // when
+        Optional<Employee> employeeById = service.findEmployeeById(1L);
+        assertThat(employeeById).isNotEmpty();
+
+        service.deleteEmployeeById(1L);
+        List<Employee> employeeByIdDeleted = service.findEmployeeById(1L).stream().collect(Collectors.toList());
+//        employeeRepository.deleteById(100L);
+        // then
+        assertThat(employeeByIdDeleted).isEmpty();
+
+    }
+
+    @Test
+    void deleteEmployeeByIdThrowsIllegalStateExceptionIfNotExists() {
+        // given
+        EmployeeService service = new EmployeeService(employeeRepository);
+
+        // when
+        Optional<Employee> employeeByIdNotExists = employeeRepository.findById(100L);
+        // then
+//        assertThrows();
+
     }
 
     @Test

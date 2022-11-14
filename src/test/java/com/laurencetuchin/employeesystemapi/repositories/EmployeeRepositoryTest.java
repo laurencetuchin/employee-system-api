@@ -274,5 +274,10 @@ class EmployeeRepositoryTest {
         assertThat(employeeNameAndRole).isEqualTo(expectedEmployee);
     }
 
+    @Test
+    void itShouldDeleteEmployeeById() {
+        employeeRepository.deleteById(1L);
+    }
+
 
 }
