@@ -2,18 +2,12 @@ package com.laurencetuchin.employeesystemapi.services;
 
 import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
+import com.laurencetuchin.employeesystemapi.mappers.EmployeeMapper;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +27,7 @@ class EmployeeServiceTest {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
 
 //    @Test
 //    void itLoads(){
@@ -99,8 +94,9 @@ class EmployeeServiceTest {
         Employee employee = new Employee("Cristiano Ronaldo", "Striker", true);
         // when
         EmployeeService service = new EmployeeService(employeeRepository);
+        EmployeeDTO mapper = new EmployeeMapper().toDto(employee);
 
-        List<EmployeeDTO> totalDto = employeeRepository.findAll().stream().map(EmployeeDTO::new).collect(Collectors.toList());
+//        List<EmployeeDTO> totalDto = employeeRepository.findAll().stream().map(EmployeeDTO::new).collect(Collectors.toList());
         List<EmployeeDTO> employeeDTOList = service.getAllEmployeesDTO();
         List<EmployeeDTO> employeeDTOList1 = service.getAllEmployeesDTO();
         // then
@@ -128,6 +124,14 @@ class EmployeeServiceTest {
 
     @Test
     void getEmployeeById() {
+        EmployeeService service = new EmployeeService(employeeRepository);
+
+
+        List<Employee> employeeById = service.getEmployeeById(1L).stream().collect(Collectors.toList());
+        List<Employee> employeeRepositoryId = service.getAllEmployees().stream().findFirst().stream().toList();
+//        assertTrue(employeeById.isPresent());
+//        assertEquals(employeeById,employeeRepositoryId);
+        assertThat(employeeById).isEqualTo(employeeRepositoryId);
     }
 
     @Test

@@ -42,24 +42,18 @@ class EmployeeDTOTest {
         List<Employee> employee1 = Collections.singletonList(new Employee("Cristiano Ronaldo", "Striker", true));
         employeeRepository.saveAllAndFlush(employee1);
 
-    //    List<Employee> employee4 = employeeRepository.findAll();
-        //        List<Employee> employee3 = employeeService.getAllEmployees();
-        //        List<Employee> employeeDTO = employeeService.getAllEmployees().stream().collect(Collectors.toList());
-        //        EmployeeDTO employeeDTO1 = new EmployeeDTO("Cristiano Ronaldo","Striker",true));
-        //        List<Employee> employee2 = employeeRepository.findAll().stream().collect(Collectors.toList());
-        //
-        //
-        //        List<EmployeeDTO> employeeDTOList1 = employeeService.getAllEmployees()
-        //                .stream()
-        //                .map(EmployeeDTO::new)
+
+
+
         //                .collect(Collectors.toList());
 
     }
 
     @Test
     void checkEmployeeIsSaved() {
-
+        List<EmployeeDTO> employeeDTOList = employeeService.getAllEmployeesDTO();
         List<Employee> employeeList = employeeRepository.findAll();
+//        List<EmployeeDTO> employeeDTOList = employeeRepository.
         assertThat(employeeList.stream().count()).isEqualTo(1);
     }
 

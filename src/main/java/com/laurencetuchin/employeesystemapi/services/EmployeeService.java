@@ -66,9 +66,6 @@ public class EmployeeService {
     }
 
 
-    public Optional<Employee> getEmployeeById(Long id){
-        return employeeRepository.findById(id);
-    }
 
     // add check for already exists
     public Employee addNewEmployee(Employee employee){
