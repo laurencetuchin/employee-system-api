@@ -122,17 +122,6 @@ class EmployeeServiceTest {
 //        assertEquals(employee.getName(), employeeService.getAllEmployees().stream().filter(o -> Boolean.parseBoolean(employee.getName())).collect(Collectors.toList()));
     }
 
-    @Test
-    void getEmployeeById() {
-        EmployeeService service = new EmployeeService(employeeRepository);
-
-
-        List<Employee> employeeById = service.getEmployeeById(1L).stream().collect(Collectors.toList());
-        List<Employee> employeeRepositoryId = service.getAllEmployees().stream().findFirst().stream().toList();
-//        assertTrue(employeeById.isPresent());
-//        assertEquals(employeeById,employeeRepositoryId);
-        assertThat(employeeById).isEqualTo(employeeRepositoryId);
-    }
 
     @Test
     void addNewEmployee() {
