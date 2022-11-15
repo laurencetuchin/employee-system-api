@@ -152,9 +152,10 @@ class EmployeeServiceTest {
         Optional<Employee> employeeByIdNotExists = service.findEmployeeById(100L);
         // then
         Long id = 100L;
+        String message = "Employee with id " + id + "does not exist";
         assertThrows(IllegalStateException.class,() -> {
             service.deleteEmployeeById(id);
-        }, "Employee with id " + id + "does not exist");
+        }, message);
 
     }
 
