@@ -166,8 +166,11 @@ class EmployeeServiceTest {
         Optional<Employee> employeeById = service.findEmployeeById(1L);
         String previousName = employeeById.get().getName();
         // when
+        assertThat(previousName).isEqualTo("Frodo");
         employeeById.get().setName("Tomato Man");
+        employeeById.get().setRole("Burger Shop King");
 
         assertThat(employeeById.get().getName()).isEqualTo("Tomato Man");
+        assertThat(employeeById.get().getRole()).isEqualTo("Burger Shop King");
     }
 }
