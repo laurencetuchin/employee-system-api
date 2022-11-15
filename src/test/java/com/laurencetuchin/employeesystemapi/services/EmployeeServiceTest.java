@@ -161,8 +161,13 @@ class EmployeeServiceTest {
 
     @Test
     void updateEmployeeById() {
-
+        // given
         EmployeeService service = new EmployeeService(employeeRepository);
+        Optional<Employee> employeeById = service.findEmployeeById(1L);
+        String previousName = employeeById.get().getName();
+        // when
+        employeeById.get().setName("Tomato Man");
 
+        assertThat(employeeById.get().getName()).isEqualTo("Tomato Man");
     }
 }
