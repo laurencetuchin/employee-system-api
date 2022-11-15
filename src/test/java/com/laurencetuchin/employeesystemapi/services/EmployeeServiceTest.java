@@ -154,7 +154,7 @@ class EmployeeServiceTest {
         Long id = 100L;
         assertThrows(IllegalStateException.class,() -> {
             service.deleteEmployeeById(id);
-        });
+        }, "Employee with id " + id + "does not exist");
 
     }
 
