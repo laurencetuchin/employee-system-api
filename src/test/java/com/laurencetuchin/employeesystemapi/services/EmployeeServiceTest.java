@@ -149,9 +149,11 @@ class EmployeeServiceTest {
         EmployeeService service = new EmployeeService(employeeRepository);
 
         // when
-        Optional<Employee> employeeByIdNotExists = employeeRepository.findById(100L);
+        Optional<Employee> employeeByIdNotExists = service.findEmployeeById(100L);
         // then
-//        assertThrows();
+        assertThrows(IllegalStateException.class,() -> {
+            service.deleteEmployeeById(100L);
+        });
 
     }
 
