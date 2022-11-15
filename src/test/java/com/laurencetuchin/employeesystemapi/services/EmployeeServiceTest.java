@@ -161,5 +161,8 @@ class EmployeeServiceTest {
 
     @Test
     void updateEmployeeById() {
+
+        EmployeeService service = new EmployeeService(employeeRepository);
+
     }
 }
