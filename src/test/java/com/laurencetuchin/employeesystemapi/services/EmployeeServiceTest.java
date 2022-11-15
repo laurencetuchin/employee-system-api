@@ -173,4 +173,10 @@ class EmployeeServiceTest {
         assertThat(employeeById.get().getName()).isEqualTo("Tomato Man");
         assertThat(employeeById.get().getRole()).isEqualTo("Burger Shop King");
     }
+
+    @Test
+    void updateEmployeeByIdThrowsIllegalStateException() {
+        EmployeeService service = new EmployeeService(employeeRepository);
+
+    }
 }
