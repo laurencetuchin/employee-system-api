@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -176,7 +177,16 @@ class EmployeeServiceTest {
 
     @Test
     void updateEmployeeByIdThrowsIllegalStateException() {
+        // given
         EmployeeService service = new EmployeeService(employeeRepository);
+
+        // when
+        Optional<Employee> employeeById = service.findEmployeeById(100L);
+
+        // then
+        assertThrows(NoSuchElementException.class, () -> {
+            service.updateEmployeeById(employeeById.get());
+        });
 
     }
 }
