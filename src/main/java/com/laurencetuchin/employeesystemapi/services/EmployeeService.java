@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -84,7 +85,7 @@ public class EmployeeService {
     public Employee updateEmployeeById(@NotNull Employee employee){
         boolean employeeExists = employeeRepository.existsById(employee.getId());
         if (!employeeExists){
-            throw new IllegalStateException("Employee with id" + employee.getId() + "does not exist");
+            throw new NoSuchElementException("Employee with id" + employee.getId() + "does not exist");
         } else {
 
         employeeRepository.save(employee);
