@@ -1,11 +1,11 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity // @Table not needed for object storage
@@ -17,16 +17,20 @@ public class Employee {
     private Long id;
 
     @Column(name = "name")
+    @Size(min = 1, max = 10)
     @NotNull
-    @Size(min = 1, max = 100)
     private String name;
 
     @Column(name = "role")
     @NotNull
     private String role;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "employment_status")
     private boolean isCurrentlyWorkingAtCompany = true;
+
 
 
     public Employee() {
