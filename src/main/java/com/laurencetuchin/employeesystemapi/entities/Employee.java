@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -26,6 +27,7 @@ public class Employee {
     private String role;
 
     @Column(name = "email")
+    @Email(message = "Email must be valid")
     private String email;
 
     @Column(name = "employment_status")
