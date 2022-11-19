@@ -13,10 +13,7 @@ import org.springframework.test.context.event.annotation.BeforeTestClass;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,11 +45,23 @@ class EmployeeServiceTest {
 
     @Test
     void findByNameIgnoreCaseContains() {
+        // given
         Employee employee = new Employee("Cristiano Ronaldo", "Striker", true);
-        List<Employee> targetEmployee = Collections.singletonList(employee);
-//        List<Employee> findEmployeeWithName = employeeService.findByNameIgnoreCaseContains("Cristiano");
+        List<Employee> targetSingletonEmployee = Collections.singletonList(employee);
+        List<Employee> newEmployeeList = new ArrayList<>();
+        newEmployeeList.add(employee);
+
+        employeeRepository.save(employee);
+        // when
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        List<Employee> targetEmployee = employeeRepository.findByNameIgnoreCaseContains("Cristiano");
+
+        List<Employee> findEmployeeWithName = employeeService.findByNameIgnoreCaseContains("Cristiano");
         List<Employee> findEmployeeRepoWithName = employeeRepository.findByNameIgnoreCaseContains("Cristiano");
 
+
+//        assertThat(findEmployeeWithName.get(0)).(newEmployeeList.get(0));
+        assertEquals(findEmployeeWithName.get(0).getName(),employee.getName());
 //        assertThat(findEmployeeWithName).isEqualTo(targetEmployee);
     }
 
