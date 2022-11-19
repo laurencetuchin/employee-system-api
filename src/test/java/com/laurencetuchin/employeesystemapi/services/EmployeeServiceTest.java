@@ -4,6 +4,7 @@ import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.mappers.EmployeeMapper;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,10 +41,10 @@ class EmployeeServiceTest {
         assertThat(employeeService).isNotNull();
     }
 
-//    @BeforeEach
-//    void setup() {
-//        EmployeeService employeeService1 = new EmployeeService(employeeRepository);
-//    }
+    @BeforeEach
+    void setup() {
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+    }
 
     @Test
     void findByNameIgnoreCaseContains() {
