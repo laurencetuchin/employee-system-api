@@ -109,8 +109,6 @@ class EmployeeServiceTest {
         // then
         assertEquals(1, employeeListByNameAndRole.size());
 
-
-
     }
 
     @Test
@@ -249,5 +247,21 @@ class EmployeeServiceTest {
     @BeforeTestClass
     public static void setupValidatorInstance(){
         validator = Validation.buildDefaultValidatorFactory().getValidator();
+    }
+
+    @Test
+    void findEmployeeByNameOrRole() {
+        // given
+        Employee employee = new Employee("Cristiano Ronaldo", "Striker", true);
+        employeeRepository.save(employee);
+        EmployeeService service = new EmployeeService(employeeRepository);
+
+        // when
+        List<Employee> nameFound = service.findEmployeeByNameOrRole("Cristiano Ronaldo",null);
+        List<Employee> roleFound = service.findEmployeeByNameOrRole(null,"Striker");
+        // then
+
+        assertThat(employee.getName()).isEqualTo(nameFound.get(0).getName());
+        assertThat(employee.getRole()).isEqualTo(roleFound.get(0).getRole());
     }
 }
