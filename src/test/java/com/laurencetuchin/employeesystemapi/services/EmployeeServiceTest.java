@@ -34,10 +34,11 @@ class EmployeeServiceTest {
     private EmployeeRepository employeeRepository;
 
 
-//    @Test
-//    void itLoads(){
-//        assertThat(employeeService).isNotNull();
-//    }
+    @Test
+    void itLoads(){
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        assertThat(employeeService).isNotNull();
+    }
 
 //    @BeforeEach
 //    void setup() {
