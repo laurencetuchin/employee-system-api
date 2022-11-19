@@ -67,6 +67,13 @@ class EmployeeServiceTest {
 
     @Test
     void findByRoleIgnoreCaseContains() {
+        Employee employee = new Employee("Cristiano Ronaldo", "Number 12", true);
+        employeeRepository.save(employee);
+
+
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+
+        assertEquals("Number 12", employee.getRole());
     }
 
     @Test
