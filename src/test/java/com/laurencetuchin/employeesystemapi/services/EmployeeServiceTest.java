@@ -79,6 +79,16 @@ class EmployeeServiceTest {
 
     @Test
     void findCurrentlyEmployedEmployees() {
+        // given
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+
+        // when
+        List<Employee> currentlyEmployedEmployees = employeeService.findCurrentlyEmployedEmployees(true);
+
+
+        assertThat(6).isEqualTo(currentlyEmployedEmployees.size());
+
+
     }
 
     @Test
