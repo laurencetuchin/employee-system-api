@@ -41,6 +41,10 @@ public class EmployeeService {
         return employeeRepository.findEmployeeByNameAndRole(partialName, role);
     }
 
+    public List<Employee> findEmployeeByNameOrRole(String partialName, String role){
+        return employeeRepository.findEmployeeByNameOrRole(partialName,role);
+    }
+
 
     public Optional<Employee> findEmployeeById(Long id){
         return employeeRepository.findById(id);
