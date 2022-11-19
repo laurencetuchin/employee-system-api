@@ -62,6 +62,7 @@ class EmployeeServiceTest {
 
 //        assertThat(findEmployeeWithName.get(0)).(newEmployeeList.get(0));
         assertEquals(findEmployeeWithName.get(0).getName(),employee.getName());
+        assertEquals("Cristiano Ronaldo",employee.getName());
 //        assertThat(findEmployeeWithName).isEqualTo(targetEmployee);
     }
 
