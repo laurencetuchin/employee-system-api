@@ -13,6 +13,7 @@ import org.springframework.test.context.event.annotation.BeforeTestClass;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -84,15 +85,17 @@ class EmployeeServiceTest {
 
         // when
         List<Employee> currentlyEmployedEmployees = employeeService.findCurrentlyEmployedEmployees(true);
-
+        List<Employee> totalEmployees = employeeService.getAllEmployees();
 
         assertThat(6).isEqualTo(currentlyEmployedEmployees.size());
+        assertEquals(totalEmployees.size(), currentlyEmployedEmployees.size());
 
 
     }
 
     @Test
     void findEmployeeByNameAndRole() {
+
     }
 
     @Test
