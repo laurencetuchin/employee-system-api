@@ -116,7 +116,7 @@ class EmployeeServiceTest {
     @Test
     void findByRoleIgnoreCaseContainsWhenUpperLowercase() {
         // given
-        Employee employee = new Employee("Cristiano Ronaldo", "BeSt StRiKeR!",true);
+        Employee employee = new Employee("Cristiano Ronaldo", "Best Striker!",true);
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         employeeService.save(employee);
         // when
