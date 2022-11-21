@@ -177,6 +177,17 @@ class EmployeeServiceTest {
 
     @Test
     void addNewEmployee() {
+        // given
+        Employee employee = new Employee("Lionel Messi","Playmaker",true);
+        EmployeeService service = new EmployeeService(employeeRepository);
+        // when
+        service.addNewEmployee(employee);
+        // get last employee
+        int size = service.getAllEmployees().size();
+        // then
+        assertThat(service.getAllEmployees().get(size - 1).getName()).isEqualTo("Lionel Messi");
+
+
     }
 
     @Test
