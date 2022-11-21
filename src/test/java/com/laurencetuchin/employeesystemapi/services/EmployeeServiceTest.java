@@ -150,10 +150,12 @@ class EmployeeServiceTest {
         // when
         List<Employee> allEmployees = employeeService.getAllEmployees();
         List<Employee> currentlyNonEmployedEmployees = employeeService.findCurrentlyEmployedEmployees(false);
+        boolean currentlyWorkingAtCompany = currentlyNonEmployedEmployees.get(0).isCurrentlyWorkingAtCompany();
 //        int size = currentlyNonEmployedEmployees.size();
 //        currentlyNonEmployedEmployees.subList(0,size-1);
 
-        assertThat(currentlyNonEmployedEmployees).isNull();
+        assertThat(currentlyNonEmployedEmployees).isNotNull();
+        assertEquals(false,currentlyWorkingAtCompany);
     }
 
     @Test
