@@ -114,19 +114,6 @@ class EmployeeServiceTest {
 
     }
 
-    @Test
-    void findEmployeeById() {
-        // given
-        Employee employee = new Employee("Cristiano Ronaldo", "Striker", true);
-        doReturn(Optional.of(employee)).when(employeeRepository).findById(1L);
-        // when
-//        Optional<Employee> returnedEmployee = employeeService.findEmployeeById(1L);
-//        Employee returnedEmployee2 = employeeService.findEmployeeById(1L).get();
-        // then
-
-//        assertTrue(returnedEmployee.isPresent(), "Employee was not found");
-//        assertSame(returnedEmployee.get(), employee, "The employee returned was not the same as the mock");
-    }
 
     @Test
     void getAllEmployees() {
