@@ -128,22 +128,6 @@ class EmployeeServiceTest {
 
     }
 
-    @Test
-    void getAllEmployeesDTO() {
-        // given
-        Employee employee = new Employee("Cristiano Ronaldo", "Striker", true);
-        // when
-        EmployeeService service = new EmployeeService(employeeRepository);
-        EmployeeDTO mapper = new EmployeeMapper().toDto(employee);
-
-//        List<EmployeeDTO> totalDto = employeeRepository.findAll().stream().map(EmployeeDTO::new).collect(Collectors.toList());
-        List<EmployeeDTO> employeeDTOList = service.getAllEmployeesDTO();
-        List<EmployeeDTO> employeeDTOList1 = service.getAllEmployeesDTO();
-        // then
-        assertThat(employeeDTOList).isEqualTo(employeeDTOList1);
-
-
-    }
 
     @Test
     void getEmployeeDTOById() {
@@ -215,14 +199,19 @@ class EmployeeServiceTest {
         // given
         EmployeeService service = new EmployeeService(employeeRepository);
         Optional<Employee> employeeById = service.findEmployeeById(1L);
-        String previousName = employeeById.get().getName();
-        // when
-        assertThat(previousName).isEqualTo("Frodo");
-        employeeById.get().setName("Tomato Man");
-        employeeById.get().setRole("Burger Shop King");
+        Employee employee = service.getAllEmployees().get(0);
+        String employeeName = employee.getName();
 
-        assertThat(employeeById.get().getName()).isEqualTo("Tomato Man");
-        assertThat(employeeById.get().getRole()).isEqualTo("Burger Shop King");
+//        String previousName = employeeById.get().getName();
+        // when
+        assertThat(employeeName).isEqualTo("Frodo");
+        employee.setName("Tomato Man");
+        employee.setRole("Burger Shop King");
+//        employeeName.get().setName("Tomato Man");
+//        employeeName.get().setRole("Burger Shop King");
+        // then
+        assertThat(employee.getName()).isEqualTo("Tomato Man");
+        assertThat(employee.getRole()).isEqualTo("Burger Shop King");
     }
 
     @Test
