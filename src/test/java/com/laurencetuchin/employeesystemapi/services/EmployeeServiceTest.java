@@ -142,6 +142,21 @@ class EmployeeServiceTest {
     }
 
     @Test
+    void findCurrentlyEmployedEmployeesThatAreFalse(){
+        // given
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        Employee employee = new Employee("Alphonso Davies", "Left Winger", false);
+        employeeService.save(employee);
+        // when
+        List<Employee> allEmployees = employeeService.getAllEmployees();
+        List<Employee> currentlyNonEmployedEmployees = employeeService.findCurrentlyEmployedEmployees(false);
+//        int size = currentlyNonEmployedEmployees.size();
+//        currentlyNonEmployedEmployees.subList(0,size-1);
+
+        assertThat(currentlyNonEmployedEmployees).isNull();
+    }
+
+    @Test
     void findEmployeeByNameAndRole() {
         // given
         EmployeeService employeeService = new EmployeeService(employeeRepository);
