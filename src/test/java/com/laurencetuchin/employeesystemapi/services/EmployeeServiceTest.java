@@ -78,7 +78,11 @@ class EmployeeServiceTest {
 
         EmployeeService employeeService = new EmployeeService(employeeRepository);
 
-        assertEquals("Number 12", employee.getRole());
+        List<Employee> byRoleIgnoreCaseContains = employeeService.findByRoleIgnoreCaseContains("Number 12");
+
+        String role = byRoleIgnoreCaseContains.get(0).getRole();
+
+        assertEquals("Number 12", role);
     }
 
     @Test
