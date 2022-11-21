@@ -151,15 +151,15 @@ class EmployeeServiceTest {
 
     @Test
     void save() {
-        Employee employee = new Employee("Cristiano Ronaldo", "Striker", true);
-//        employeeService.save(employee);
+        // given
+        Employee employee = new Employee("Cristiano Ronaldo 2", "Striker", true);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        // when
+        Employee employee1 = employeeService.save(employee);
 
 
-        when(employeeRepository.save(employee)).thenReturn(employee);
-//        List<Employee> allEmployees = employeeService.getAllEmployees();
-        List<Employee> allEmployees1 = employeeRepository.findAll();
-//        assertThat(allEmployees).isNotNull();
-//        assertEquals(employee.getName(), employeeService.getAllEmployees().stream().filter(o -> Boolean.parseBoolean(employee.getName())).collect(Collectors.toList()));
+        // then
+        assertThat(employee1.getName()).isEqualTo(employee.getName());
     }
 
 
