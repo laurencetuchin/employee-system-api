@@ -43,6 +43,7 @@ class EmployeeServiceTest {
     void setup() {
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         Employee employee = new Employee("Cristiano Ronaldo", "Striker", true);
+        employeeService.save(employee);
 
     }
 
