@@ -137,7 +137,7 @@ class EmployeeServiceTest {
         List<Employee> currentlyEmployedEmployees = employeeService.findCurrentlyEmployedEmployees(true);
         List<Employee> totalEmployees = employeeService.getAllEmployees();
 
-        assertThat(6).isEqualTo(currentlyEmployedEmployees.size());
+        assertThat(8).isEqualTo(currentlyEmployedEmployees.size());
         assertEquals(totalEmployees.size(), currentlyEmployedEmployees.size());
     }
 
@@ -223,38 +223,6 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void deleteEmployeeById() {
-        // given
-        EmployeeService service = new EmployeeService(employeeRepository);
-        // when
-        Optional<Employee> employeeById = service.findEmployeeById(1L);
-        assertThat(employeeById).isNotEmpty();
-
-        service.deleteEmployeeById(1L);
-        List<Employee> employeeByIdDeleted = service.findEmployeeById(1L).stream().collect(Collectors.toList());
-//        employeeRepository.deleteById(100L);
-        // then
-        assertThat(employeeByIdDeleted).isEmpty();
-
-    }
-
-    @Test
-    void deleteEmployeeByIdThrowsIllegalStateExceptionIfNotExists() {
-        // given
-        EmployeeService service = new EmployeeService(employeeRepository);
-
-        // when
-        Optional<Employee> employeeByIdNotExists = service.findEmployeeById(100L);
-        // then
-        Long id = 100L;
-        String message = "Employee with id " + id + "does not exist";
-        assertThrows(IllegalStateException.class,() -> {
-            service.deleteEmployeeById(id);
-        }, message);
-
-    }
-
-    @Test
     void updateEmployeeById() {
         // given
         EmployeeService service = new EmployeeService(employeeRepository);
@@ -288,6 +256,38 @@ class EmployeeServiceTest {
         });
 
     }
+    @Test
+    void deleteEmployeeById() {
+        // given
+        EmployeeService service = new EmployeeService(employeeRepository);
+        // when
+        Optional<Employee> employeeById = service.findEmployeeById(1L);
+        assertThat(employeeById).isNotEmpty();
+
+        service.deleteEmployeeById(1L);
+        List<Employee> employeeByIdDeleted = service.findEmployeeById(1L).stream().collect(Collectors.toList());
+//        employeeRepository.deleteById(100L);
+        // then
+        assertThat(employeeByIdDeleted).isEmpty();
+
+    }
+
+    @Test
+    void deleteEmployeeByIdThrowsIllegalStateExceptionIfNotExists() {
+        // given
+        EmployeeService service = new EmployeeService(employeeRepository);
+
+        // when
+        Optional<Employee> employeeByIdNotExists = service.findEmployeeById(100L);
+        // then
+        Long id = 100L;
+        String message = "Employee with id " + id + "does not exist";
+        assertThrows(IllegalStateException.class,() -> {
+            service.deleteEmployeeById(id);
+        }, message);
+
+    }
+
 
     @Test
     void updateEmployeeByIdNotNull(){
