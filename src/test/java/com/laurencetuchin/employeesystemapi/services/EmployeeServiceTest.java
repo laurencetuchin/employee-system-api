@@ -127,7 +127,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void findCurrentlyEmployedEmployees() {
+    void findCurrentlyEmployedEmployeesThatAreTrue() {
         // given
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         Employee employee = new Employee("Cristiano Ronaldo", "Striker", true);
@@ -139,8 +139,6 @@ class EmployeeServiceTest {
 
         assertThat(6).isEqualTo(currentlyEmployedEmployees.size());
         assertEquals(totalEmployees.size(), currentlyEmployedEmployees.size());
-
-
     }
 
     @Test
