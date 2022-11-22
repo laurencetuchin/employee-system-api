@@ -90,7 +90,11 @@ class EmployeeServiceTest {
         String role = byRoleIgnoreCaseContains.get(0).getRole();
 
         // then
+        // checks role matches expected role
         assertEquals("Striker", role);
+        // checks role matches expected size
+        assertEquals(1, byRoleIgnoreCaseContains.size());
+
     }
 
     @Test
