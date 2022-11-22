@@ -207,6 +207,9 @@ class EmployeeServiceTest {
 
         // then
         assertThat(employee1.getName()).isEqualTo(employee.getName());
+        assertThat(employee1.getRole()).isEqualTo(employee.getRole());
+        assertThat(employee1.isCurrentlyWorkingAtCompany()).isEqualTo(employee.isCurrentlyWorkingAtCompany());
+
     }
 
 
