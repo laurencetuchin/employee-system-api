@@ -46,24 +46,19 @@ class EmployeeServiceTest {
     @Test
     void findByNameIgnoreCaseContains() {
         // given
-        Employee employee = new Employee("Cristiano Ronaldo", "Striker", true);
-//        List<Employee> targetSingletonEmployee = Collections.singletonList(employee);
-//        List<Employee> newEmployeeList = new ArrayList<>();
-//        newEmployeeList.add(employee);
-
-//        employeeRepository.save(employee);
-        // when
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-//        List<Employee> targetEmployee = employeeRepository.findByNameIgnoreCaseContains("Cristiano");
 
+        // when
+        Employee employee = employeeService.getAllEmployees().get(6);
         List<Employee> findEmployeeWithName = employeeService.findByNameIgnoreCaseContains("Cristiano");
-//        List<Employee> findEmployeeRepoWithName = employeeRepository.findByNameIgnoreCaseContains("Cristiano");
 
-
-//        assertThat(findEmployeeWithName.get(0)).(newEmployeeList.get(0));
+        // then
+        // checks that expected name matches
         assertEquals(findEmployeeWithName.get(0).getName(),employee.getName());
         assertEquals("Cristiano Ronaldo",employee.getName());
-//        assertThat(findEmployeeWithName).isEqualTo(targetEmployee);
+        // checks that expected size matches
+        assertEquals(1, findEmployeeWithName.size());
+        assertEquals(1, employeeService.findByNameIgnoreCaseContains("FrOdo").size());
     }
 
     @Test
@@ -110,7 +105,7 @@ class EmployeeServiceTest {
         assertEquals("Striker", role);
         // checks match expected size
         assertEquals(1, byRoleIgnoreCaseContains.size());
-        assertEquals(3, employeeService.findByRoleIgnoreCaseContains("RING").size());
+        assertEquals(2, employeeService.findByRoleIgnoreCaseContains("RING").size());
     }
 
     @Test
@@ -233,11 +228,13 @@ class EmployeeServiceTest {
         // given
         EmployeeService service = new EmployeeService(employeeRepository);
         Optional<Employee> employeeById = service.findEmployeeById(1L);
-        Employee employee = service.getAllEmployees().get(0);
+        Employee employee = service.getAllEmployees().get(1);
+//        Employee employee1 = service.getAllEmployees().
         String employeeName = employee.getName();
-
+        List<Employee> allEmployees = service.getAllEmployees();
 //        String previousName = employeeById.get().getName();
         // when
+        assertThat(employee.getId()).isEqualTo(1L);
         assertThat(employeeName).isEqualTo("Frodo");
         employee.setName("Tomato Man");
         employee.setRole("Burger Shop King");
