@@ -229,18 +229,30 @@ class EmployeeServiceTest {
         EmployeeService service = new EmployeeService(employeeRepository);
         Optional<Employee> employeeById = service.findEmployeeById(1L);
         Employee employee = service.getAllEmployees().get(0);
+        boolean employeeExists = employeeRepository.existsById(employee.getId());
+        if (!employeeExists) {
+            throw new NoSuchElementException("Employee with id" + employee.getId() + "does not exist");
+        } else {
+
         String employeeName = employee.getName();
         // total list only 10 after deleting
         List<Employee> allEmployees = service.getAllEmployees();
 //        String previousName = employeeById.get().getName();
+
+
         // when
         assertThat(employee.getId()).isEqualTo(2L);
         assertThat(employeeName).isEqualTo("Bilbo");
         employee.setName("Tomato Man");
         employee.setRole("Burger Shop King");
+        service.updateEmployeeById(employee);
         // then
         assertThat(employee.getName()).isEqualTo("Tomato Man");
         assertThat(employee.getRole()).isEqualTo("Burger Shop King");
+        }
+
+
+
     }
 
     @Test
@@ -320,4 +332,6 @@ class EmployeeServiceTest {
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         List<Employee> allEmployees = employeeService.getAllEmployees();
     }
+
+
 }
