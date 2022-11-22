@@ -183,10 +183,11 @@ class EmployeeServiceTest {
         EmployeeService service = new EmployeeService(employeeRepository);
         // when
         List<Employee> employeeList = service.getAllEmployees();
-//        Employee onlyEmployee = employeeList.get(employeeList.size() - 1);
         // then
+        // checks employee list has employees
         assertThat(employeeList).isNotNull();
-//        assertEquals(employee.getName(),onlyEmployee.getName());
+        // checks employee size is correct
+        assertEquals(7, employeeList.size());
 
     }
 
