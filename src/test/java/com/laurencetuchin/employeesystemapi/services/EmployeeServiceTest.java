@@ -228,18 +228,16 @@ class EmployeeServiceTest {
         // given
         EmployeeService service = new EmployeeService(employeeRepository);
         Optional<Employee> employeeById = service.findEmployeeById(1L);
-        Employee employee = service.getAllEmployees().get(1);
-//        Employee employee1 = service.getAllEmployees().
+        Employee employee = service.getAllEmployees().get(0);
         String employeeName = employee.getName();
+        // total list only 10 after deleting
         List<Employee> allEmployees = service.getAllEmployees();
 //        String previousName = employeeById.get().getName();
         // when
         assertThat(employee.getId()).isEqualTo(1L);
-        assertThat(employeeName).isEqualTo("Frodo");
+        assertThat(employeeName).isEqualTo("Bilbo");
         employee.setName("Tomato Man");
         employee.setRole("Burger Shop King");
-//        employeeName.get().setName("Tomato Man");
-//        employeeName.get().setRole("Burger Shop King");
         // then
         assertThat(employee.getName()).isEqualTo("Tomato Man");
         assertThat(employee.getRole()).isEqualTo("Burger Shop King");
