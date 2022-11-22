@@ -150,6 +150,12 @@ class EmployeeServiceTest {
 
         assertThat(currentlyNonEmployedEmployees).isNotNull();
         assertEquals(false,currentlyWorkingAtCompany);
+
+        Employee employee1 = new Employee("Bukayo Saka","Right winger", false);
+        employeeService.save(employee1);
+
+        List<Employee> allFalseWorkingEmployees = employeeService.findCurrentlyEmployedEmployees(false);
+        assertEquals(2, allFalseWorkingEmployees.size());
     }
 
     @Test
