@@ -188,10 +188,6 @@ class EmployeeServiceTest {
 
 
     @Test
-    void getEmployeeDTOById() {
-    }
-
-    @Test
     void save() {
         // given
         Employee employee = new Employee("Frenkie De Jong", "Box to Box Midfielder", true);
@@ -302,11 +298,6 @@ class EmployeeServiceTest {
     }
 
 
-    @Test
-    void updateEmployeeByIdNotNull(){
-
-    }
-
     @BeforeTestClass
     public static void setupValidatorInstance(){
         validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -327,11 +318,6 @@ class EmployeeServiceTest {
         assertThat(employee.getRole()).isEqualTo(roleFound.get(0).getRole());
     }
 
-    @Test
-    void itShowsAllEmployeesInContext(){
-        EmployeeService employeeService = new EmployeeService(employeeRepository);
-        List<Employee> allEmployees = employeeService.getAllEmployees();
-    }
 
 
 }
