@@ -37,9 +37,10 @@ class EmployeeServiceTest {
     @BeforeEach
     void setup() {
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        Employee employee = new Employee("Cristiano Ronaldo", "Striker", true);
-        employeeService.save(employee);
-
+        if (employeeService.getAllEmployees().size() < 7) {
+            Employee employee = new Employee("Cristiano Ronaldo", "Striker", true);
+            employeeService.save(employee);
+        }
     }
 
     @Test
