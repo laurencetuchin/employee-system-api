@@ -187,7 +187,7 @@ class EmployeeServiceTest {
         // checks employee list has employees
         assertThat(employeeList).isNotNull();
         // checks employee size is correct
-        assertEquals(7, employeeList.size());
+        assertEquals(11, employeeList.size());
 
     }
 
@@ -199,7 +199,7 @@ class EmployeeServiceTest {
     @Test
     void save() {
         // given
-        Employee employee = new Employee("Cristiano Ronaldo 2", "Striker", true);
+        Employee employee = new Employee("Frenkie De Jong", "Box to Box Midfielder", true);
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         // when
         Employee employee1 = employeeService.save(employee);
@@ -209,6 +209,7 @@ class EmployeeServiceTest {
         assertThat(employee1.getName()).isEqualTo(employee.getName());
         assertThat(employee1.getRole()).isEqualTo(employee.getRole());
         assertThat(employee1.isCurrentlyWorkingAtCompany()).isEqualTo(employee.isCurrentlyWorkingAtCompany());
+        // checks ID automatically generated
         assertThat(employee1.getId()).isNotNull();
 
     }
@@ -225,8 +226,6 @@ class EmployeeServiceTest {
         int size = service.getAllEmployees().size();
         // then
         assertThat(service.getAllEmployees().get(size - 1).getName()).isEqualTo("Lionel Messi");
-
-
     }
 
     @Test
@@ -309,9 +308,8 @@ class EmployeeServiceTest {
     @Test
     void findEmployeeByNameOrRole() {
         // given
-        Employee employee = new Employee("Cristiano Ronaldo", "Striker", true);
-        employeeRepository.save(employee);
         EmployeeService service = new EmployeeService(employeeRepository);
+        Employee employee = service.getAllEmployees().get(6);
 
         // when
         List<Employee> nameFound = service.findEmployeeByNameOrRole("Cristiano Ronaldo",null);
@@ -320,5 +318,11 @@ class EmployeeServiceTest {
 
         assertThat(employee.getName()).isEqualTo(nameFound.get(0).getName());
         assertThat(employee.getRole()).isEqualTo(roleFound.get(0).getRole());
+    }
+
+    @Test
+    void itShowsAllEmployeesInContext(){
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        List<Employee> allEmployees = employeeService.getAllEmployees();
     }
 }
