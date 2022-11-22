@@ -159,8 +159,6 @@ class EmployeeServiceTest {
     void findEmployeeByNameAndRole() {
         // given
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        Employee employee = new Employee("Cristiano Ronaldo", "Striker", true);
-        employeeService.save(employee);
 
         // when
         List<Employee> employeeListByNameAndRole = employeeService.findEmployeeByNameAndRole("Cristiano Ronaldo","Striker");
