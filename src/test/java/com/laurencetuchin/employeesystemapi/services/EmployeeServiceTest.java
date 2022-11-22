@@ -142,11 +142,8 @@ class EmployeeServiceTest {
         Employee employee = new Employee("Alphonso Davies", "Left Winger", false);
         employeeService.save(employee);
         // when
-        List<Employee> allEmployees = employeeService.getAllEmployees();
         List<Employee> currentlyNonEmployedEmployees = employeeService.findCurrentlyEmployedEmployees(false);
         boolean currentlyWorkingAtCompany = currentlyNonEmployedEmployees.get(0).isCurrentlyWorkingAtCompany();
-//        int size = currentlyNonEmployedEmployees.size();
-//        currentlyNonEmployedEmployees.subList(0,size-1);
 
         assertThat(currentlyNonEmployedEmployees).isNotNull();
         assertEquals(false,currentlyWorkingAtCompany);
