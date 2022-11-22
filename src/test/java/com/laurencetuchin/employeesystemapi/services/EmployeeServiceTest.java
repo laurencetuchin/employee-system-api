@@ -101,14 +101,12 @@ class EmployeeServiceTest {
     @Test
     void findByRoleIgnoreCaseContainsWhenUppercase(){
         // given
-        Employee employee = new Employee("Cristiano Ronaldo", "Number 12", true);
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        employeeService.save(employee);
         // when
-        List<Employee> byRoleIgnoreCaseContains = employeeService.findByRoleIgnoreCaseContains("NUMBER 12");
+        List<Employee> byRoleIgnoreCaseContains = employeeService.findByRoleIgnoreCaseContains("STRIKER");
         String role = byRoleIgnoreCaseContains.get(0).getRole();
         // then
-        assertEquals("Number 12", role);
+        assertEquals("Striker", role);
     }
 
     @Test
