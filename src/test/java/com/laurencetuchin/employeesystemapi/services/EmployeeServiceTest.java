@@ -94,6 +94,7 @@ class EmployeeServiceTest {
         assertEquals("Striker", role);
         // checks role matches expected size
         assertEquals(1, byRoleIgnoreCaseContains.size());
+        assertEquals(3, employeeService.findByRoleIgnoreCaseContains("ring").size());
 
     }
 
