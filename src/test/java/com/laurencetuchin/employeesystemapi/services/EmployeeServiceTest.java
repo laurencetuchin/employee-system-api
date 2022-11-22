@@ -71,14 +71,14 @@ class EmployeeServiceTest {
         // given
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         // when
-        List<Employee> byRoleIgnoreCaseContains = employeeService.findByRoleIgnoreCaseContains("Striker");
+        List<Employee> byRoleIgnoreCaseContains = employeeService.findByRoleIgnoreCaseContains("STriker");
         String role = byRoleIgnoreCaseContains.get(0).getRole();
         // then
         // checks role matches expected case
         assertEquals("Striker", role);
         // checks size of Employee is expected
         assertEquals(1, byRoleIgnoreCaseContains.size());
-        assertEquals(3, employeeService.findByRoleIgnoreCaseContains("ring").size());
+        assertEquals(3, employeeService.findByRoleIgnoreCaseContains("riNg").size());
     }
 
     @Test
