@@ -6,16 +6,25 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.client.match.MockRestRequestMatchers;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import javax.print.attribute.standard.Media;
+import javax.validation.constraints.Future;
 import java.util.Arrays;
+import java.util.List;
 
+import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @WebMvcTest(EmployeeController.class)
@@ -39,10 +48,17 @@ class EmployeeControllerTest {
     public void itShouldGetEmployeeByIdAndReturnEmployeeIfExists() {
 
 
-
-
-
     }
+
+//    @Test
+//    void shouldGetAllEmployees() throws Exception {
+//        mockMvc.perform(get("/api/employees/all")
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(MockRestRequestMatchers.content()
+//                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+//                .andExpect(jsonPath("$[0].name", is("bob")));
+//    }
 
 //    @Test
 //    void getAllEmployees() throws Exception {
@@ -78,6 +94,7 @@ class EmployeeControllerTest {
 
     @Test
     void getAllEmployeesDTO() {
+
     }
 
     @Test
@@ -90,6 +107,18 @@ class EmployeeControllerTest {
 
     @Test
     void findByRoleIgnoreCaseContains() {
+        when(employeeService.findByRoleIgnoreCaseContains("ring"))
+                .thenReturn(List.of());
+
+        try {
+            mockMvc.perform(get("/api/search/role{role}"))
+                    .andDo(print())
+                    .andExpect(content().string(equalTo("nothing")));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        verify(employeeService.findByRoleIgnoreCaseContains("ring"));
     }
 
     @Test
