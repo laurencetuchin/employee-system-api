@@ -1,5 +1,6 @@
 package com.laurencetuchin.employeesystemapi.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
 import org.junit.jupiter.api.Test;
@@ -35,12 +36,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class EmployeeControllerTest {
 
+    @Autowired
+    private MockMvc mockMvc;
 
     @MockBean
     private EmployeeService employeeService; // Injects during runtime
 
+
     @Autowired
-    private MockMvc mockMvc;
+    private ObjectMapper objectMapper;
+
 
 
     @Test
