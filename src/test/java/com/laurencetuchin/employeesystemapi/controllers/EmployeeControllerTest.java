@@ -32,8 +32,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -49,7 +48,6 @@ class EmployeeControllerTest {
     @MockBean
     private EmployeeService employeeService; // Injects during runtime
 
-    @Autowired
     private EmployeeRepository employeeRepository;
 
     @Autowired
@@ -158,7 +156,7 @@ class EmployeeControllerTest {
 
         ResultActions response = mockMvc.perform(post("/api/employee/create")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(employee)));
+                .content(objectMapper.writeValueAsString("")));
 
         response.andExpect(MockMvcResultMatchers.status().isCreated());
 
@@ -190,8 +188,13 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void deleteEmployee() {
+    void deleteEmployee() throws Exception {
          doNothing().when(employeeService).deleteEmployeeById(1L);
+
+         ResultActions response = mockMvc.perform(delete("/api/employee/delete/1")
+                 .contentType(MediaType.APPLICATION_JSON));
+
+         response.andExpect(MockMvcResultMatchers.status().isOk());
 
     }
 }
