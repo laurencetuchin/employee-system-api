@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -49,16 +50,20 @@ class EmployeeControllerTest {
     @MockBean
     private EmployeeService employeeService; // Injects during runtime
 
-//@Autowired
-//    private EmployeeRepository employeeRepository;
+
+    @MockBean
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
 
 
     Employee employee1 = new Employee("Bruno Fernandes","Midfielder",true);
+
     Employee employee2 = new Employee("Diogo Dalot","Right Back",true);
     Employee employee3 = new Employee("Joao Felix","Second Striker",true);
+
+
 
 
     @Test
@@ -70,6 +75,7 @@ class EmployeeControllerTest {
         mockMvc.perform(
                 get("/api/employees/all")
                         .contentType(MediaType.APPLICATION_JSON))
+
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[2].name", Matchers.is("Joao Felix")))
@@ -89,6 +95,7 @@ class EmployeeControllerTest {
 
     @Test
     public void itShouldGetEmployeeByIdAndReturnEmployeeIfExists() {
+
 
 
     }
@@ -177,6 +184,10 @@ class EmployeeControllerTest {
 
         // setup Mock
 //        employeeServiceMock = mock(EmployeeService.class);
+        employeeRepository.save(employee1);
+        System.out.println("Cookie master");
+        System.out.println(employeeRepository.findAll());
+        System.out.println(employee1.getId());
 
 
     }
@@ -195,13 +206,15 @@ class EmployeeControllerTest {
 
     @Test
     void EmployeeController_GetAllEmployee_ReturnResponse() throws Exception {
-        Employee employee = new Employee("Cristiano Ronaldo","Striker",true);
-        employeeService.save(employee);
-        List<Employee> allEmployees = employeeService.getAllEmployees();
-        when(employeeService.getAllEmployees()).thenReturn(allEmployees);
+//        Employee employee = new Employee("Cristiano Ronaldo","Striker",true);
+        List<Employee> employeeList = new ArrayList<>((Arrays.asList(employee1, employee2, employee3)));
+//        employeeService.save(employee);
+//        List<Employee> allEmployees = employeeService.getAllEmployees();
+        when(employeeService.getAllEmployees()).thenReturn(employeeList);
 
         ResultActions response = mockMvc.perform(get("/api/employees/all")
                         .contentType(MediaType.APPLICATION_JSON)
+
 //                .param("pageNumber","1")
 //                        .param("role","ring")
 
@@ -210,7 +223,9 @@ class EmployeeControllerTest {
         );
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is(employee.getName())));
+                .andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$[2].name", CoreMatchers.is(employee3.getName()))
+                );
 
     }
 
