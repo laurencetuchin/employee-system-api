@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import java.util.List;
 
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
@@ -58,10 +61,17 @@ class EmployeeControllerTest {
 
 
     @Test
-    void getAllEmployees(){
+    void getAllEmployees() throws Exception {
         List<Employee> employees = new ArrayList<>(Arrays.asList(employee1, employee2, employee3));
 
         when(employeeService.getAllEmployees()).thenReturn(employees);
+
+        mockMvc.perform(
+                get("/api/employees/all")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(3)))
+                .andExpect((ResultMatcher) jsonPath("$[2].name", is("Joao Felix")));
 
     }
 
@@ -160,7 +170,7 @@ class EmployeeControllerTest {
 //        service.save(employee);
 
         // setup Mock
-        employeeServiceMock = mock(EmployeeService.class);
+//        employeeServiceMock = mock(EmployeeService.class);
 
 
     }
