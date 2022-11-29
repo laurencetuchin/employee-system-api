@@ -5,6 +5,7 @@ import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
 import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -71,6 +72,10 @@ class EmployeeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$[2].name", Matchers.is("Joao Felix")))
+                .andExpect(jsonPath("$[2].role", Matchers.is("Second Striker")))
+                .andExpect(jsonPath("$[2].currentlyWorkingAtCompany", Matchers.is(true)))
+
 //                .andExpect((ResultMatcher) jsonPath("$[2].name", is("Joao Felix"))
                 ;
 
