@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,6 +25,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.print.attribute.standard.Media;
 import javax.validation.constraints.Future;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,6 +50,7 @@ class EmployeeControllerTest {
     @MockBean
     private EmployeeService employeeService; // Injects during runtime
 
+@Autowired
     private EmployeeRepository employeeRepository;
 
     @Autowired
@@ -139,14 +142,25 @@ class EmployeeControllerTest {
     }
 
     @Test
+    void getAllEmployees(){
+        List<Employee> employees = new ArrayList<>(Arrays.asList(Employee1, Employee2, Employee3));
+
+
+    }
+
+    @Test
     void findEmployeeByNameAndRole() {
     }
 
     @BeforeEach
     void setup() {
         Employee employee = new Employee("Cristiano Ronaldo","Striker", true);
-        EmployeeService service = new EmployeeService(employeeRepository);
-        service.save(employee);
+//        EmployeeService service = new EmployeeService(employeeRepository);
+//        service.save(employee);
+
+        // setup Mock
+        employeeServiceMock = mock(EmployeeService.class);
+
 
     }
 
