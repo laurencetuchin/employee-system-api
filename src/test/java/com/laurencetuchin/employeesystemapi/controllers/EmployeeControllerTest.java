@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -58,8 +59,9 @@ class EmployeeControllerTest {
 
     @Test
     void getAllEmployees(){
-        List<Employee> employees = new ArrayList<>(Arrays.asList(Employee1, Employee2, Employee3));
+        List<Employee> employees = new ArrayList<>(Arrays.asList(employee1, employee2, employee3));
 
+        when(employeeService.getAllEmployees()).thenReturn(employees);
 
     }
 
