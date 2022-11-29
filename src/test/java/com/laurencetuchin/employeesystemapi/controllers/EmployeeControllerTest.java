@@ -9,22 +9,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.client.match.MockRestRequestMatchers;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import javax.print.attribute.standard.Media;
-import javax.validation.constraints.Future;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,6 +51,17 @@ class EmployeeControllerTest {
     private ObjectMapper objectMapper;
 
 
+    Employee employee1 = new Employee("Bruno Fernandes","Midfielder",true);
+    Employee employee2 = new Employee("Diogo Dalot","Right Back",true);
+    Employee employee3 = new Employee("Joao Felix","Second Striker",true);
+
+
+    @Test
+    void getAllEmployees(){
+        List<Employee> employees = new ArrayList<>(Arrays.asList(Employee1, Employee2, Employee3));
+
+
+    }
 
     @Test
     void shouldCreateMockMvc() {
@@ -141,12 +146,6 @@ class EmployeeControllerTest {
         verify(employeeService.findByRoleIgnoreCaseContains("ring"));
     }
 
-    @Test
-    void getAllEmployees(){
-        List<Employee> employees = new ArrayList<>(Arrays.asList(Employee1, Employee2, Employee3));
-
-
-    }
 
     @Test
     void findEmployeeByNameAndRole() {
