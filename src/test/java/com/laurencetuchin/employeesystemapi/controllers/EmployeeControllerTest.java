@@ -161,8 +161,15 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void itShouldReturnListOfEmployees(){
+    void itShouldReturnListOfEmployees() throws Exception {
+        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2,employee3));
 
+        when(employeeService.getAllEmployees()).thenReturn(employeeList);
+
+        mockMvc.perform(get("/api/employees/all"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()").value(employeeList.size()))
+                .andDo(print());
     }
 
     @Test
