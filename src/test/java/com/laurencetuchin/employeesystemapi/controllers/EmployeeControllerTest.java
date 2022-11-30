@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.equalTo;
@@ -123,10 +124,41 @@ class EmployeeControllerTest {
         );
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$",hasSize(1)))
+//                .andExpect(
+                .andExpect(jsonPath("$[0].name",CoreMatchers.is("Bruno Fernandes")) )
+        ;
+
+    }
+    @Test
+    void itShouldReturnEmployeeWithIdRequest() throws Exception {
+        // given
+        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2,employee3));
+        // when
+//        when(employeeService.findEmployeeById(1L)).thenReturn(Optional.ofNullable(employee1).map(employee -> Collections.singletonList(employee).get(0)));
+        when(employeeService.findEmployeeById(1L)).thenReturn(Optional.ofNullable(employee1));
+//        String id = "1";
+        // then
+        ResultActions response = mockMvc.perform(get("/api/employees/request/1")
+                .contentType(MediaType.APPLICATION_JSON)
+//                .param("id", String.valueOf(1L))
+
+
+        );
+
+        response.andExpect(MockMvcResultMatchers.status().isOk())
 //                .andExpect(jsonPath("$",hasSize(1)))
+//                .andExpect()
 //                .andExpect(
 //                .andExpect(jsonPath("$[0].name",CoreMatchers.is("Bruno Fernandes")) )
         ;
+
+    }
+
+    @Test
+    void itShouldCreateEmployee() throws Exception {
+        Employee employee = new Employee("Bukayo Saka","Right Winger",true);
+
 
     }
 

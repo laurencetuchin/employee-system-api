@@ -61,6 +61,13 @@ public class EmployeeController {
         }
     }
 
+    @GetMapping("/employees/request/{id}")
+    public Optional<Employee> getEmployeeByIdRequest(@PathVariable("id") Long id) {
+        Optional<Employee> employeeIfExists = employeeService.findEmployeeById(id);
+
+       return employeeIfExists;
+    }
+
 
     // Return Employee DTO for client
 //
