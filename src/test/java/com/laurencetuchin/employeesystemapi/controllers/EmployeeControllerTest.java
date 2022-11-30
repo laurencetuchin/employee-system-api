@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
@@ -249,6 +250,10 @@ class EmployeeControllerTest {
     public void itShouldSearchUserByName() {
 
         List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2,employee3));
+        String partialName = "joao";
+
+        // stub
+        when(employeeService.findByNameIgnoreCaseContains(partialName)).thenReturn(Collections.singletonList(employee3));
 
 
     }
