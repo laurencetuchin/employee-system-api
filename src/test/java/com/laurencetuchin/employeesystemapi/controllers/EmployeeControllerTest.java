@@ -166,7 +166,8 @@ class EmployeeControllerTest {
 
         when(employeeService.getAllEmployees()).thenReturn(employeeList);
 
-        mockMvc.perform(get("/api/employees/all"))
+        mockMvc.perform(get("/api/employees/all")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(employeeList.size()))
                 .andDo(print());
