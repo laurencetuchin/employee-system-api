@@ -24,10 +24,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.equalTo;
@@ -111,7 +108,23 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void itShouldReturnEmployeeWithId(){
+    void itShouldReturnEmployeeWithId() throws Exception {
+        // given
+        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2,employee3));
+        // when
+        when(employeeService.findEmployeeById(1L)).thenReturn(Optional.ofNullable(employee1));
+        String id = "1";
+        // then
+        ResultActions response = mockMvc.perform(get("/api/employees/1")
+                .contentType(MediaType.APPLICATION_JSON)
+//                .param("id","1")
+
+
+        );
+
+        response.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$",hasSize(1)))
+                .andExpect(jsonPath("$[0].name",CoreMatchers.is("Bruno Fernandes")) );
 
     }
 
