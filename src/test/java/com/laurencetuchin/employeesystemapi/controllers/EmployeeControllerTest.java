@@ -261,7 +261,7 @@ class EmployeeControllerTest {
 //                .param("badParam","badvalue")
         );
 
-        response.andExpect(MockMvcResultMatchers.status().isOk())
+        response.andExpect(MockMvcResultMatchers.status().isFound())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].name", CoreMatchers.is(employee3.getName()))
         );
