@@ -66,6 +66,27 @@ class EmployeeControllerTest {
 
 
 
+    @BeforeEach
+    void setup() {
+        Employee employee = new Employee("Cristiano Ronaldo","Striker", true);
+//        EmployeeService service = new EmployeeService(employeeRepository);
+//        service.save(employee);
+
+        // setup Mock
+//        employeeServiceMock = mock(EmployeeService.class);
+        employeeRepository.save(employee1);
+        System.out.println("Cookie master");
+        System.out.println(employeeRepository.findAll());
+        employee1.setId(1L);
+        employee2.setId(2L);
+        employee3.setId(3L);
+        System.out.println(employee1.getId());
+        System.out.println(employee2.getId());
+        System.out.println(employee3.getId());
+
+
+    }
+
 
     @Test
     void getAllEmployees() throws Exception {
@@ -87,6 +108,8 @@ class EmployeeControllerTest {
                 ;
 
     }
+
+
 
     @Test
     void shouldCreateMockMvc() {
@@ -177,21 +200,6 @@ class EmployeeControllerTest {
     void findEmployeeByNameAndRole() {
     }
 
-    @BeforeEach
-    void setup() {
-        Employee employee = new Employee("Cristiano Ronaldo","Striker", true);
-//        EmployeeService service = new EmployeeService(employeeRepository);
-//        service.save(employee);
-
-        // setup Mock
-//        employeeServiceMock = mock(EmployeeService.class);
-        employeeRepository.save(employee1);
-        System.out.println("Cookie master");
-        System.out.println(employeeRepository.findAll());
-        System.out.println(employee1.getId());
-
-
-    }
 
     @Test
     void EmployeeController_CreateEmployee_ReturnCreated() throws Exception {
@@ -263,7 +271,8 @@ class EmployeeControllerTest {
 
         response.andExpect(MockMvcResultMatchers.status().isFound())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].name", CoreMatchers.is(employee3.getName()))
+                .andExpect(jsonPath("$[0].name", CoreMatchers.is(employee3.getName())))
+                .andExpect(jsonPath("$[0].role", CoreMatchers.is(employee3.getRole()))
         );
 
     }
