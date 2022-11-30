@@ -243,4 +243,13 @@ class EmployeeControllerTest {
          response.andExpect(MockMvcResultMatchers.status().isOk());
 
     }
+
+
+    @Test
+    public void itShouldSearchUserByName() {
+
+        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2,employee3));
+
+
+    }
 }
