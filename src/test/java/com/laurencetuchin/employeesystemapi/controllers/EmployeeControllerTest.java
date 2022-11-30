@@ -113,21 +113,26 @@ class EmployeeControllerTest {
         // given
         List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2,employee3));
         // when
-        when(employeeService.findEmployeeById(1L)).thenReturn(Optional.ofNullable(employee1));
-        String id = "1";
+        Long id = 1L;
+        when(employeeService.findEmployeeById(id)).thenReturn(Optional.of(employee1));
         // then
-        ResultActions response = mockMvc.perform(get("/api/employees/1")
-                .contentType(MediaType.APPLICATION_JSON)
+        ResultActions response = mockMvc.perform(get("/api/employees/{id}", id)
+                ).andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(id))
+                .andExpect(jsonPath("$.name").value(employee1.getName()))
+                .andExpect(jsonPath("$.role").value(employee1.getRole()))
+                .andDo(print());
+//                .contentType(MediaType.APPLICATION_JSON)
 //                .param("id","1")
 
 
-        );
 
-        response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(jsonPath("$",hasSize(1)))
-//                .andExpect(
-                .andExpect(jsonPath("$[0].name",CoreMatchers.is("Bruno Fernandes")) )
-        ;
+//
+//        response.andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(jsonPath("$",hasSize(1)))
+////                .andExpect(
+//                .andExpect(jsonPath("$.name",CoreMatchers.is("Bruno Fernandes")) )
+//        ;
 
     }
     @Test
