@@ -102,6 +102,7 @@ class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[2].name", Matchers.is("Joao Felix")))
                 .andExpect(jsonPath("$[2].role", Matchers.is("Second Striker")))
+                .andExpect(jsonPath("$[2].id", Matchers.is(3)))
                 .andExpect(jsonPath("$[2].currentlyWorkingAtCompany", Matchers.is(true)))
 
 //                .andExpect((ResultMatcher) jsonPath("$[2].name", is("Joao Felix"))
