@@ -159,6 +159,12 @@ class EmployeeControllerTest {
     void itShouldCreateEmployee() throws Exception {
         Employee employee = new Employee("Bukayo Saka","Right Winger",true);
 
+        mockMvc.perform(post("/api/employee/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(employee)))
+                .andExpect(status().isCreated())
+                .andDo(print());
+
 
     }
 
