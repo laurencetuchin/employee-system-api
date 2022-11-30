@@ -247,7 +247,7 @@ class EmployeeControllerTest {
 
 
     @Test
-    public void itShouldSearchUserByName() {
+    public void itShouldSearchUserByName() throws Exception {
 
         List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2,employee3));
         String partialName = "joao";
@@ -255,6 +255,16 @@ class EmployeeControllerTest {
         // stub
         when(employeeService.findByNameIgnoreCaseContains(partialName)).thenReturn(Collections.singletonList(employee3));
 
+        ResultActions response = mockMvc.perform(get("/api/search")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("partialName","joao")
+//                .param("badParam","badvalue")
+        );
+
+        response.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].name", CoreMatchers.is(employee3.getName()))
+        );
 
     }
 }
