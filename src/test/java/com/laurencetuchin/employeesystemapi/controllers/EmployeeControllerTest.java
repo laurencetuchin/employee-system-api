@@ -200,6 +200,17 @@ class EmployeeControllerTest {
 
     }
 
+
+    @Test
+    void itShouldReturnListOfEmployeesWithEmploymentStatusBooleanTrue(){
+        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2,employee3));
+
+        boolean result = true;
+        when(employeeService.findCurrentlyEmployedEmployees(result)).thenReturn(employeeList);
+
+
+    }
+
 //    @Test
 //    void shouldGetAllEmployees() throws Exception {
 //        mockMvc.perform(get("/api/employees/all")
