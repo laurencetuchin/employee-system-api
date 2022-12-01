@@ -23,6 +23,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 import javax.print.attribute.standard.Media;
 import java.util.*;
@@ -31,7 +34,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -215,6 +218,24 @@ class EmployeeControllerTest {
 
         )       .andExpect(jsonPath("$.size()").value(employeeList.size()))
                 .andDo(print());
+
+    }
+
+    @Test
+    void givenNoBooleanArguments_whenGetSpecificException_thenMissingServletRequestParameterException() throws Exception {
+        String exceptionParam = "bad_request";
+
+        mockMvc.perform(get("/api/employment{result}", exceptionParam)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof MissingServletRequestParameterException))
+                .andExpect(result -> assertEquals("Required request parameter 'result' for method parameter type boolean is not present", result.getResolvedException().getMessage())
+        );
+
+//        doThrow(Exception.class).when(employeeService).findCurrentlyEmployedEmployees(Boolean.parseBoolean(result));
+//        employeeService.findCurrentlyEmployedEmployees(true);
+
+
 
     }
 
