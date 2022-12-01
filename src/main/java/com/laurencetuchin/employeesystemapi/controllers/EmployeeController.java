@@ -1,10 +1,9 @@
 package com.laurencetuchin.employeesystemapi.controllers;
 
 import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
+import com.laurencetuchin.employeesystemapi.dto.ErrorDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
-import com.laurencetuchin.employeesystemapi.exceptions.BadArgumentsException;
 import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
-import com.laurencetuchin.employeesystemapi.exceptions.InternalException;
 import com.laurencetuchin.employeesystemapi.mappers.EmployeeMapper;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
 import org.slf4j.Logger;
@@ -59,19 +58,22 @@ public class EmployeeController {
     public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long id) {
         Optional<Employee> employeeIfExists = employeeService.findEmployeeById(id);
 
-        if (employeeIfExists.isPresent()) {
-            return new ResponseEntity<>(employeeIfExists.get(),HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        if (employeeIfExists.isPresent()) {
+//            return new ResponseEntity<Employee>(employeeIfExists.get(),HttpStatus.OK);
+//        } else {
+//            throw new EmployeeNotFoundException("not found");
+//        }
+
+        try {
+            if (employeeIfExists.isPresent()) {
+                return new ResponseEntity<>(employeeIfExists.get(), HttpStatus.OK);
+            }
+        } catch (EmployeeNotFoundException e) {
+            throw new EmployeeNotFoundException("Employee not found");
         }
+        return new ResponseEntity<>(employeeIfExists.get(),HttpStatus.FOUND);
     }
 
-    @GetMapping("/employees/request/{id}")
-    public Optional<Employee> getEmployeeByIdRequest(@PathVariable("id") Long id) {
-        Optional<Employee> employeeIfExists = employeeService.findEmployeeById(id);
-
-       return employeeIfExists;
-    }
 
 
     // Return Employee DTO for client
@@ -123,16 +125,16 @@ public class EmployeeController {
 
     }
 
-    @GetMapping("/exception/{exception_id}")
-    public void getSpecificException(@PathVariable("exception_id") String pException){
-        if ("not_found".equals(pException)){
-            throw new EmployeeNotFoundException("employee not found");
-        } else if ("bad_arguments".equals(pException)){
-            throw new BadArgumentsException("bad arguments");
-        } else {
-            throw new InternalException("internal error");
-        }
-    }
+//    @GetMapping("/exception/{exception_id}")
+//    public void getSpecificException(@PathVariable("exception_id") String pException){
+//        if ("not_found".equals(pException)){
+//            throw new EmployeeNotFoundException("employee not found");
+//        } else if ("bad_arguments".equals(pException)){
+//            throw new BadArgumentsException("bad arguments");
+//        } else {
+//            throw new InternalException("internal error");
+//        }
+//    }
 
 
 
