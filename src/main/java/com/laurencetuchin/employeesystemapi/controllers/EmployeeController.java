@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -110,10 +112,10 @@ public class EmployeeController {
 
         try {
             return new ResponseEntity<>(employeeService.findCurrentlyEmployedEmployees(result), HttpStatus.OK);
-        } catch (EmployeeNotFoundException e) {
+        } catch (HttpClientErrorException.BadRequest e) {
 //             return "Error " + e;
 //            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
         }
 
 
