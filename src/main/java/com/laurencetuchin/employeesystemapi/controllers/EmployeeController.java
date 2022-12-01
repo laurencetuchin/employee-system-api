@@ -2,7 +2,9 @@ package com.laurencetuchin.employeesystemapi.controllers;
 
 import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
+import com.laurencetuchin.employeesystemapi.exceptions.BadArgumentsException;
 import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
+import com.laurencetuchin.employeesystemapi.exceptions.InternalException;
 import com.laurencetuchin.employeesystemapi.mappers.EmployeeMapper;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
 import org.slf4j.Logger;
@@ -120,6 +122,19 @@ public class EmployeeController {
 
 
     }
+
+    @GetMapping("/exception/{exception_id}")
+    public void getSpecificException(@PathVariable("exception_id") String pException){
+        if ("not_found".equals(pException)){
+            throw new EmployeeNotFoundException("employee not found");
+        } else if ("bad_arguments".equals(pException)){
+            throw new BadArgumentsException("bad arguments");
+        } else {
+            throw new InternalException("internal error");
+        }
+    }
+
+
 
 
     // add handler for no result
