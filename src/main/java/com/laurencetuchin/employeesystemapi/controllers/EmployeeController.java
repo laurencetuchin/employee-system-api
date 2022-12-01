@@ -54,8 +54,8 @@ public class EmployeeController {
 //    }
 
 
-    @GetMapping("/employees/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long id) {
+    @GetMapping("/employee/{id}")
+    public ResponseEntity getEmployeeById(@PathVariable("id") Long id) {
         Optional<Employee> employeeIfExists = employeeService.findEmployeeById(id);
 
 //        if (employeeIfExists.isPresent()) {
@@ -66,10 +66,13 @@ public class EmployeeController {
 
         try {
             if (employeeIfExists.isPresent()) {
-                return new ResponseEntity<>(employeeIfExists.get(), HttpStatus.OK);
+                return ResponseEntity.status(HttpStatus.OK).body(employeeIfExists.get());
+//                return new ResponseEntity<>(employeeIfExists.get(), HttpStatus.OK);
             }
         } catch (EmployeeNotFoundException e) {
-            throw new EmployeeNotFoundException("Employee not found");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Employee Found");
+//            throw new EmployeeNotFoundException("Employee not found");
         }
         return new ResponseEntity<>(employeeIfExists.get(),HttpStatus.FOUND);
     }
