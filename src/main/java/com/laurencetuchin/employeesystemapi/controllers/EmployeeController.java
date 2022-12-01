@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -109,13 +110,12 @@ public class EmployeeController {
     public ResponseEntity<List<Employee>> getCurrentlyEmployedEmployees(@RequestParam boolean result) {
 //            return employeeService.findCurrentlyEmployedEmployees(result);
         // add in error handling
-
         try {
-            return new ResponseEntity<>(employeeService.findCurrentlyEmployedEmployees(result), HttpStatus.OK);
-        } catch (HttpClientErrorException.BadRequest e) {
+            return new ResponseEntity<>(employeeService.findCurrentlyEmployedEmployees(result), HttpStatus.FOUND);
+        } catch (HttpServerErrorException.InternalServerError e) {
 //             return "Error " + e;
 //            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
-            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
 

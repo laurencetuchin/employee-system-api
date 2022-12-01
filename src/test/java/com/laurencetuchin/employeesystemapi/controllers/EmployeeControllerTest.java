@@ -18,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -216,7 +217,8 @@ class EmployeeControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("result", String.valueOf(true))
 
-        )       .andExpect(jsonPath("$.size()").value(employeeList.size()))
+        )           .andExpect(jsonPath("$.size()").value(employeeList.size()))
+                .andExpect(status().isFound())
                 .andDo(print());
 
     }
