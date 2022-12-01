@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import javax.print.attribute.standard.Media;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -202,12 +203,18 @@ class EmployeeControllerTest {
 
 
     @Test
-    void itShouldReturnListOfEmployeesWithEmploymentStatusBooleanTrue(){
+    void itShouldReturnListOfEmployeesWithEmploymentStatusBooleanTrue() throws Exception{
         List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2,employee3));
 
         boolean result = true;
         when(employeeService.findCurrentlyEmployedEmployees(result)).thenReturn(employeeList);
 
+        mockMvc.perform(get("/api/employment")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("result", String.valueOf(true))
+
+        )       .andExpect(jsonPath("$.size()").value(employeeList.size()))
+                .andDo(print());
 
     }
 
