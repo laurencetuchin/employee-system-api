@@ -12,7 +12,13 @@ public class Project {
     @Column(name = "assignedEmployees")
     private String assignedEmployees;
     @Column(name = "status")
-    private String status;
+    private ProjectStatus status;
+
+    public enum ProjectStatus {
+        PENDING,
+        COMPLETE,
+        NOTREADY
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
