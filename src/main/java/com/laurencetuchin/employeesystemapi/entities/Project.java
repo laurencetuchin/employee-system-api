@@ -14,6 +14,10 @@ public class Project {
     @Column(name = "status")
     private String status;
 
+    @ManyToOne
+    @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
+    private Employee employee;
+
     public Project() {
     }
 

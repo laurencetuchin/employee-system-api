@@ -37,8 +37,7 @@ public class Employee {
     private boolean isCurrentlyWorkingAtCompany = true;
 
 
-    @OneToMany(orphanRemoval = true)
-    @JoinColumn(name = "PROJECT_ID", referencedColumnName = "ID")
+    @OneToMany(orphanRemoval = true, mappedBy = "employee")
     private List<Project> projects;
 
     public Employee() {
