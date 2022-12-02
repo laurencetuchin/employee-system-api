@@ -58,11 +58,19 @@ public class Project {
         this.assignedEmployees = assignedEmployees;
     }
 
-    public String getStatus() {
+    public ProjectStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ProjectStatus status) {
         this.status = status;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }
