@@ -23,15 +23,11 @@ class ProjectRepositoryTest {
     @Autowired
     private ProjectRepository projectRepository;
 
-    private Project project1 = new Project("Manchester United","Fred", PENDING);
+    public Project project1 = new Project("Manchester United","Fred", PENDING);
 
 
     private List<Project> projectList = new ArrayList<>();
 
-    @Test
-    void itShouldLoadAppContext(){
-
-    }
 
     @BeforeEach
     void setup(){
@@ -72,9 +68,7 @@ class ProjectRepositoryTest {
 
     }
 
-    @Test
-    void countByAssignedEmployees() {
-    }
+
 
     @Test
     void findByStatus() {
@@ -111,7 +105,5 @@ class ProjectRepositoryTest {
         assertThat(fred.get(0).getAssignedEmployees()).isEqualTo("Fred");
     }
 
-    @Test
-    void findProjectByStatusIgnoreCaseContains() {
-    }
+
 }

@@ -10,8 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project,Long> {
-    @Query("select count(p) from Project p where p.assignedEmployees = ?1")
-    long countByAssignedEmployees(String assignedEmployees);
     @Query("select p from Project p where p.status = ?1")
     List<Project> findByStatus(ProjectStatus status);
 
