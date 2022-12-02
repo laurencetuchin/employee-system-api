@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity // @Table not needed for object storage
 //@Table(name = "employees")
@@ -36,6 +37,7 @@ public class Employee {
     private boolean isCurrentlyWorkingAtCompany = true;
 
 
+    private List<Project> projects;
 
     public Employee() {
     }
