@@ -11,6 +11,8 @@ public class Project {
     private String name;
     @Column(name = "assignedEmployees")
     private String assignedEmployees;
+    @Column(name = "status")
+    private String status;
 
 
 
