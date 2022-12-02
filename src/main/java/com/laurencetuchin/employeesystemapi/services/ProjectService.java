@@ -22,4 +22,10 @@ public class ProjectService {
         return projectRepository.findByStatus(projectName);
     }
 
+    public List<Project> findProjectByAssignedEmployee(String employee){
+        return projectRepository.findProjectByAssignedEmployeeIgnoreCaseContains(employee);
+    }
+
+
+
 }
