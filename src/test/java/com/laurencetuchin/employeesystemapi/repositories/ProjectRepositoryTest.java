@@ -77,6 +77,14 @@ class ProjectRepositoryTest {
 
     @Test
     void findByStatus() {
+        // given
+        List<Project> projectByStatus = projectRepository.findByStatus(PENDING);
+
+        // when
+        ProjectStatus status = projectByStatus.get(0).getStatus();
+
+        // then
+        assertThat(status).isEqualTo(PENDING);
     }
 
     @Test
