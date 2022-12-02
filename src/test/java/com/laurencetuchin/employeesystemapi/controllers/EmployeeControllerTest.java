@@ -121,7 +121,7 @@ class EmployeeControllerTest {
         Long id = 1L;
         when(employeeService.findEmployeeById(id)).thenReturn(Optional.of(employee1));
         // then
-        ResultActions response = mockMvc.perform(get("/api/employees/{id}", id)
+        ResultActions response = mockMvc.perform(get("/api/employee/{id}", id)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.name").value(employee1.getName()))
