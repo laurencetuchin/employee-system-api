@@ -153,7 +153,7 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/search/role{role}")
+    @GetMapping("/search/role{role}") // example api/search/role?role=Delivery
 //    @ResponseBody
     ResponseEntity<List<Employee>> findByRoleIgnoreCaseContains(@RequestParam String role){
         try {
