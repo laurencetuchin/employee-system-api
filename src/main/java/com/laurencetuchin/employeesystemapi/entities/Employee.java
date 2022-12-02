@@ -38,6 +38,7 @@ public class Employee {
 
 
     @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "PROJECT_ID", referencedColumnName = "ID")
     private List<Project> projects;
 
     public Employee() {
