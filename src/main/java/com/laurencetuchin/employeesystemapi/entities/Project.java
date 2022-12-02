@@ -14,7 +14,11 @@ public class Project {
     @Column(name = "status")
     private String status;
 
-
+    public Project(String name, String assignedEmployees, String status) {
+        this.name = name;
+        this.assignedEmployees = assignedEmployees;
+        this.status = status;
+    }
 
 
 }
