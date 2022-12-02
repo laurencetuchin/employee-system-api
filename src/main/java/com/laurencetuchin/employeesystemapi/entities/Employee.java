@@ -37,6 +37,7 @@ public class Employee {
     private boolean isCurrentlyWorkingAtCompany = true;
 
 
+    @OneToMany(orphanRemoval = true)
     private List<Project> projects;
 
     public Employee() {
