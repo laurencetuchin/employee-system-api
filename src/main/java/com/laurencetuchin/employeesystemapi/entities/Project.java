@@ -14,12 +14,6 @@ public class Project {
     @Column(name = "status")
     private ProjectStatus status;
 
-    public enum ProjectStatus {
-        PENDING,
-        COMPLETE,
-        NOTREADY
-    }
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
