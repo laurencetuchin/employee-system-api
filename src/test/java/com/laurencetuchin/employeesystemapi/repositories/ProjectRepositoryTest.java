@@ -102,7 +102,13 @@ class ProjectRepositoryTest {
     }
 
     @Test
-    void findProjectByAssignedEmployeeIgnoreCaseContains() {
+    void findProjectByAssignedEmployeesIgnoreCaseContains() {
+        // given
+        List<Project> fred = projectRepository.findProjectByAssignedEmployeesIgnoreCaseContains("fred");
+
+
+        // then
+        assertThat(fred.get(0).getAssignedEmployees()).isEqualTo("Fred");
     }
 
     @Test
