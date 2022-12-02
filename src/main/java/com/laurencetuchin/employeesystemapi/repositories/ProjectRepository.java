@@ -19,7 +19,6 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
 
     List<Project> findProjectByNameIgnoreCaseContains(String projectName);
     List<Project> findProjectByAssignedEmployeesIgnoreCaseContains(String assignedEmployee);
-    List<Project> findProjectByStatus(String projectName);
 
 
 

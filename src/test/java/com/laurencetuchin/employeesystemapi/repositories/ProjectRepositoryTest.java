@@ -14,6 +14,7 @@ import java.util.List;
 import static com.laurencetuchin.employeesystemapi.entities.ProjectStatus.COMPLETE;
 import static com.laurencetuchin.employeesystemapi.entities.ProjectStatus.PENDING;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -87,8 +88,17 @@ class ProjectRepositoryTest {
         assertThat(status).isEqualTo(PENDING);
     }
 
+
     @Test
     void findProjectByNameIgnoreCaseContains() {
+        // given
+        List<Project> project = projectRepository.findProjectByNameIgnoreCaseContains("man");
+        // when
+
+
+        // then
+        assertThat(project.size()).isEqualTo(1);
+
     }
 
     @Test
