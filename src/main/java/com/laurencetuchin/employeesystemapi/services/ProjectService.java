@@ -23,7 +23,7 @@ public class ProjectService {
     }
 
     public List<Project> findProjectByAssignedEmployee(String employee){
-        return projectRepository.findProjectByAssignedEmployeeIgnoreCaseContains(employee);
+        return projectRepository.findProjectByAssignedEmployeesIgnoreCaseContains(employee);
     }
 
 

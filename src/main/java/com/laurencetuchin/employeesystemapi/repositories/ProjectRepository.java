@@ -18,8 +18,8 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
     Project findProjectById(Long id);
 
     List<Project> findProjectByNameIgnoreCaseContains(String projectName);
-    List<Project> findProjectByAssignedEmployeeIgnoreCaseContains(String assignedEmployee);
-    List<Project> findProjectByStatusIgnoreCaseContains(String projectName);
+    List<Project> findProjectByAssignedEmployeesIgnoreCaseContains(String assignedEmployee);
+    List<Project> findProjectByStatus(String projectName);
 
 
 
