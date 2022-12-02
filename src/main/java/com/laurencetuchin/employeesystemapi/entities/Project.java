@@ -20,6 +20,7 @@ public class Project {
         NOTREADY
     }
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
     private Employee employee;
@@ -27,7 +28,7 @@ public class Project {
     public Project() {
     }
 
-    public Project(String name, String assignedEmployees, String status) {
+    public Project(String name, String assignedEmployees, ProjectStatus status) {
         this.name = name;
         this.assignedEmployees = assignedEmployees;
         this.status = status;
