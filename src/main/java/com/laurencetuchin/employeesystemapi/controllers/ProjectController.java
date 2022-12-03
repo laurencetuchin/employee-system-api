@@ -3,6 +3,7 @@ package com.laurencetuchin.employeesystemapi.controllers;
 import com.laurencetuchin.employeesystemapi.entities.Project;
 import com.laurencetuchin.employeesystemapi.entities.ProjectStatus;
 import com.laurencetuchin.employeesystemapi.services.ProjectService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,4 +41,20 @@ public class ProjectController {
     public Optional<Project> findById(@PathVariable("id") Long id) {
         return service.findById(id);
     }
+
+    @PostMapping("/save")
+    public Project saveProject(@RequestBody Project project) {
+        return service.saveProject(project);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteProject(@PathVariable("id") Long id) {
+        service.deleteProject(id);
+    }
+
+    @PutMapping("/update/{id}")
+    public Project updateProjectById(@RequestBody @NotNull Project project) {
+        return service.updateProjectById(project);
+    }
+
 }
