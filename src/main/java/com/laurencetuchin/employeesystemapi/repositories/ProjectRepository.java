@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project,Long> {
@@ -23,10 +24,11 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
     @Query("select p from Project p where upper(p.employee.name) = upper(?1)")
     List<Project> findByEmployee_NameAllIgnoreCase(String name);
 
+//    Optional<Project> findById(Long id);
 
 
 
-//    List<Project> findProjectByAssignedEmployeesIgnoreCaseContains(String assignedEmployee);
+    //    List<Project> findProjectByAssignedEmployeesIgnoreCaseContains(String assignedEmployee);
 
 
 

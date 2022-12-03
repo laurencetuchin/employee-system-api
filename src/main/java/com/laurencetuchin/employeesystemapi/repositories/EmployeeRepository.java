@@ -20,4 +20,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findEmployeeByNameOrRole(String partialName, String role);
 
+
+
 }
+
