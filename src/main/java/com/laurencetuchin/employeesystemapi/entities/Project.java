@@ -82,4 +82,30 @@ public class Project {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    // Need to check time formatting
+    public Long getTimeRemaining() {
+        return timeRemaining;
+    }
+
+    public void setTimeRemaining(Long timeRemaining) {
+        this.timeRemaining = timeRemaining;
+    }
 }
