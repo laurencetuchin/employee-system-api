@@ -18,6 +18,9 @@ public class ProjectController {
     @Autowired
     private ProjectService service;
 
+    public ProjectController(ProjectService service) {
+        this.service = service;
+    }
 
     @GetMapping("/find-by-name/{projectName}")
     public List<Project> findProjectByName(@RequestParam String projectName) {
@@ -28,4 +31,6 @@ public class ProjectController {
     public List<Project> findProjectByStatus(@RequestParam ProjectStatus projectName) {
         return service.findProjectByStatus(projectName);
     }
+
+
 }
