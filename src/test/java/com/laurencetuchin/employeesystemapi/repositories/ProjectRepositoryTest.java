@@ -26,7 +26,7 @@ class ProjectRepositoryTest {
 
     public Employee employee1 = new Employee("Tomas","Striker");
 
-    public Project project1 = new Project(1L,"Manchester United","Fred", PENDING, employee1);
+    public Project project1 = new Project(1L,"Manchester United", PENDING, employee1);
 
 
     private List<Project> projectList = new ArrayList<>();
@@ -37,7 +37,7 @@ class ProjectRepositoryTest {
         // given
 //        Project project1 = new Project("Manchester United","Fred", PENDING);
         projectRepository.save(project1);
-        Project project2 = new Project(2L,"Chelsea", "Jorginho",COMPLETE, new Employee("Jorginho","Midfielder"));
+        Project project2 = new Project(2L,"Chelsea", COMPLETE, new Employee("Jorginho","Midfielder"));
         projectRepository.save(project2);
         // when
         projectList.add(project1);
@@ -98,15 +98,15 @@ class ProjectRepositoryTest {
 
     }
 
-    @Test
-    void findProjectByAssignedEmployeesIgnoreCaseContains() {
-        // given
-        List<Project> fred = projectRepository.findProjectByAssignedEmployeesIgnoreCaseContains("fred");
-
-
-        // then
-        assertThat(fred.get(0).getAssignedEmployees()).isEqualTo("Fred");
-    }
+//    @Test
+//    void findProjectByAssignedEmployeesIgnoreCaseContains() {
+//        // given
+//        List<Project> fred = projectRepository.findProjectByAssignedEmployeesIgnoreCaseContains("fred");
+//
+//
+//        // then
+//        assertThat(fred.get(0).getAssignedEmployees()).isEqualTo("Fred");
+//    }
 
 
 }

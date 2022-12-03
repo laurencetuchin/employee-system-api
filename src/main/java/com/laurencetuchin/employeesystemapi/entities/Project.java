@@ -11,6 +11,9 @@ import java.util.Date;
 import java.util.Locale;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Project.findByStatusOrderByEndDateDesc", query = "select p from Project p where p.status = :status order by p.endDate DESC")
+})
 public class Project {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,9 +21,9 @@ public class Project {
     @Column(name = "name")
     private String name;
 
-    // need to map to Employee
-    @Column(name = "assignedEmployees")
-    private String assignedEmployees;
+    // need to map to Employee - may remove, field seems redundant
+//    @Column(name = "assignedEmployees")
+//    private String assignedEmployees;
 
     @Column(name = "status")
     private ProjectStatus status;
@@ -64,14 +67,6 @@ public class Project {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAssignedEmployees() {
-        return assignedEmployees;
-    }
-
-    public void setAssignedEmployees(String assignedEmployees, String employee) {
-        this.assignedEmployees = getEmployee().getName();
     }
 
     public ProjectStatus getStatus() {
@@ -121,7 +116,6 @@ public class Project {
         return "Project{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", assignedEmployees='" + assignedEmployees + '\'' +
                 ", status=" + status +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
