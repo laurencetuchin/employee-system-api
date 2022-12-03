@@ -20,14 +20,14 @@ public class ProjectController {
         this.service = service;
     }
 
-    @GetMapping("/find-by-name/")
-    public List<Project> findProjectByName(@RequestParam String projectName) {
-        return service.findProjectByName(projectName);
+    @GetMapping("/find/name/")
+    public List<Project> findProjectByName(@RequestParam String name) {
+        return service.findProjectByName(name);
     }
 
-    @GetMapping("/find-by-status/")
-    public List<Project> findProjectByStatus(@RequestParam ProjectStatus projectName) {
-        return service.findProjectByStatus(projectName);
+    @GetMapping("/find/status/")
+    public List<Project> findProjectByStatus(@RequestParam ProjectStatus status) {
+        return service.findProjectByStatus(status);
     }
 
 
