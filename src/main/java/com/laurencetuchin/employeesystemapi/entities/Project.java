@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Locale;
 
 @Entity
 public class Project {
@@ -20,6 +21,7 @@ public class Project {
     // need to map to Employee
     @Column(name = "assignedEmployees")
     private String assignedEmployees;
+
     @Column(name = "status")
     private ProjectStatus status;
 
@@ -41,10 +43,9 @@ public class Project {
     }
 
     @Autowired
-    public Project(Long id, String name, String assignedEmployees, ProjectStatus status, Employee employee) {
+    public Project(Long id, String name, ProjectStatus status, Employee employee) {
         this.id = id;
         this.name = name;
-        this.assignedEmployees = assignedEmployees;
         this.status = status;
         this.employee = employee;
     }
@@ -69,8 +70,8 @@ public class Project {
         return assignedEmployees;
     }
 
-    public void setAssignedEmployees(String assignedEmployees) {
-        this.assignedEmployees = assignedEmployees;
+    public void setAssignedEmployees(String assignedEmployees, String employee) {
+        this.assignedEmployees = getEmployee().getName();
     }
 
     public ProjectStatus getStatus() {
