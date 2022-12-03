@@ -6,6 +6,7 @@ import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
 import com.laurencetuchin.employeesystemapi.mappers.EmployeeMapper;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -189,19 +190,24 @@ public class EmployeeController {
     }
 
     @PutMapping("/employee/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable("id") Long id) {
-        Optional<Employee> employeeIfExists = employeeService.findEmployeeById(id);
-
-
-        if (employeeIfExists.isPresent()) {
-            Employee employee1 = employeeIfExists.get();
-            employee1.setName(employee1.getName());
-            employee1.setRole(employee1.getRole());
-            return new ResponseEntity<>(employeeService.save(employee1), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public Employee updateEmployeeById(@RequestBody @NotNull Employee employee) {
+        return employeeService.updateEmployeeById(employee);
     }
+
+//    @PutMapping("/employee/{id}")
+//    public ResponseEntity<Employee> updateEmployee(@PathVariable("id") Long id) {
+//        Optional<Employee> employeeIfExists = employeeService.findEmployeeById(id);
+//
+//
+//        if (employeeIfExists.isPresent()) {
+//            Employee employee1 = employeeIfExists.get();
+//            employee1.setName(employee1.getName());
+//            employee1.setRole(employee1.getRole());
+//            return new ResponseEntity<>(employeeService.updateEmployeeById(employee1), HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
 
     @DeleteMapping("/employee/delete/{id}")
     public void deleteEmployee(@PathVariable Long id){
