@@ -20,15 +20,15 @@ public class Project {
     @Column(name = "status")
     private ProjectStatus status;
 
-    @Column(name = "startDate")
+    @Column(name = "startDate") // defaults Project start time to now
     private LocalDateTime startDate = LocalDateTime.now();
 
-    @Column(name = "endDate")
+    @Column(name = "endDate") // defaults Project end time to 7 days from now
     private LocalDateTime endDate = LocalDateTime.now().plusDays(7);
 
 
     @Column(name = "timeRemaining")
-    private Duration timeRemaining = Duration.between(endDate,startDate);
+    private Long timeRemaining = Duration.between(endDate,startDate).toMillis();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
