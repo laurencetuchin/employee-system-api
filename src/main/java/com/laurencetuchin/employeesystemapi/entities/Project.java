@@ -1,6 +1,7 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
 import net.bytebuddy.asm.Advice;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
@@ -15,6 +16,8 @@ public class Project {
     private Long id;
     @Column(name = "name")
     private String name;
+
+    // need to map to Employee
     @Column(name = "assignedEmployees")
     private String assignedEmployees;
     @Column(name = "status")
@@ -37,10 +40,13 @@ public class Project {
     public Project() {
     }
 
-    public Project(String name, String assignedEmployees, ProjectStatus status) {
+    @Autowired
+    public Project(Long id, String name, String assignedEmployees, ProjectStatus status, Employee employee) {
+        this.id = id;
         this.name = name;
         this.assignedEmployees = assignedEmployees;
         this.status = status;
+        this.employee = employee;
     }
 
     public Long getId() {

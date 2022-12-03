@@ -1,7 +1,10 @@
 package com.laurencetuchin.employeesystemapi.seedData;
 
 import com.laurencetuchin.employeesystemapi.entities.Employee;
+import com.laurencetuchin.employeesystemapi.entities.Project;
+import com.laurencetuchin.employeesystemapi.entities.ProjectStatus;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
+import com.laurencetuchin.employeesystemapi.repositories.ProjectRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +22,10 @@ public class DataLoader {
 //    private EmployeeRepository repository;
 
     @Bean
-    CommandLineRunner loadData(EmployeeRepository repository){
+    CommandLineRunner loadData(EmployeeRepository repository, ProjectRepository projectRepository){
         return args -> {
             repository.save(new Employee("Frodo","Ring bearer"));
+            Employee employee = repository.findAll().get(0);
             log.info("Employee 1 saved in Database");
             repository.save(new Employee("Bilbo","Ring bearer"));
             repository.save(new Employee("Bilbo2","Delivery"));
@@ -31,6 +35,9 @@ public class DataLoader {
             repository.save(new Employee("John Smith","Hardest worker", true));
             log.info("Total employees: " + repository.count());
 
+            projectRepository.save(new Project(1L,"Manchester United","frodo", ProjectStatus.PENDING,employee));
+            log.info("Total projects: " + projectRepository.count());
+            log.info("Project info: " + projectRepository.findAll());
         };
     }
 }

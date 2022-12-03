@@ -1,5 +1,6 @@
 package com.laurencetuchin.employeesystemapi.repositories;
 
+import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Project;
 import com.laurencetuchin.employeesystemapi.entities.ProjectStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,14 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.laurencetuchin.employeesystemapi.entities.ProjectStatus.COMPLETE;
 import static com.laurencetuchin.employeesystemapi.entities.ProjectStatus.PENDING;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class ProjectRepositoryTest {
@@ -23,7 +21,12 @@ class ProjectRepositoryTest {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public Project project1 = new Project("Manchester United","Fred", PENDING);
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    public Employee employee1 = new Employee("Tomas","Striker");
+
+    public Project project1 = new Project(1L,"Manchester United","Fred", PENDING, employee1);
 
 
     private List<Project> projectList = new ArrayList<>();
@@ -34,7 +37,7 @@ class ProjectRepositoryTest {
         // given
 //        Project project1 = new Project("Manchester United","Fred", PENDING);
         projectRepository.save(project1);
-        Project project2 = new Project("Chelsea", "Jorginho",COMPLETE);
+        Project project2 = new Project(2L,"Chelsea", "Jorginho",COMPLETE, new Employee("Jorginho","Midfielder"));
         projectRepository.save(project2);
         // when
         projectList.add(project1);
