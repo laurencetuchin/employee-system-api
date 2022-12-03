@@ -36,8 +36,8 @@ public class Employee {
     @Column(name = "employment_status")
     private boolean isCurrentlyWorkingAtCompany = true;
 
-
-    @OneToMany(orphanRemoval = true, mappedBy = "employee", fetch = FetchType.EAGER)
+//    orphanRemoval = true,
+    @OneToMany( mappedBy = "employee", fetch = FetchType.EAGER)
     private List<Project> projects;
 
     public Employee() {
