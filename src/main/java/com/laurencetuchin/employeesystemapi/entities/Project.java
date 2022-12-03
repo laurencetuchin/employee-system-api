@@ -31,7 +31,7 @@ public class Project {
 
 
     @Column(name = "timeRemaining")
-    private Long timeRemaining = Duration.between(endDate,startDate).toMillis();
+    private Long timeRemaining = Duration.between(startDate,endDate).toMillis();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
