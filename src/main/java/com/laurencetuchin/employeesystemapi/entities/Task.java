@@ -43,13 +43,14 @@ public class Task {
     }
 
     @Autowired
-    public Task(String name, String description, TaskStatus status, TaskPriority priority, LocalDateTime startDate, LocalDateTime endDate) {
+    public Task(String name, String description, TaskStatus status, TaskPriority priority, LocalDateTime startDate, LocalDateTime endDate, Project project) {
         this.name = name;
         this.description = description;
         this.status = status;
         this.priority = priority;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.project = project;
     }
 
     public Task() {
@@ -111,5 +112,17 @@ public class Task {
         this.endDate = endDate;
     }
 
-
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", priority=" + priority +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", project=" + project +
+                '}';
+    }
 }
