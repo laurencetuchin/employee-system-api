@@ -6,6 +6,7 @@ import com.laurencetuchin.employeesystemapi.entities.ProjectStatus;
 import com.laurencetuchin.employeesystemapi.repositories.ProjectRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,4 +60,8 @@ public class ProjectService {
         return projectRepository.findById(id);
     }
 
+    @Query("select p from Project p where upper(p.employee.name) = upper(?1)")
+    public List<Project> findByEmployee_NameAllIgnoreCase(String name) {
+        return projectRepository.findByEmployee_NameAllIgnoreCase(name);
+    }
 }

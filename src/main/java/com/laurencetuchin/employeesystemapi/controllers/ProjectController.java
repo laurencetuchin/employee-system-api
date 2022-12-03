@@ -5,6 +5,7 @@ import com.laurencetuchin.employeesystemapi.entities.ProjectStatus;
 import com.laurencetuchin.employeesystemapi.services.ProjectService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,4 +58,8 @@ public class ProjectController {
         return service.updateProjectById(project);
     }
 
+    @GetMapping("/find/employee/")
+    public List<Project> findByEmployee_NameAllIgnoreCase(@RequestParam String name) {
+        return service.findByEmployee_NameAllIgnoreCase(name);
+    }
 }
