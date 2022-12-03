@@ -42,6 +42,7 @@ public class Project {
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
     private Employee employee;
 
+
     public Project() {
     }
 
