@@ -33,7 +33,7 @@ public class Project {
     @Column(name = "timeRemaining")
     private Long timeRemaining = Duration.between(endDate,startDate).toMillis();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
     private Employee employee;
 
@@ -113,5 +113,19 @@ public class Project {
 
     public void setTimeRemaining(Long timeRemaining) {
         this.timeRemaining = timeRemaining;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", assignedEmployees='" + assignedEmployees + '\'' +
+                ", status=" + status +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", timeRemaining=" + timeRemaining +
+                ", employee=" + employee +
+                '}';
     }
 }

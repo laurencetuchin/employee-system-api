@@ -35,9 +35,9 @@ public class DataLoader {
             repository.save(new Employee("John Smith","Hardest worker", true));
             log.info("Total employees: " + repository.count());
 
-            projectRepository.save(new Project(1L,"Manchester United","frodo", ProjectStatus.PENDING,employee));
-            log.info("Total projects: " + projectRepository.count());
-            log.info("Project info: " + projectRepository.findAll());
+             log.info("Total projects: " + projectRepository.save(new Project(1L,"Manchester United","frodo", ProjectStatus.PENDING,employee)));
+
+//            log.info("Project info: " + projectRepository.findAll().get(0).toString());
         };
     }
 }
