@@ -1,5 +1,7 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -21,13 +23,26 @@ public class Task {
     @Column(name = "priority")
     private TaskPriority priority;
 
-    @Column(name = "startDate")
+    @Column(name = "startDate") // add constraints for start date must be before end date
     private LocalDateTime startDate;
 
     @Column(name = "endDate")
     private LocalDateTime endDate;
 
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
 
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    @Autowired
     public Task(String name, String description, TaskStatus status, TaskPriority priority, LocalDateTime startDate, LocalDateTime endDate) {
         this.name = name;
         this.description = description;
