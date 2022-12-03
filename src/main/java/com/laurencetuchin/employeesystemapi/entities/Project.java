@@ -1,6 +1,12 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
+import net.bytebuddy.asm.Advice;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+
 import javax.persistence.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 public class Project {
@@ -14,6 +20,15 @@ public class Project {
     @Column(name = "status")
     private ProjectStatus status;
 
+    @Column(name = "startDate")
+    private LocalDateTime startDate = LocalDateTime.now();
+
+    @Column(name = "endDate")
+    private LocalDateTime endDate = LocalDateTime.now().plusDays(7);
+
+
+    @Column(name = "timeRemaining")
+    private Duration timeRemaining = Duration.between(endDate,startDate);
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
