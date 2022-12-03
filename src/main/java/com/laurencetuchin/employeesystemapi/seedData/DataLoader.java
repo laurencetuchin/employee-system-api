@@ -39,6 +39,7 @@ public class DataLoader {
              log.info("Total projects: " + projectRepository.save(new Project(1L,"Manchester", ProjectStatus.PENDING,employee)));
              Project project = projectRepository.findAll().get(0);
              log.info("Total tasks: " + taskRepository.save(new Task("Play game", "Play game very well", TaskStatus.progress,TaskPriority.high, LocalDateTime.now(), LocalDateTime.now().plusDays(1),project)));
+             log.info("Total tasks: " + taskRepository.save(new Task("Lose game", "Play game very poorly", TaskStatus.complete,TaskPriority.high, LocalDateTime.now(), LocalDateTime.now().plusDays(1),project)));
 
 //            log.info("Project info: " + projectRepository.findAll().get(0).toString());
         };
