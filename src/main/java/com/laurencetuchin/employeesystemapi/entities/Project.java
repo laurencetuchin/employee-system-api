@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @Entity
@@ -41,6 +42,9 @@ public class Project {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
     private Employee employee;
+
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
+    private List<Task> task;
 
 
     public Project() {
