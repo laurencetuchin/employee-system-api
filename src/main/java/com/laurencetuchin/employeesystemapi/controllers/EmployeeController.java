@@ -190,8 +190,15 @@ public class EmployeeController {
     }
 
     @PutMapping("/employee/{id}")
-    public Employee updateEmployeeById(@RequestBody @NotNull Employee employee) {
-        return employeeService.updateEmployeeById(employee);
+    public ResponseEntity<Employee> updateEmployeeById(@RequestBody @NotNull Employee employee) {
+        Optional<Employee> employeeExists = employeeService.findEmployeeById(employee.getId());
+
+        if (employeeExists.isPresent()){
+            return new ResponseEntity<>(employeeService.updateEmployeeById(employee),HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
 //    @PutMapping("/employee/{id}")
@@ -203,6 +210,7 @@ public class EmployeeController {
 //            Employee employee1 = employeeIfExists.get();
 //            employee1.setName(employee1.getName());
 //            employee1.setRole(employee1.getRole());
+//            employeeService.save(employee1);
 //            return new ResponseEntity<>(employeeService.updateEmployeeById(employee1), HttpStatus.OK);
 //        } else {
 //            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
