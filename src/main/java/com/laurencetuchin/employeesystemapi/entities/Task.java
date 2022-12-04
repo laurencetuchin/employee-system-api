@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Task {
@@ -32,6 +34,9 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+//
+//    @ManyToMany(mappedBy = "employees")
+//    private Set<Employee> employeeSet = new HashSet<>();
 
 
     public Project getProject() {
@@ -123,6 +128,7 @@ public class Task {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", project=" + project +
+                ", project employee=" + project.getEmployee().getName() +
                 '}';
     }
 }
