@@ -58,5 +58,18 @@ public class TaskController {
         return service.deleteByStatus(status);
     }
 
+    @PostMapping("/save/{id}")
+    public Task saveTask(@PathVariable Task task) {
+        return service.saveTask(task);
+    }
 
+    @PutMapping("/update/{id}")
+    public Task updateTask(@PathVariable Task task) {
+        return service.updateTask(task);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteTaskById(@PathVariable Long id) {
+        service.deleteTaskById(id);
+    }
 }
