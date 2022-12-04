@@ -38,7 +38,7 @@ public class ProjectController {
         return service.findAll();
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public Optional<Project> findById(@PathVariable("id") Long id) {
         return service.findById(id);
     }
