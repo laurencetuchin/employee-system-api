@@ -116,6 +116,14 @@ public class Project {
         this.timeRemaining = timeRemaining;
     }
 
+    public List<Task> getTask() {
+        return task;
+    }
+
+    public void setTask(List<Task> task) {
+        this.task = task;
+    }
+
     @Override
     public String toString() {
         return "Project{" +
@@ -126,6 +134,7 @@ public class Project {
                 ", endDate=" + endDate +
                 ", timeRemaining=" + timeRemaining +
                 ", employee=" + employee +
+                ", Tasks=" + task +
                 '}';
     }
 }
