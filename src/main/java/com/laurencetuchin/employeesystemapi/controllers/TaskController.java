@@ -73,5 +73,8 @@ public class TaskController {
         service.deleteTaskById(id);
     }
 
-
+    @GetMapping("/all")
+    public List<Task> findAll() {
+        return service.findAll();
+    }
 }
