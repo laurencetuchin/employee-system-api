@@ -32,4 +32,5 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
     int deleteByStatus(TaskStatus status);
 
 
+
 }

@@ -46,5 +46,17 @@ public class TaskService {
         return taskRepository.deleteByStatus(status);
     }
 
+    public Task saveTask(Task task){
+        return taskRepository.save(task);
+    }
+
+    public Task updateTask(Task task){
+        return taskRepository.save(task);
+    }
+
+    public void deleteTaskById(Long id){
+        taskRepository.deleteById(id);
+    }
+
 
 }
