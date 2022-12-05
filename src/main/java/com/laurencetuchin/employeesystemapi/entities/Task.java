@@ -36,14 +36,23 @@ public class Task {
     @JoinColumn(name = "project_id")
     @JsonIgnoreProperties("tasks")
     private Project project;
+
+    @ManyToMany
+    @JoinTable(
+            name = "employee_task",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id")
+
+    )
+    private Set<Employee> employeesAssignedTask = new HashSet<>();
 //
 //    @ManyToMany(mappedBy = "employees")
 //    private Set<Employee> employeeSet = new HashSet<>();
 
 
-    public Project getProject() {
-        return project;
-    }
+//    public Project getProject() {
+//        return project;
+//    }
 
     public void setProject(Project project) {
         this.project = project;
