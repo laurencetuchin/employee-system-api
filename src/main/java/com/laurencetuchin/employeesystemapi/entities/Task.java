@@ -129,8 +129,6 @@ public class Task {
                 ", priority=" + priority +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", project=" + project +
-                ", project employee=" + project.getEmployee().getName() +
                 '}';
     }
 }
