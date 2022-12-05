@@ -135,8 +135,6 @@ public class Project {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", timeRemaining=" + timeRemaining +
-                ", employee=" + employee +
-                ", Tasks=" + task +
                 '}';
     }
 }
