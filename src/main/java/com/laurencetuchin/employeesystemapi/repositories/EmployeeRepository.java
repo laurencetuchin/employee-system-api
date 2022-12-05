@@ -4,6 +4,7 @@ import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,6 +25,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Query("select e from Employee e where e.employeeTasks = ?1")
     List<Employee> findByEmployeeTasks(Task employeeTasks);
+
+    @Query("select e from Employee e inner join e.employeeTasks employeeTasks where employeeTasks.name = :name")
+    List<Employee> findByEmployeeTasks_Name(@Param("name") String name);
+
+
 
 
 

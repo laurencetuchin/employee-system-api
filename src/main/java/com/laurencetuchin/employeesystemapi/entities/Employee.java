@@ -1,5 +1,7 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.laurencetuchin.employeesystemapi.seedData.RegexEmailCompliant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -39,9 +41,11 @@ public class Employee {
     private boolean isCurrentlyWorkingAtCompany = true;
 
 //    orphanRemoval = true,
+    @JsonIgnore
     @OneToMany( mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Project> projects;
 
+//    @JsonIgnore
     @ManyToMany(mappedBy = "employeesAssignedTask")
     private Set<Task> employeeTasks = new HashSet<>();
 
@@ -90,6 +94,22 @@ public class Employee {
 
     public void setCurrentlyWorkingAtCompany(boolean currentlyWorkingAtCompany) {
         isCurrentlyWorkingAtCompany = currentlyWorkingAtCompany;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    public Set<Task> getEmployeeTasks() {
+        return employeeTasks;
+    }
+
+    public void setEmployeeTasks(Set<Task> employeeTasks) {
+        this.employeeTasks = employeeTasks;
     }
 
     @Override

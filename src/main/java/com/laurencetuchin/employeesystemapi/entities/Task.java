@@ -34,7 +34,7 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("tasks")
+    @JsonIgnoreProperties("task")
     private Project project;
 
     @ManyToMany
@@ -139,6 +139,7 @@ public class Task {
     public void setEmployeesAssignedTask(Set<Employee> employeesAssignedTask) {
         this.employeesAssignedTask = employeesAssignedTask;
     }
+
 
     @Override
     public String toString() {

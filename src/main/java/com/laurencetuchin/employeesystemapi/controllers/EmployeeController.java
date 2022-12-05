@@ -3,6 +3,7 @@ package com.laurencetuchin.employeesystemapi.controllers;
 import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.dto.ErrorDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
+import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
 import com.laurencetuchin.employeesystemapi.mappers.EmployeeMapper;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -227,5 +229,19 @@ public class EmployeeController {
 //    public void updateEmployee(Long id){
 //        employeeService.
 //    }
+
+
+    @GetMapping("/employee/tasks")
+    @Query("select e from Employee e where e.employeeTasks = ?1")
+    public List<Employee> findByEmployeeTasks(@RequestParam Task employeeTasks) {
+        return employeeService.findByEmployeeTasks(employeeTasks);
+    }
+
+    @GetMapping("/employees/task/{name}")
+    @Query("select e from Employee e inner join e.employeeTasks employeeTasks where employeeTasks.name = :name")
+    public List<Employee> findByEmployeeTasks_Name(@PathVariable String name) {
+        return employeeService.findByEmployeeTasks_Name(name);
+    }
+
 
 }

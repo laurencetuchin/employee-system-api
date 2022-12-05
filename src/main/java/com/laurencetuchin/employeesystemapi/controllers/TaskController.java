@@ -1,5 +1,6 @@
 package com.laurencetuchin.employeesystemapi.controllers;
 
+import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.entities.TaskPriority;
 import com.laurencetuchin.employeesystemapi.entities.TaskStatus;
@@ -7,7 +8,6 @@ import com.laurencetuchin.employeesystemapi.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,4 +77,15 @@ public class TaskController {
     public List<Task> findAll() {
         return service.findAll();
     }
+
+//    @PutMapping("/{taskId}/tasks/{employeeId}")
+//    Employee assignEmployeeToTask(
+//            @PathVariable Long employeeId,
+//            @PathVariable Long taskId
+//    ){
+//        Task task = service.findTaskById(taskId).get();
+//
+//    }
+
+
 }
