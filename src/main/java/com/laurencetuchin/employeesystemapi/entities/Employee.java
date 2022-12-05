@@ -9,7 +9,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity // @Table not needed for object storage
 //@Table(name = "employees")
@@ -39,6 +41,9 @@ public class Employee {
 //    orphanRemoval = true,
     @OneToMany( mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Project> projects;
+
+    @ManyToMany(mappedBy = "employeesAssignedTask")
+    private Set<Task> employeeTasks = new HashSet<>();
 
     public Employee() {
     }
