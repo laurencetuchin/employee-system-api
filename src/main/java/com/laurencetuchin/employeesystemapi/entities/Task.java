@@ -33,7 +33,7 @@ public class Task {
     private LocalDateTime endDate;
 
     @ManyToOne
-    @JoinColumn(name = "project_id")
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
     @JsonIgnoreProperties("tasks")
     private Project project;
 
@@ -126,6 +126,18 @@ public class Task {
 
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+//
+//    public Project getProject() {
+//        return project;
+//    }
+
+    public Set<Employee> getEmployeesAssignedTask() {
+        return employeesAssignedTask;
+    }
+
+    public void setEmployeesAssignedTask(Set<Employee> employeesAssignedTask) {
+        this.employeesAssignedTask = employeesAssignedTask;
     }
 
     @Override
