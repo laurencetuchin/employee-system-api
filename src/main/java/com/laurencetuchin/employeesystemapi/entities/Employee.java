@@ -37,7 +37,7 @@ public class Employee {
     private boolean isCurrentlyWorkingAtCompany = true;
 
 //    orphanRemoval = true,
-    @OneToMany( mappedBy = "employee", fetch = FetchType.EAGER)
+    @OneToMany( mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Project> projects;
 
     public Employee() {

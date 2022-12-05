@@ -217,7 +217,7 @@ public class EmployeeController {
 //        }
 //    }
 
-    @DeleteMapping("/employee/delete/{id}")
+    @DeleteMapping("/employee/delete/{id}") // update with Response Entity to return response
     public void deleteEmployee(@PathVariable Long id){
         employeeService.deleteEmployeeById(id);
     }
