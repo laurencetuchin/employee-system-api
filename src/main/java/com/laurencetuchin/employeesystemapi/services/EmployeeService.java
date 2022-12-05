@@ -2,10 +2,12 @@ package com.laurencetuchin.employeesystemapi.services;
 
 import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
+import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.mappers.EmployeeMapper;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -98,5 +100,8 @@ public class EmployeeService {
     }
 
 
-
+    @Query("select e from Employee e where e.employeeTasks = ?1")
+    public List<Employee> findByEmployeeTasks(Task employeeTasks) {
+        return employeeRepository.findByEmployeeTasks(employeeTasks);
+    }
 }
