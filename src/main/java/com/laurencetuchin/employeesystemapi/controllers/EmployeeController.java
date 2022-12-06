@@ -192,8 +192,8 @@ public class EmployeeController {
     }
 
     @PutMapping("/employee/{id}")
-    public ResponseEntity<Employee> updateEmployeeById(@RequestBody @NotNull Employee employee) {
-        Optional<Employee> employeeExists = employeeService.findEmployeeById(employee.getId());
+    public ResponseEntity<Employee> updateEmployeeById(@RequestBody @NotNull Employee employee, Long id) {
+        Optional<Employee> employeeExists = employeeService.findEmployeeById(id);
 
         if (employeeExists.isPresent()){
             return new ResponseEntity<>(employeeService.updateEmployeeById(employee),HttpStatus.OK);
