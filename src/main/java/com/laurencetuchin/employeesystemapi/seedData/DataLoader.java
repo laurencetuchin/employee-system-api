@@ -6,11 +6,8 @@ import com.laurencetuchin.employeesystemapi.repositories.ProjectRepository;
 import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.aop.aspectj.AbstractAspectJAdvice;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -43,8 +40,8 @@ public class DataLoader {
              log.info("Total projects: " + projectRepository.save(new Project(2L,"Chelsea", ProjectStatus.PENDING,employee)));
              Project project = projectRepository.findAll().get(0);
              Project project2 = projectRepository.findAll().get(1);
-             log.info("Total tasks: " + taskRepository.save(new Task("Play game", "Play game very well", TaskStatus.progress,TaskPriority.high, LocalDateTime.now(), LocalDateTime.now().plusDays(1),project)));
-             log.info("Total tasks: " + taskRepository.save(new Task("Lose", "Play game very poorly", TaskStatus.complete,TaskPriority.high, LocalDateTime.now(), LocalDateTime.now().plusDays(1),project)));
+             log.info("Total tasks: " + taskRepository.save(new Task("Play game","Play game very well",TaskStatus.progress,TaskPriority.high,LocalDateTime.now(),LocalDateTime.now().plusDays(1),project, Collections.singleton(employee))));
+             log.info("Total tasks: " + taskRepository.save(new Task("Play game2","Play game well",TaskStatus.progress,TaskPriority.high,LocalDateTime.now(),LocalDateTime.now().plusDays(1),project2, Collections.singleton(employee))));
             log.info("Returned task: " +  taskRepository.findAll().get(0));
             log.info("task employee assigned: ");
             Set<Employee> assignedEmployees = new HashSet<>();
@@ -54,8 +51,11 @@ public class DataLoader {
                     task.setProject(project2);
             List<Task> taskList = new ArrayList<>();
             taskList.add(task);
-                    project2.setTask(taskList);
+            project2.setName("super");
+            project2.setTask(taskList);
                     log.info("project details: " + project2);
+
+
 //            task.setEmployeesAssignedTask(assignedEmployees);
 //            Set<Task> assignedTasks = new HashSet<>();
 //            assignedTasks.add(task);

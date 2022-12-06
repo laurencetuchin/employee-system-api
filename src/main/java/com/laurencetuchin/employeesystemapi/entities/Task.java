@@ -37,7 +37,7 @@ public class Task {
     @JsonIgnoreProperties("task")
     private Project project;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "employee_task",
             joinColumns = @JoinColumn(name = "task_id"),
@@ -58,8 +58,9 @@ public class Task {
         this.project = project;
     }
 
+
     @Autowired
-    public Task(String name, String description, TaskStatus status, TaskPriority priority, LocalDateTime startDate, LocalDateTime endDate, Project project) {
+    public Task(String name, String description, TaskStatus status, TaskPriority priority, LocalDateTime startDate, LocalDateTime endDate, Project project, Set<Employee> employeesAssignedTask) {
         this.name = name;
         this.description = description;
         this.status = status;
@@ -67,6 +68,7 @@ public class Task {
         this.startDate = startDate;
         this.endDate = endDate;
         this.project = project;
+        this.employeesAssignedTask = employeesAssignedTask;
     }
 
     public Task() {
@@ -151,6 +153,8 @@ public class Task {
                 ", priority=" + priority +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
+                ", project=" + project +
+                ", employeesAssignedTask=" + employeesAssignedTask +
                 '}';
     }
 }

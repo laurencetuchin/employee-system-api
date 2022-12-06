@@ -42,11 +42,11 @@ public class Employee {
 
 //    orphanRemoval = true,
     @JsonIgnore
-    @OneToMany( mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany( mappedBy = "employee", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Project> projects;
 
 //    @JsonIgnore
-    @ManyToMany(mappedBy = "employeesAssignedTask")
+    @ManyToMany(mappedBy = "employeesAssignedTask", fetch = FetchType.EAGER)
     private Set<Task> employeeTasks = new HashSet<>();
 
     public Employee() {
