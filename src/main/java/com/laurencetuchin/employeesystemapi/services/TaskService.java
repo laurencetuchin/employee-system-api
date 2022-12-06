@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -51,7 +52,13 @@ public class TaskService {
     }
 
     public Task updateTask(Task task){
-        return taskRepository.save(task);
+        boolean taskExists = taskRepository.existsById(task.getId());
+        if (!taskExists){
+            throw new NoSuchElementException("Task with id: " + task.getId() + "does not exist");
+        } else {
+         taskRepository.save(task);
+        }
+        return task;
     }
 
     public void deleteTaskById(Long id){
