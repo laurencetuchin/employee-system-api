@@ -40,12 +40,6 @@ public class TaskService {
         return taskRepository.findByEndDateOrderByEndDateAsc(endDate);
     }
 
-    @Query("delete from Task t where t.status = ?1")
-    @Modifying
-    @Transactional
-    public int deleteByStatus(TaskStatus status) {
-        return taskRepository.deleteByStatus(status);
-    }
 
     public Task saveTask(Task task){
         return taskRepository.save(task);
@@ -68,6 +62,8 @@ public class TaskService {
     public List<Task> findAll(){
         return taskRepository.findAll();
     }
+
+
 
 
 

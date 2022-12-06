@@ -41,7 +41,7 @@ public class DataLoader {
              Project project = projectRepository.findAll().get(0);
              Project project2 = projectRepository.findAll().get(1);
              log.info("Total tasks: " + taskRepository.save(new Task("Play game","Play game very well",TaskStatus.progress,TaskPriority.high,LocalDateTime.now(),LocalDateTime.now().plusDays(1),project, Collections.singleton(employee))));
-             log.info("Total tasks: " + taskRepository.save(new Task("Play game2","Play game well",TaskStatus.progress,TaskPriority.high,LocalDateTime.now(),LocalDateTime.now().plusDays(1),project2, Collections.singleton(employee))));
+             log.info("Total tasks: " + taskRepository.save(new Task("game","Play game well",TaskStatus.progress,TaskPriority.high,LocalDateTime.now(),LocalDateTime.now().plusDays(1),project2, Collections.singleton(employee))));
             log.info("Returned task: " +  taskRepository.findAll().get(0));
             log.info("task employee assigned: ");
             Set<Employee> assignedEmployees = new HashSet<>();

@@ -26,10 +26,6 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
     @Query("select t from Task t where t.endDate = ?1 order by t.endDate")
     List<Task> findByEndDateOrderByEndDateAsc(LocalDateTime endDate);
 
-    @Transactional
-    @Modifying
-    @Query("delete from Task t where t.status = ?1")
-    int deleteByStatus(TaskStatus status);
 
 
 

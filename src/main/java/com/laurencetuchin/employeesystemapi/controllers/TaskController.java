@@ -50,13 +50,6 @@ public class TaskController {
         return service.findByEndDateOrderByEndDateAsc(endDate);
     }
 
-    @DeleteMapping("/delete/{status}")
-    @Transactional
-    @Modifying
-    @Query("delete from Task t where t.status = ?1")
-    public int deleteByStatus(@RequestParam TaskStatus status) {
-        return service.deleteByStatus(status);
-    }
 
     @PostMapping("/save/{id}")
     public Task saveTask(@PathVariable Task task) {

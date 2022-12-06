@@ -237,9 +237,9 @@ public class EmployeeController {
         return employeeService.findByEmployeeTasks(employeeTasks);
     }
 
-    @GetMapping("/employees/task/{name}")
+    @GetMapping("/employee/{id}/task/{named}")
     @Query("select e from Employee e inner join e.employeeTasks employeeTasks where employeeTasks.name = :name")
-    public List<Employee> findByEmployeeTasks_Name(@PathVariable String name) {
+    public List<Employee> findByEmployeeTasks_Name(@RequestParam String name, @PathVariable Long id) {
         return employeeService.findByEmployeeTasks_Name(name);
     }
 
