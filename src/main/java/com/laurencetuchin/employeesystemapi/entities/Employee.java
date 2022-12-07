@@ -45,8 +45,11 @@ public class Employee {
     @OneToMany( mappedBy = "employee", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Project> projects;
 
-//    @JsonIgnore
-    @ManyToMany(mappedBy = "employeesAssignedTask", fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToMany(mappedBy = "employeesAssignedTask", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "employee_tasks",
+    joinColumns = { @JoinColumn(name = "employee_id")},
+    inverseJoinColumns = {@JoinColumn(name = "task_id")})
     private Set<Task> employeeTasks = new HashSet<>();
 
     public Employee() {
@@ -111,6 +114,13 @@ public class Employee {
     public void setEmployeeTasks(Set<Task> employeeTasks) {
         this.employeeTasks = employeeTasks;
     }
+
+    public void addTask(Task task){
+        this.employeeTasks.add(task);
+        task.getEmployeesAssignedTask().add(this);
+    }
+
+
 
     @Override
     public String toString() {
