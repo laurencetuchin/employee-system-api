@@ -120,7 +120,13 @@ public class Employee {
         task.getEmployeesAssignedTask().add(this);
     }
 
-
+    public void removeTask(Long taskId){
+        Task task = this.employeeTasks.stream().filter(t -> t.getId() == taskId).findFirst().orElse(null);
+        if (task != null){
+            this.employeeTasks.remove(task);
+            task.getEmployeesAssignedTask().remove(this);
+        }
+    }
 
     @Override
     public String toString() {
