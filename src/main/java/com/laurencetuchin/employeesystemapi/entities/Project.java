@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 @Entity
 @NamedQueries({
@@ -47,7 +48,7 @@ public class Project {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("project")
     @JoinColumn(name = "project_id")
-    private List<Task> task;
+    private Set<Task> task;
 
 
     public Project() {
@@ -119,11 +120,11 @@ public class Project {
         this.timeRemaining = timeRemaining;
     }
 
-    public List<Task> getTask() {
+    public Set<Task> getTask() {
         return task;
     }
 
-    public void setTask(List<Task> task) {
+    public void setTask(Set<Task> task) {
         this.task = task;
     }
 
