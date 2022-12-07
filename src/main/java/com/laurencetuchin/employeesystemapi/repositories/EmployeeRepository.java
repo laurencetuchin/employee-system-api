@@ -30,6 +30,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findByEmployeeTasks_Name(@Param("name") String name);
 
 
+    List<Employee> findEmployeeByTaskId(Long taskId);
+
+
 
 
 
