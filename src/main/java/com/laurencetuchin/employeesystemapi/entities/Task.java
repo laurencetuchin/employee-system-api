@@ -1,7 +1,6 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +42,8 @@ public class Task {
     private Project project;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "tasks")
-    private Set<Employee> employeesAssignedTask = new HashSet<>();
+    @ManyToMany(mappedBy = "tasks")
+    private Set<Employee> employees = new HashSet<>();
 //
 //    @ManyToMany(mappedBy = "employees")
 //    private Set<Employee> employeeSet = new HashSet<>();
@@ -68,7 +67,7 @@ public class Task {
         this.priority = priority;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.employeesAssignedTask = employeesAssignedTask;
+        this.employees = employeesAssignedTask;
     }
 
     public Task() {
@@ -130,12 +129,17 @@ public class Task {
         this.endDate = endDate;
     }
 
-    public Set<Employee> getEmployeesAssignedTask() {
-        return employeesAssignedTask;
+    public Set<Employee> getEmployees() {
+        return employees;
     }
 
-    public void setEmployeesAssignedTask(Set<Employee> employeesAssignedTask) {
-        this.employeesAssignedTask = employeesAssignedTask;
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public void addEmployee(Employee employee){
+        this.employees.add(employee);
+        employee.getTasks().add(this);
     }
 
 
@@ -150,7 +154,7 @@ public class Task {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
 //                ", project=" + project +
-                ", employeesAssignedTask=" + employeesAssignedTask +
+                ", employeesAssignedTask=" + employees +
                 '}';
     }
 }
