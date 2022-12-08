@@ -19,6 +19,8 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
     Optional<Task> findTaskById(Long id);
     List<Task> findTaskByName(String name);
 
+    @Transactional
+    void deleteByProjectId(long projectId);
 
     @Query("select t from Task t where t.priority = ?1")
     List<Task> findByPriority(TaskPriority priority);
