@@ -50,6 +50,19 @@ public class Project {
     @JsonIgnore
     private Set<Task> task;
 
+    public Set<Task> getTask() {
+        return task;
+    }
+
+    // helper method to add Tasks to project
+    public void addTask(Task task) {
+        this.task.add(task);
+        task.setProject(this);
+    }
+
+    public void setTask(Set<Task> task) {
+        this.task = task;
+    }
 
     public Project() {
     }
