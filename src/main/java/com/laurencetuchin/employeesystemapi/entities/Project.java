@@ -45,10 +45,10 @@ public class Project {
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
     private Employee employee;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("project")
-    @JoinColumn(name = "project_id")
-    private Set<Task> task;
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonIgnoreProperties("project")
+//    @JoinColumn(name = "project_id")
+//    private Set<Task> task;
 
 
     public Project() {
@@ -120,13 +120,7 @@ public class Project {
         this.timeRemaining = timeRemaining;
     }
 
-    public Set<Task> getTask() {
-        return task;
-    }
 
-    public void setTask(Set<Task> task) {
-        this.task = task;
-    }
 
     @Override
     public String toString() {
