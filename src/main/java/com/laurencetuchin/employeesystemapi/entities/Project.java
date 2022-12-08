@@ -1,5 +1,6 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +42,13 @@ public class Project {
     @Column(name = "timeRemaining")
     private Long timeRemaining = Duration.between(startDate,endDate).toMillis();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
     private Employee employee;
 
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JsonIgnoreProperties("project")
-//    @JoinColumn(name = "project_id")
-//    private Set<Task> task;
+    @OneToMany(mappedBy = "project",fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonIgnore
+    private Set<Task> task;
 
 
     public Project() {
