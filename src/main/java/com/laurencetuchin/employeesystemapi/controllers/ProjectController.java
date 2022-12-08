@@ -62,4 +62,10 @@ public class ProjectController {
     public List<Project> findByEmployee_NameAllIgnoreCase(@RequestParam String name) {
         return service.findByEmployee_NameAllIgnoreCase(name);
     }
+
+    @GetMapping("/status/active")
+    public List<Project> findByStatusActive() {
+        return service.findProjectByStatus(ProjectStatus.PENDING);
+    }
+
 }
