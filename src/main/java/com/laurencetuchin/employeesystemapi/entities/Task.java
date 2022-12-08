@@ -1,5 +1,6 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,27 +33,22 @@ public class Task {
     @Column(name = "endDate")
     private LocalDateTime endDate;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("task")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "project_id", nullable = false)
+    @JsonIgnore
     private Project project;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "employee_task",
-            joinColumns = @JoinColumn(name = "task_id"),
-            inverseJoinColumns = @JoinColumn(name = "employee_id")
-
-    )
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "tasks")
     private Set<Employee> employeesAssignedTask = new HashSet<>();
 //
 //    @ManyToMany(mappedBy = "employees")
 //    private Set<Employee> employeeSet = new HashSet<>();
 
 
-//    public Project getProject() {
-//        return project;
-//    }
+    public Project getProject() {
+        return project;
+    }
 
     public void setProject(Project project) {
         this.project = project;
@@ -60,14 +56,14 @@ public class Task {
 
 
     @Autowired
-    public Task(String name, String description, TaskStatus status, TaskPriority priority, LocalDateTime startDate, LocalDateTime endDate, Project project, Set<Employee> employeesAssignedTask) {
+    public Task(String name, String description, TaskStatus status, TaskPriority priority, LocalDateTime startDate, LocalDateTime endDate,
+                Set<Employee> employeesAssignedTask) {
         this.name = name;
         this.description = description;
         this.status = status;
         this.priority = priority;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.project = project;
         this.employeesAssignedTask = employeesAssignedTask;
     }
 
@@ -129,10 +125,6 @@ public class Task {
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
-//
-//    public Project getProject() {
-//        return project;
-//    }
 
     public Set<Employee> getEmployeesAssignedTask() {
         return employeesAssignedTask;
@@ -153,7 +145,7 @@ public class Task {
                 ", priority=" + priority +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", project=" + project +
+//                ", project=" + project +
                 ", employeesAssignedTask=" + employeesAssignedTask +
                 '}';
     }
