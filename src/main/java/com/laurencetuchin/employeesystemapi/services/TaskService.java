@@ -46,7 +46,7 @@ public class TaskService {
 //        boolean taskExists = taskRepository.existsById(task.getId());
         Optional<Task> _task = taskRepository.findTaskById(id);
         if (!_task.isPresent()){
-            throw new NoSuchElementException("Task with id: " + id + "does not exist");
+            throw new NoSuchElementException("Task with id: " + id + " does not exist");
         } else {
             _task.get().setName(task.getName());
             _task.get().setDescription(task.getDescription());
