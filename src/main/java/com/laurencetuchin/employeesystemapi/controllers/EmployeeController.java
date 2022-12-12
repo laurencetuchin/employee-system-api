@@ -6,6 +6,7 @@ import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
 import com.laurencetuchin.employeesystemapi.mappers.EmployeeMapper;
+import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -19,8 +20,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,6 +34,9 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
 
@@ -244,15 +251,21 @@ public class EmployeeController {
 //    }
 
 
-    @PostMapping("/employee/{employeeId}/task")
-    public void createEmployeeTask(@RequestBody Task task, @PathVariable Long employeeId){
+    @PutMapping("/{employeeId}/employee/{taskId}")
+    public Employee assignEmployeeTask(@PathVariable Long employeeId, @PathVariable Long taskId){
         Optional<Employee> employeeExists = employeeService.findEmployeeById(employeeId);
-
-        if (!employeeExists.isPresent()){
-            throw new EmployeeNotFoundException("Employee with id: " + employeeId + "does not exist");
-        } else {
-            employeeExists.get().addTask(task);
-        }
+        Optional<Task> taskOptional = taskRepository.findTaskById(taskId);
+        Task task = taskOptional.get();
+        employeeExists.get().addTask(taskOptional.get());
+//        Set<Task> singleton = Collections.singleton(task);
+//        employeeExists.get().setTasks(singleton);
+        employeeService.save(employeeExists.get());
+        return employeeExists.get();
+//        if (!employeeExists.isPresent()){
+//            throw new EmployeeNotFoundException("Employee with id: " + employeeId + "does not exist");
+//        } else {
+//            employeeExists.get().addTask(task);
+//        }
 
     }
 
