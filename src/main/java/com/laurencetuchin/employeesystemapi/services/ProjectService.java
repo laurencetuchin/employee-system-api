@@ -40,20 +40,19 @@ public class ProjectService {
     }
 
     public Project updateProjectById(@NotNull Project project, Long id){
-        boolean employeeExists = projectRepository.existsById(project.getId());
-        Project _project = projectRepository.findProjectById(id);
-        if (!employeeExists){
+        Optional<Project> _project = projectRepository.findProjectById(id);
+        if (!_project.isPresent()){
             throw new NoSuchElementException("Project with id: " + id + " does not exist");
         } else {
-            _project.setName(project.getName());
-            _project.setEmployee(project.getEmployee());
-            _project.setStatus(project.getStatus());
-            _project.setStartDate(project.getStartDate());
-            _project.setEndDate(project.getEndDate());
-            _project.setTask(project.getTask());
-            projectRepository.save(_project);
+            _project.get().setName(project.getName());
+            _project.get().setEmployee(project.getEmployee());
+            _project.get().setStatus(project.getStatus());
+            _project.get().setStartDate(project.getStartDate());
+            _project.get().setEndDate(project.getEndDate());
+            _project.get().setTask(project.getTask());
+            projectRepository.save(_project.get());
         }
-        return _project;
+        return _project.get();
     }
 
 
