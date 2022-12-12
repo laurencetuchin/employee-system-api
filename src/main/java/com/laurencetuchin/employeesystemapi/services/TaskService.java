@@ -2,13 +2,10 @@ package com.laurencetuchin.employeesystemapi.services;
 
 import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.entities.TaskPriority;
-import com.laurencetuchin.employeesystemapi.entities.TaskStatus;
 import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -45,14 +42,21 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Task updateTask(Task task){
-        boolean taskExists = taskRepository.existsById(task.getId());
-        if (!taskExists){
-            throw new NoSuchElementException("Task with id: " + task.getId() + "does not exist");
+    public Task updateTask(Task task, Long id){
+//        boolean taskExists = taskRepository.existsById(task.getId());
+        Optional<Task> _task = taskRepository.findTaskById(id);
+        if (!_task.isPresent()){
+            throw new NoSuchElementException("Task with id: " + id + "does not exist");
         } else {
-         taskRepository.save(task);
+            _task.get().setName(task.getName());
+            _task.get().setDescription(task.getDescription());
+            _task.get().setStatus(task.getStatus());
+            _task.get().setStartDate(task.getStartDate());
+            _task.get().setEndDate(task.getEndDate());
+            _task.get().setEmployees(task.getEmployees());
+         taskRepository.save(_task.get());
         }
-        return task;
+        return _task.get();
     }
 
     public void deleteTaskById(Long id){
