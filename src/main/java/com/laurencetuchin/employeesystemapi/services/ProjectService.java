@@ -45,7 +45,7 @@ public class ProjectService {
             throw new NoSuchElementException("Project with id: " + id + " does not exist");
         } else {
             _project.get().setName(project.getName());
-            _project.get().setEmployee(project.getEmployee());
+//            _project.get().setEmployee(project.getEmployee());
             _project.get().setStatus(project.getStatus());
             _project.get().setStartDate(project.getStartDate());
             _project.get().setEndDate(project.getEndDate());

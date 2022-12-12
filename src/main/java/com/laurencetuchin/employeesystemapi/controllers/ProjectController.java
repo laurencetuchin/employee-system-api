@@ -1,7 +1,9 @@
 package com.laurencetuchin.employeesystemapi.controllers;
 
+import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Project;
 import com.laurencetuchin.employeesystemapi.entities.ProjectStatus;
+import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.services.ProjectService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class ProjectController {
 
     @Autowired
     private ProjectService service;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     public ProjectController(ProjectService service) {
         this.service = service;
@@ -66,6 +71,15 @@ public class ProjectController {
     @GetMapping("/status/active")
     public List<Project> findByStatusActive() {
         return service.findProjectByStatus(ProjectStatus.PENDING);
+    }
+
+    @PutMapping("/{projectId}/employee/{employeeId}")
+    public Project assignProjectToEmployee(@PathVariable Long projectId, @PathVariable Long employeeId){
+        Optional<Project> project = service.findById(projectId);
+        Optional<Employee> employee = employeeRepository.findById(employeeId);
+        project.get().setEmployee(employee.get());
+        service.saveProject(project.get());
+        return project.get();
     }
 
 }
