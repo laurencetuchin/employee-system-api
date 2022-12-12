@@ -14,7 +14,7 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
     @Query("select p from Project p where p.status = ?1")
     List<Project> findByStatus(ProjectStatus status);
 
-    Project findProjectById(Long id);
+    Optional<Project> findProjectById(Long id);
 
     List<Project> findProjectByNameIgnoreCaseContains(String projectName);
 
