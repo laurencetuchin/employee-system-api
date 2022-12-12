@@ -23,14 +23,14 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findEmployeeByNameOrRole(String partialName, String role);
 
-    @Query("select e from Employee e where e.employeeTasks = ?1")
-    List<Employee> findByEmployeeTasks(Task employeeTasks);
+//    @Query("select e from Employee e where e.employeeTasks = ?1")
+//    List<Employee> findByEmployeeTasks(Task employeeTasks);
 
-    @Query("select e from Employee e inner join e.employeeTasks employeeTasks where employeeTasks.name = :name")
-    List<Employee> findByEmployeeTasks_Name(@Param("name") String name);
+//    @Query("select e from Employee e inner join e.employeeTasks employeeTasks where employeeTasks.name = :name")
+//    List<Employee> findByEmployeeTasks_Name(@Param("name") String name);
 
 
-    List<Employee> findEmployeeByTaskId(Long taskId);
+//    List<Employee> findEmployeeByTaskId(Long taskId);
 
 
 

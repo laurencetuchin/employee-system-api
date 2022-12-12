@@ -35,8 +35,8 @@ public class Task {
     @Column(name = "endDate")
     private LocalDateTime endDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "project_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY) // , optional = false
+    @JoinColumn(name = "project_id") //, nullable = false
     @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Project project;
@@ -59,15 +59,13 @@ public class Task {
 
 
     @Autowired
-    public Task(String name, String description, TaskStatus status, TaskPriority priority, LocalDateTime startDate, LocalDateTime endDate,
-                Set<Employee> employeesAssignedTask) {
+    public Task(String name, String description, TaskStatus status, TaskPriority priority, LocalDateTime startDate, LocalDateTime endDate) {
         this.name = name;
         this.description = description;
         this.status = status;
         this.priority = priority;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.employees = employeesAssignedTask;
     }
 
     public Task() {

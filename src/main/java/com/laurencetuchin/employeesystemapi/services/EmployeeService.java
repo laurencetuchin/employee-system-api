@@ -100,15 +100,20 @@ public class EmployeeService {
     }
 
 
-    @Query("select e from Employee e where e.employeeTasks = ?1")
-    public List<Employee> findByEmployeeTasks(Task employeeTasks) {
-        return employeeRepository.findByEmployeeTasks(employeeTasks);
-    }
+//    @Query("select e from Employee e where e.employeeTasks = ?1")
+//    public List<Employee> findByEmployeeTasks(Task employeeTasks) {
+//        return employeeRepository.findByEmployeeTasks(employeeTasks);
+//    }
 
-    @Query("select e from Employee e inner join e.employeeTasks employeeTasks where employeeTasks.name = :name")
-    public List<Employee> findByEmployeeTasks_Name(String name) {
-        return employeeRepository.findByEmployeeTasks_Name(name);
-    }
+//    @Query("select e from Employee e inner join e.employeeTasks employeeTasks where employeeTasks.name = :name")
+//    public List<Employee> findByEmployeeTasks_Name(String name) {
+//        return employeeRepository.findByEmployeeTasks_Name(name);
+//    }
+
+//    public Task addTaskToEmployee(Task task){
+//
+//    }
+
 
 
 }

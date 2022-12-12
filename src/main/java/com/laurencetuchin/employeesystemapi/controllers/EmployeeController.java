@@ -231,17 +231,32 @@ public class EmployeeController {
 //    }
 
 
-    @GetMapping("/employee/tasks")
-    @Query("select e from Employee e where e.employeeTasks = ?1")
-    public List<Employee> findByEmployeeTasks(@RequestParam Task employeeTasks) {
-        return employeeService.findByEmployeeTasks(employeeTasks);
+//    @GetMapping("/employee/tasks")
+//    @Query("select e from Employee e where e.employeeTasks = ?1")
+//    public List<Employee> findByEmployeeTasks(@RequestParam Task employeeTasks) {
+//        return employeeService.findByEmployeeTasks(employeeTasks);
+//    }
+
+//    @GetMapping("/employee/{id}/task/{named}")
+//    @Query("select e from Employee e inner join e.employeeTasks employeeTasks where employeeTasks.name = :name")
+//    public List<Employee> findByEmployeeTasks_Name(@RequestParam String name, @PathVariable Long id) {
+//        return employeeService.findByEmployeeTasks_Name(name);
+//    }
+
+
+    @PostMapping("/employee/{employeeId}/task")
+    public void createEmployeeTask(@RequestBody Task task, @PathVariable Long employeeId){
+        Optional<Employee> employeeExists = employeeService.findEmployeeById(employeeId);
+
+        if (!employeeExists.isPresent()){
+            throw new EmployeeNotFoundException("Employee with id: " + employeeId + "does not exist");
+        } else {
+            employeeExists.get().addTask(task);
+        }
+
     }
 
-    @GetMapping("/employee/{id}/task/{named}")
-    @Query("select e from Employee e inner join e.employeeTasks employeeTasks where employeeTasks.name = :name")
-    public List<Employee> findByEmployeeTasks_Name(@RequestParam String name, @PathVariable Long id) {
-        return employeeService.findByEmployeeTasks_Name(name);
-    }
+
 
 
 }

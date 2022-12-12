@@ -1,11 +1,7 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.laurencetuchin.employeesystemapi.seedData.RegexEmailCompliant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.DefaultValue;
-import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -14,6 +10,7 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity // @Table not needed for object storage
 //@Table(name = "employees")
@@ -42,15 +39,16 @@ public class Employee {
 
 //    orphanRemoval = true,
     @JsonIgnore
-    @OneToMany( mappedBy = "employee", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany( mappedBy = "employee")
     private List<Project> projects;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "employeesAssignedTask", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany
     @JoinTable(name = "employee_tasks",
-    joinColumns = { @JoinColumn(name = "employee_id")},
-    inverseJoinColumns = {@JoinColumn(name = "task_id")})
-    private Set<Task> employeeTasks = new HashSet<>();
+    joinColumns = @JoinColumn(name = "employee_id"),
+    inverseJoinColumns = @JoinColumn(name = "task_id")
+    )
+    private Set<Task> tasks = new HashSet<>();
 
     public Employee() {
     }
@@ -107,24 +105,29 @@ public class Employee {
         this.projects = projects;
     }
 
-    public Set<Task> getEmployeeTasks() {
-        return employeeTasks;
+    public void addProject(Project project){
+        this.projects.add(project);
+//        project.getEmployee().
     }
 
-    public void setEmployeeTasks(Set<Task> employeeTasks) {
-        this.employeeTasks = employeeTasks;
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
     }
 
     public void addTask(Task task){
-        this.employeeTasks.add(task);
-        task.getEmployeesAssignedTask().add(this);
+        this.tasks.add(task);
+        task.getEmployees().add(this);
     }
 
     public void removeTask(Long taskId){
-        Task task = this.employeeTasks.stream().filter(t -> t.getId() == taskId).findFirst().orElse(null);
+        Task task = this.tasks.stream().filter(t -> t.getId() == taskId).findFirst().orElse(null);
         if (task != null){
-            this.employeeTasks.remove(task);
-            task.getEmployeesAssignedTask().remove(this);
+            this.tasks.remove(task);
+            task.getEmployees().remove(this);
         }
     }
 

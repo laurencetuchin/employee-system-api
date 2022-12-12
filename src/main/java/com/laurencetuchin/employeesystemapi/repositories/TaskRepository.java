@@ -29,7 +29,7 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
     List<Task> findByEndDateOrderByEndDateAsc(LocalDateTime endDate);
 
 
-    List<Task> findTaskByEmployeeId(Long employeeId);
+//    List<Task> findTaskByEmployeeId(Long employeeId);
 
 
 

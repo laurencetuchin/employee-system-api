@@ -4,10 +4,12 @@ import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.entities.TaskPriority;
 import com.laurencetuchin.employeesystemapi.entities.TaskStatus;
+import com.laurencetuchin.employeesystemapi.services.ProjectService;
 import com.laurencetuchin.employeesystemapi.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +24,8 @@ public class TaskController {
     @Autowired
     private TaskService service;
 
+    @Autowired
+    private ProjectService projectService;
 
     public TaskController(TaskService service) {
         this.service = service;
@@ -51,7 +55,7 @@ public class TaskController {
     }
 
 
-    @PostMapping("/save/{id}")
+    @PostMapping("/save/{id}") // request body????
     public Task saveTask(@PathVariable Task task) {
         return service.saveTask(task);
     }
@@ -78,6 +82,12 @@ public class TaskController {
 //    ){
 //        Task task = service.findTaskById(taskId).get();
 //
+//    }
+
+//    @PostMapping("/project/{projectId}/tasks")
+//    public ResponseEntity<Task> createTask(@PathVariable("projectId") long projectId, @RequestBody Task taskRequest){
+//        Task task = projectService.findById(projectId).map(project -> project.taskRequest.setProject(project));
+//        return service.saveTask(taskRequest);
 //    }
 
 

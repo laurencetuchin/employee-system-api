@@ -26,7 +26,7 @@ class ProjectRepositoryTest {
 
     public Employee employee1 = new Employee("Tomas","Striker");
 
-    public Project project1 = new Project(1L,"Manchester United", PENDING, employee1);
+//    public Project project1 = new Project(1L,"Manchester United", PENDING, employee1);
 
 
     private List<Project> projectList = new ArrayList<>();
@@ -36,12 +36,12 @@ class ProjectRepositoryTest {
     void setup(){
         // given
 //        Project project1 = new Project("Manchester United","Fred", PENDING);
-        projectRepository.save(project1);
-        Project project2 = new Project(2L,"Chelsea", COMPLETE, new Employee("Jorginho","Midfielder"));
-        projectRepository.save(project2);
+//        projectRepository.save(project1);
+//        Project project2 = new Project(2L,"Chelsea", COMPLETE, new Employee("Jorginho","Midfielder"));
+//        projectRepository.save(project2);
         // when
-        projectList.add(project1);
-        projectList.add(project2);
+//        projectList.add(project1);
+//        projectList.add(project2);
 
 
     }

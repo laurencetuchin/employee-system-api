@@ -42,7 +42,7 @@ public class Project {
     @Column(name = "timeRemaining")
     private Long timeRemaining = Duration.between(startDate,endDate).toMillis();
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
     private Employee employee;
 
@@ -60,6 +60,7 @@ public class Project {
         task.setProject(this);
     }
 
+
     public void setTask(Set<Task> task) {
         this.task = task;
     }
@@ -68,11 +69,10 @@ public class Project {
     }
 
     @Autowired
-    public Project(Long id, String name, ProjectStatus status, Employee employee) {
+    public Project(Long id, String name, ProjectStatus status) {
         this.id = id;
         this.name = name;
         this.status = status;
-        this.employee = employee;
     }
 
     public Long getId() {
