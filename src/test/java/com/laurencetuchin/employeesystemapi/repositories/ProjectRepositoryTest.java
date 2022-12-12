@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.laurencetuchin.employeesystemapi.entities.ProjectStatus.COMPLETE;
 import static com.laurencetuchin.employeesystemapi.entities.ProjectStatus.PENDING;
@@ -52,10 +53,10 @@ class ProjectRepositoryTest {
         // when
 //        Project project1 = new Project("Manchester United","Fred", PENDING);
 //        projectRepository.save(project1);
-        Project projectById = projectRepository.findProjectById(1L);
+        Optional<Project> projectById = projectRepository.findProjectById(1L);
 //        project1.setId(1L);
         // then
-        assertThat(projectById.getId()).isEqualTo(1);
+        assertThat(projectById.get().getId()).isEqualTo(1);
     }
 
 
