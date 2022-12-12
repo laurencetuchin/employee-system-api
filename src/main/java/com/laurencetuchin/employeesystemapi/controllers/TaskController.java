@@ -55,8 +55,8 @@ public class TaskController {
     }
 
 
-    @PostMapping("/save/{id}") // request body????
-    public Task saveTask(@PathVariable Task task) {
+    @PostMapping("/save/") // request body????
+    public Task saveTask(@RequestBody Task task) {
         return service.saveTask(task);
     }
 
