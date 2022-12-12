@@ -1,9 +1,6 @@
 package com.laurencetuchin.employeesystemapi.controllers;
 
-import com.laurencetuchin.employeesystemapi.entities.Employee;
-import com.laurencetuchin.employeesystemapi.entities.Task;
-import com.laurencetuchin.employeesystemapi.entities.TaskPriority;
-import com.laurencetuchin.employeesystemapi.entities.TaskStatus;
+import com.laurencetuchin.employeesystemapi.entities.*;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.services.ProjectService;
 import com.laurencetuchin.employeesystemapi.services.TaskService;
@@ -103,6 +100,16 @@ public class TaskController {
         service.saveTask(_task.get());
         return _task.get();
     }
+
+    @PutMapping("/{taskId}/project/{projectId}")
+    public Task assignTaskToProject(@PathVariable Long taskId, @PathVariable Long projectId){
+        Optional<Task> taskOptional = service.findTaskById(taskId);
+        Optional<Project> projectOptional = projectService.findById(projectId);
+        taskOptional.get().setProject(projectOptional.get());
+        service.saveTask(taskOptional.get()); // saving or updating
+        return taskOptional.get();
+    }
+
 
 
 }
