@@ -55,7 +55,7 @@ public class ProjectController {
 
     @PutMapping("/update/{id}")
     public Project updateProjectById(@RequestBody @NotNull Project project,@PathVariable Long id) {
-        return service.updateProjectById(project);
+        return service.updateProjectById(project, id);
     }
 
     @GetMapping("/find/employee/")
