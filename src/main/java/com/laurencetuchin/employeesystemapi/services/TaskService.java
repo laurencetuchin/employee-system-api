@@ -54,6 +54,8 @@ public class TaskService {
             _task.get().setStartDate(task.getStartDate());
             _task.get().setEndDate(task.getEndDate());
             _task.get().setEmployees(task.getEmployees());
+            _task.get().setPriority(task.getPriority());
+            _task.get().setProject(task.getProject());
          taskRepository.save(_task.get());
         }
         return _task.get();
