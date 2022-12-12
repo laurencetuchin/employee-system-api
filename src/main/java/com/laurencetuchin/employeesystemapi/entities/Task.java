@@ -38,7 +38,7 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY) // , optional = false
     @JoinColumn(name = "project_id") //, nullable = false
     @JsonIgnore
-    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     private Project project;
 
     @JsonIgnore

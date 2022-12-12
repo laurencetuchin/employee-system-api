@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -37,8 +38,8 @@ public class DataLoader {
             repository.save(new Employee("John Smith","Hardest worker", true));
             log.info("Total employees: " + repository.count());
 
-//             log.info("Total projects: " + projectRepository.save(new Project(1L,"Manchester", ProjectStatus.PENDING)));
-//             log.info("Total projects: " + projectRepository.save(new Project(2L,"Chelsea", ProjectStatus.PENDING)));
+             log.info("Total projects: " + projectRepository.save(new Project(1L,"Manchester", ProjectStatus.PENDING)));
+             log.info("Total projects: " + projectRepository.save(new Project(2L,"Chelsea", ProjectStatus.PENDING)));
 //             Project project = projectRepository.findAll().get(0);
 //             Project project2 = projectRepository.findAll().get(1);
              log.info("Total tasks: " + taskRepository.save(new Task("Play game","Play game very well",TaskStatus.progress,TaskPriority.high,LocalDateTime.now(),LocalDateTime.now().plusDays(1))));
@@ -48,6 +49,13 @@ public class DataLoader {
 //            Set<Employee> assignedEmployees = new HashSet<>();
 //            assignedEmployees.add(employee);
 //            Task task = taskRepository.findAll().get(0);
+//            Optional<Employee> employee1 = repository.findById(1L);
+//            Employee employee2 = employee1.get();
+//
+//            Optional<Task> task = taskRepository.findTaskById(1L);
+//            Task task1 = task.get();
+
+//            task1.addEmployee(employee2);
 
 //                    task.setProject(project2);
 //            List<Task> taskList = new ArrayList<>();

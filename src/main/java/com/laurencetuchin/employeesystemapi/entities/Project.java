@@ -46,7 +46,7 @@ public class Project {
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
     private Employee employee;
 
-    @OneToMany(mappedBy = "project",fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "project",fetch = FetchType.LAZY) // , orphanRemoval = true
     @JsonIgnore
     private Set<Task> task;
 
