@@ -4,6 +4,7 @@ import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.entities.TaskPriority;
 import com.laurencetuchin.employeesystemapi.entities.TaskStatus;
+import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.services.ProjectService;
 import com.laurencetuchin.employeesystemapi.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +28,9 @@ public class TaskController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     public TaskController(TaskService service) {
         this.service = service;
@@ -89,6 +94,15 @@ public class TaskController {
 //        Task task = projectService.findById(projectId).map(project -> project.taskRequest.setProject(project));
 //        return service.saveTask(taskRequest);
 //    }
+
+    @PutMapping("/{taskId}/employee/{employeeId}")
+    public Task assignTaskToEmployee(@PathVariable Long taskId, @PathVariable Long employeeId){
+        Optional<Task> _task = service.findTaskById(taskId);
+        Optional<Employee> _employee = employeeRepository.findById(employeeId);
+        _task.get().setEmployees(Collections.singleton(_employee.get()));
+        service.saveTask(_task.get());
+        return _task.get();
+    }
 
 
 }
