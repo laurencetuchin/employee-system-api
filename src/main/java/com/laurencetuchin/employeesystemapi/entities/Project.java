@@ -59,6 +59,7 @@ public class Project {
         this.task.add(task);
         task.setProject(this);
     }
+    // remove task method?
 
 
     public void setTask(Set<Task> task) {

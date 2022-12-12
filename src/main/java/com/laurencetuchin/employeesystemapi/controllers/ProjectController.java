@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,6 +80,14 @@ public class ProjectController {
         Optional<Employee> employee = employeeRepository.findById(employeeId);
         project.get().setEmployee(employee.get());
         service.saveProject(project.get());
+        return project.get();
+    }
+
+    @PutMapping("/{projectId}/employee/{employeeId}/remove")
+    public Project removeProjectFromEmployee(@PathVariable Long projectId, @PathVariable Long employeeId){
+        Optional<Project> project = service.findById(projectId);
+        Optional<Employee> employee = employeeRepository.findById(employeeId);
+        project.get().setEmployee(null);
         return project.get();
     }
 
