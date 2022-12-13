@@ -3,6 +3,8 @@ package com.laurencetuchin.employeesystemapi.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import net.bytebuddy.asm.Advice;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
@@ -41,6 +43,7 @@ public class Project {
 
     @ManyToOne
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Employee employee;
 
     @OneToMany(mappedBy = "project",fetch = FetchType.LAZY) // , orphanRemoval = true
