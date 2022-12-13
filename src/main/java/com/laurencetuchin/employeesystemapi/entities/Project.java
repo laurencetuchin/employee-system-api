@@ -15,9 +15,6 @@ import java.util.Locale;
 import java.util.Set;
 
 @Entity
-@NamedQueries({
-        @NamedQuery(name = "Project.findByStatusOrderByEndDateDesc", query = "select p from Project p where p.status = :status order by p.endDate DESC")
-})
 public class Project {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

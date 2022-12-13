@@ -92,7 +92,9 @@ public class ProjectController {
     public Project removeProjectFromEmployee(@PathVariable Long projectId, @PathVariable Long employeeId){
         Optional<Project> project = service.findById(projectId);
         Optional<Employee> employee = employeeRepository.findById(employeeId);
-        project.get().setEmployee(null);
+//        project.get().removeEmployee(employeeId);
+        project.get().setEmployee(null); // is null ok bc only one employee assigned to project
+        service.saveProject(project.get());
         return project.get();
     }
 
