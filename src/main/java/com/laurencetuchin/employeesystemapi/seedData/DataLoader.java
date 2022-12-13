@@ -38,8 +38,8 @@ public class DataLoader {
             repository.save(new Employee("John Smith","Hardest worker", true));
             log.info("Total employees: " + repository.count());
 
-             log.info("Total projects: " + projectRepository.save(new Project(1L,"Manchester", ProjectStatus.PENDING)));
-             log.info("Total projects: " + projectRepository.save(new Project(2L,"Chelsea", ProjectStatus.PENDING)));
+             log.info("Total projects: " + projectRepository.save(new Project(1L,"Manchester", ProjectStatus.pending)));
+             log.info("Total projects: " + projectRepository.save(new Project(2L,"Chelsea", ProjectStatus.pending)));
 //             Project project = projectRepository.findAll().get(0);
 //             Project project2 = projectRepository.findAll().get(1);
              log.info("Total tasks: " + taskRepository.save(new Task("Play game","Play game very well",TaskStatus.progress,TaskPriority.high,LocalDateTime.now(),LocalDateTime.now().plusDays(1))));

@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.laurencetuchin.employeesystemapi.entities.ProjectStatus.COMPLETE;
-import static com.laurencetuchin.employeesystemapi.entities.ProjectStatus.PENDING;
+import static com.laurencetuchin.employeesystemapi.entities.ProjectStatus.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -77,13 +76,13 @@ class ProjectRepositoryTest {
     @Test
     void findByStatus() {
         // given
-        List<Project> projectByStatus = projectRepository.findByStatus(PENDING);
+        List<Project> projectByStatus = projectRepository.findByStatus(pending);
 
         // when
         ProjectStatus status = projectByStatus.get(0).getStatus();
 
         // then
-        assertThat(status).isEqualTo(PENDING);
+        assertThat(status).isEqualTo(pending);
     }
 
 

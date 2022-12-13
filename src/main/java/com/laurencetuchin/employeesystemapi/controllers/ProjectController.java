@@ -76,7 +76,7 @@ public class ProjectController {
 
     @GetMapping("/status/active")
     public List<Project> findByStatusActive() {
-        return service.findProjectByStatus(ProjectStatus.PENDING);
+        return service.findProjectByStatus(ProjectStatus.pending);
     }
 
     @PutMapping("/{projectId}/employee/{employeeId}")
