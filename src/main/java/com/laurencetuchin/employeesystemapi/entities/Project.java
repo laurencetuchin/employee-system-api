@@ -29,6 +29,7 @@ public class Project {
 //    private String assignedEmployees;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private ProjectStatus status;
 
     @Column(name = "startDate") // defaults Project start time to now
