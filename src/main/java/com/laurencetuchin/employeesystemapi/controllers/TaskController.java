@@ -110,6 +110,16 @@ public class TaskController {
         return taskOptional.get();
     }
 
+    @PutMapping("/{taskId}/project/{projectId}/remove")
+    public Task removeTaskFromProject(@PathVariable Long taskId, @PathVariable Long projectId){
+        Optional<Task> taskById = service.findTaskById(taskId);
+        Optional<Project> projectbyId = projectService.findById(projectId);
+        taskById.get().setProject(null);
+
+        service.saveTask(taskById.get());
+        return taskById.get();
+    }
+
 
 
 }
