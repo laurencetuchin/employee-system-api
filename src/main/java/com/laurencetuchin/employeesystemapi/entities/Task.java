@@ -23,10 +23,11 @@ public class Task {
     private String description;
 
     @Column(name = "status")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
     @Column(name = "priority")
+    @Enumerated(EnumType.STRING)
     private TaskPriority priority;
 
     @Column(name = "startDate") // add constraints for start date must be before end date
