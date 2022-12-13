@@ -3,7 +3,9 @@ package com.laurencetuchin.employeesystemapi.controllers;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Project;
 import com.laurencetuchin.employeesystemapi.entities.ProjectStatus;
+import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
+import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
 import com.laurencetuchin.employeesystemapi.services.ProjectService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class ProjectController {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     public ProjectController(ProjectService service) {
         this.service = service;
@@ -89,6 +94,16 @@ public class ProjectController {
         Optional<Employee> employee = employeeRepository.findById(employeeId);
         project.get().setEmployee(null);
         return project.get();
+    }
+
+    @PutMapping("/{projectId}/task/{taskId}")
+    public Project assignTaskToProject(@PathVariable Long projectId, @PathVariable Long taskId){
+        Optional<Project> projectOptional = service.findById(projectId);
+        Optional<Task> taskOptional = taskRepository.findTaskById(taskId);
+
+        projectOptional.get().addTask(taskOptional.get());
+        service.saveProject(projectOptional.get());
+        return projectOptional.get();
     }
 
 }

@@ -269,7 +269,17 @@ public class EmployeeController {
 
     }
 
-
+    // remove task
+    @PutMapping("/{employeeId}/employee/{taskId}/remove")
+    public Employee removeTaskFromEmployee(@PathVariable Long employeeId, @PathVariable Long taskId){
+        Optional<Employee> employeeExists = employeeService.findEmployeeById(employeeId);
+        Optional<Task> taskOptional = taskRepository.findTaskById(taskId);
+        Task task = taskOptional.get();
+//        employeeExists.get().setTasks(taskOptional.get().setEmployees(null)); // remove task on id
+        employeeExists.get().removeTask(taskId);
+        employeeService.save(employeeExists.get());
+        return employeeExists.get();
+    }
 
 
 }
