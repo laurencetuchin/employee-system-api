@@ -108,6 +108,14 @@ public class Project {
         this.employee = employee;
     }
 
+    public void removeEmployee(Long employeeId){
+        Long employeeId1 = this.employee.getId();
+        if (employeeId1 == employeeId){
+            this.employee.setProjects(null);
+            employee.setProjects(null);
+        }
+    }
+
 
     public LocalDateTime getStartDate() {
         return startDate;
