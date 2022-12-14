@@ -28,7 +28,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/task") // Need to add in API versioning
+@RequestMapping("/api/employee") // Need to add in API versioning
 //@CrossOrigin(origins = "http://localhost:8081")
 public class EmployeeController {
 
