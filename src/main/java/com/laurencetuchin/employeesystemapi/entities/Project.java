@@ -5,10 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import net.bytebuddy.asm.Advice;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.EnumOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -22,6 +25,7 @@ public class Project {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name")
+    @NotNull(message = "name must not be null")
     private String name;
 
     // need to map to Employee - may remove, field seems redundant
@@ -30,12 +34,14 @@ public class Project {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
+    @NotNull
     private ProjectStatus status;
 
     @Column(name = "startDate") // defaults Project start time to now
     private LocalDateTime startDate = LocalDateTime.now();
 
     @Column(name = "endDate") // defaults Project end time to 7 days from now
+    @FutureOrPresent
     private LocalDateTime endDate = LocalDateTime.now().plusDays(7);
 
 

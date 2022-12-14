@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Null;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -39,7 +41,7 @@ public class ProjectService {
         projectRepository.deleteById(id);
     }
 
-    public Project updateProjectById(@NotNull Project project, Long id){
+    public Project updateProjectById( Project project, Long id){
         Optional<Project> _project = projectRepository.findProjectById(id);
         if (!_project.isPresent()){
             throw new NoSuchElementException("Project with id: " + id + " does not exist");

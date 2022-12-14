@@ -7,12 +7,12 @@ import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
 import com.laurencetuchin.employeesystemapi.services.ProjectService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +55,7 @@ public class ProjectController {
     }
 
     @PostMapping("/save")
-    public Project saveProject(@RequestBody Project project) {
+    public Project saveProject(@Valid @RequestBody Project project) {
         return service.saveProject(project);
     }
 
@@ -65,7 +65,7 @@ public class ProjectController {
     }
 
     @PutMapping("/update/{id}")
-    public Project updateProjectById(@RequestBody @NotNull Project project,@PathVariable Long id) {
+    public Project updateProjectById(@Valid @RequestBody Project project, @PathVariable Long id) {
         return service.updateProjectById(project, id);
     }
 
