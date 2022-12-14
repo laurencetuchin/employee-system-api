@@ -3,6 +3,7 @@ package com.laurencetuchin.employeesystemapi.services;
 import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Task;
+import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
 import com.laurencetuchin.employeesystemapi.mappers.EmployeeMapper;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import org.jetbrains.annotations.NotNull;
@@ -88,15 +89,18 @@ public class EmployeeService {
         employeeRepository.deleteById(id);
     }
 
-    public Employee updateEmployeeById(@NotNull Employee employee){
-        boolean employeeExists = employeeRepository.existsById(employee.getId());
-        if (!employeeExists){
-            throw new NoSuchElementException("Employee with id: " + employee.getId() + " does not exist");
+    public Employee updateEmployeeById(@NotNull Employee employee, Long id){
+        Optional<Employee> employeeExists = employeeRepository.findById(id);
+        Employee employee1 = employeeExists.get();
+        if (!employeeExists.isPresent()){
+            throw new EmployeeNotFoundException("Employee with id: " + id + " does not exist");
         } else {
-
-        employeeRepository.save(employee);
+            employee1.setName(employee.getName());
+            employee1.setRole(employee.getRole());
+            employee1.setCurrentlyWorkingAtCompany(employee.isCurrentlyWorkingAtCompany());
+            employeeRepository.save(employee1);
         }
-        return employee;
+        return employee1;
     }
 
 

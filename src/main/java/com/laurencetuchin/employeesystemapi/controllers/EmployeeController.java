@@ -207,13 +207,16 @@ public class EmployeeController {
     @PutMapping("/employee/{id}")
     public ResponseEntity<Employee> updateEmployeeById(@RequestBody @NotNull Employee employee,@PathVariable Long id) {
         Optional<Employee> employeeExists = employeeService.findEmployeeById(id);
-
-        if (employeeExists.isPresent()){
-            return new ResponseEntity<>(employeeService.updateEmployeeById(employee),HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        Boolean employeeResult = employeeService.findEmployeeById(id).isEmpty();
+        if (employee == null){
+            throw new EmployeeNotFoundException("Please pass employee information in request body");
         }
+        try {
+            return new ResponseEntity<>(employeeService.updateEmployeeById(employee, id),HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
+        }
     }
 
 //    @PutMapping("/employee/{id}")
