@@ -6,6 +6,9 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,9 +20,11 @@ public class Task {
     private Long id;
 
     @Column(name = "name")
+    @NotNull @NotBlank
     private String name;
 
     @Column(name = "description")
+    @NotNull @NotBlank
     private String description;
 
     @Column(name = "status")
@@ -31,9 +36,11 @@ public class Task {
     private TaskPriority priority;
 
     @Column(name = "startDate") // add constraints for start date must be before end date
+    @FutureOrPresent
     private LocalDateTime startDate;
 
     @Column(name = "endDate")
+    @FutureOrPresent
     private LocalDateTime endDate;
 
     @ManyToOne(fetch = FetchType.LAZY) // , optional = false

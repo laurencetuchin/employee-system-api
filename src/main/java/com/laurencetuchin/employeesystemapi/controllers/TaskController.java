@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -58,12 +59,12 @@ public class TaskController {
 
 
     @PostMapping("/save/") // request body????
-    public Task saveTask(@RequestBody Task task) {
+    public Task saveTask(@Valid @RequestBody Task task) {
         return service.saveTask(task);
     }
 
     @PutMapping("/update/{id}")
-    public Task updateTask(@RequestBody Task task,@PathVariable Long id) {
+    public Task updateTask(@Valid @RequestBody Task task,@PathVariable Long id) {
         return service.updateTask(task, id);
     }
 
