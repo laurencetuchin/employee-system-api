@@ -146,9 +146,14 @@ public class EmployeeController {
 
 
     // add handler for no result
+    // result is present?
     @GetMapping("/search{partialName}")
 //    @ResponseBody
     ResponseEntity<List<Employee>> findByNameIgnoreCaseContains(@RequestParam String partialName){
+        Boolean noResult = employeeService.findByNameIgnoreCaseContains(partialName).isEmpty();
+        if (noResult){
+            throw new EmployeeNotFoundException("Employee with name: " + partialName + " not found");
+        }
         try {
             return new ResponseEntity<>(employeeService.findByNameIgnoreCaseContains(partialName), HttpStatus.FOUND);
         } catch (EmployeeNotFoundException e) {
