@@ -1,6 +1,7 @@
 package com.laurencetuchin.employeesystemapi.services;
 
 import com.laurencetuchin.employeesystemapi.entities.Employee;
+import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -241,7 +242,7 @@ class EmployeeServiceTest {
         assertThat(employeeName).isEqualTo("Bilbo");
         employee.setName("Tomato Man");
         employee.setRole("Burger Shop King");
-        service.updateEmployeeById(employee);
+        service.updateEmployeeById(employee,2L);
         // then
         assertThat(employee.getName()).isEqualTo("Tomato Man");
         assertThat(employee.getRole()).isEqualTo("Burger Shop King");
@@ -260,8 +261,8 @@ class EmployeeServiceTest {
         Optional<Employee> employeeById = service.findEmployeeById(100L);
 
         // then
-        assertThrows(NoSuchElementException.class, () -> {
-            service.updateEmployeeById(employeeById.get());
+        assertThrows(EmployeeNotFoundException.class, () -> {
+            service.updateEmployeeById(employeeById.get(),100L);
         });
 
     }
