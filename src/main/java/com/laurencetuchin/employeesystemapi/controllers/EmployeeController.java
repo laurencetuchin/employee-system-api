@@ -164,6 +164,10 @@ public class EmployeeController {
     @GetMapping("/search/role{role}") // example api/search/role?role=Delivery
 //    @ResponseBody
     ResponseEntity<List<Employee>> findByRoleIgnoreCaseContains(@RequestParam String role){
+        boolean noResult = employeeService.findByRoleIgnoreCaseContains(role).isEmpty();
+        if (noResult){
+            throw new EmployeeNotFoundException("No employee with role: " + role + " found. Please try again with a different role");
+        }
         try {
             return new ResponseEntity<>(employeeService.findByRoleIgnoreCaseContains(role), HttpStatus.FOUND);
         } catch (EmployeeNotFoundException e) {
