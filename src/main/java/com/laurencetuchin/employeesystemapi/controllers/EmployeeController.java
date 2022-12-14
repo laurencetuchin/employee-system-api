@@ -176,8 +176,12 @@ public class EmployeeController {
     }
 
     @GetMapping("/search/partialNameAndRole{partialName}") // pushes URL string like ?partialName=example&role=example
-    @ResponseBody
+//    @ResponseBody
     ResponseEntity<List<Employee>> findEmployeeByNameAndRole(@RequestParam String partialName, @RequestParam String role){
+        boolean noPartialNameOrRoleResult = employeeService.findEmployeeByNameAndRole(partialName,role).isEmpty();
+        if (noPartialNameOrRoleResult){
+            throw new EmployeeNotFoundException("Employee with name: " + partialName + " or role: " + role + " not found. Please try again with new parameters.");
+        }
         try {
             System.out.println("name is: " + partialName + "role is : " + role);
 
