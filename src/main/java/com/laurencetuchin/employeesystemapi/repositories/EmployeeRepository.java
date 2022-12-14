@@ -23,6 +23,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findEmployeeByNameOrRole(String partialName, String role);
 
+    List<Employee> findByTasksAllIgnoreCase(Task tasks);
+
 //    @Query("select e from Employee e where e.employeeTasks = ?1")
 //    List<Employee> findByEmployeeTasks(Task employeeTasks);
 

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
@@ -12,7 +13,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Entity // @Table not needed for object storage
+@Entity
+ // @Table not needed for object storage
 //@Table(name = "employees")
 public class Employee {
 
@@ -22,11 +24,11 @@ public class Employee {
 
     @Column(name = "name")
     @Size(min = 1, max = 10)
-    @NotNull
+    @NotNull @NotBlank
     private String name;
 
     @Column(name = "role")
-    @NotNull
+    @NotNull @NotBlank
     private String role;
 
     @Column(name = "email")

@@ -15,11 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
+import javax.validation.Valid;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/employee") // Need to add in API versioning
 //@CrossOrigin(origins = "http://localhost:8081")
+@Validated
 public class EmployeeController {
 
     @Autowired
@@ -194,7 +197,7 @@ public class EmployeeController {
 
 
     @PostMapping("/employee/create")
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee employee) {
         try {
             Employee employee1 = employeeService
                     .addNewEmployee(new Employee(employee.getName(), employee.getRole()));
@@ -205,7 +208,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/employee/{id}")
-    public ResponseEntity<Employee> updateEmployeeById(@RequestBody @NotNull Employee employee,@PathVariable Long id) {
+    public ResponseEntity<Employee> updateEmployeeById(@RequestBody @Valid Employee employee,@PathVariable Long id) {
         Optional<Employee> employeeExists = employeeService.findEmployeeById(id);
 //        Boolean employeeResult = employeeService.findEmployeeById(id).isEmpty();
         if (employee == null){
