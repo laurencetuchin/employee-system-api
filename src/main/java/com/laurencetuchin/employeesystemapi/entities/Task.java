@@ -36,12 +36,12 @@ public class Task {
     private TaskPriority priority;
 
     @Column(name = "startDate") // add constraints for start date must be before end date
-//    @FutureOrPresent
-    private LocalDateTime startDate;
+    @FutureOrPresent
+    private LocalDateTime startDate = LocalDateTime.now();
 
     @Column(name = "endDate")
-//    @FutureOrPresent
-    private LocalDateTime endDate;
+    @FutureOrPresent
+    private LocalDateTime endDate = LocalDateTime.now().plusDays(7);
 
     @ManyToOne(fetch = FetchType.LAZY) // , optional = false
     @JoinColumn(name = "project_id") //, nullable = false
