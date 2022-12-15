@@ -1,14 +1,18 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.executable.ValidateOnExecution;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,7 +40,10 @@ public class Task {
     private TaskPriority priority;
 
     @Column(name = "startDate") // add constraints for start date must be before end date
-    @FutureOrPresent
+//    @FutureOrPresent
+//    @Pattern(regexp = "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$\n",message = "Start date must be in date format yyyy--mm-dd")
+//    @DateTimeFormat(pattern = "yyyy-mm-dd")
+//    @JsonFormat(pattern = "yyyy-mm-dd")
     private LocalDateTime startDate = LocalDateTime.now();
 
     @Column(name = "endDate")
