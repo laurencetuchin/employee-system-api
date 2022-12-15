@@ -70,6 +70,24 @@ public class GlobalExceptionHandler {
                         .build(),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<ErrorDTO> handleMethodException(final MethodArgumentNotValidException exception) {
+//
+//        return new ResponseEntity<>(
+//                ErrorDTO.builder()
+////                        .withTitle(exception.getLocalizedMessage())
+////                        .withDetail(exception.getMessage())
+////                        .withTitle(exception.getParameter().getParameterName())
+////                        .withTitle(exception.getBindingResult().getTarget().toString())
+////                        .withTitle(exception.getBindingResult().getFieldErrors().toString())
+////                        .withDetail(exception.getCause().toString())
+//                        .withDetail(exception.getMessage())
+//                        .withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
+//                        .withErrorType(exception.getClass().getSimpleName())
+//                        .withErrorCode(HttpStatus.BAD_REQUEST.getReasonPhrase())
+//                        .build(),
+//                HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
 
 //    @Override
