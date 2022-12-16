@@ -8,6 +8,11 @@ import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException
 import com.laurencetuchin.employeesystemapi.mappers.EmployeeMapper;
 import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,18 +71,19 @@ public class EmployeeController {
 //        }
 //        return new ResponseEntity<>
 //    }
-
-
+    @Operation(summary = "Get Employee by Id", description = "Get an Employee by Id", tags = "Get")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found Employee",
+            content = {@Content(mediaType = "application/json",
+            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "404", description = "Employee not found",
+            content = @Content)})
     @GetMapping("/employee/{id}")
     public ResponseEntity getEmployeeById(@PathVariable("id") Long id) {
         Optional<Employee> employeeIfExists = employeeService.findEmployeeById(id);
-
-//        if (employeeIfExists.isPresent()) {
-//            return new ResponseEntity<Employee>(employeeIfExists.get(),HttpStatus.OK);
-//        } else {
-//            throw new EmployeeNotFoundException("not found");
-//        }
-
+        if (employeeIfExists.isEmpty()){
+            throw new EmployeeNotFoundException("Employee with id: " + id + " not found");
+        }
         try {
             if (employeeIfExists.isPresent()) {
 
