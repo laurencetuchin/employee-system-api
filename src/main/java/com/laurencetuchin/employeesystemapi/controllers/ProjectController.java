@@ -141,6 +141,13 @@ public class ProjectController {
         }
     }
 
+    @Operation(summary = "Delete Project by Id", description = "Delete Project by Id PathVariable", tags = {"Delete"} )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Projects deleted",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Project.class))}),
+            @ApiResponse(responseCode = "400", description = "Project not deleted",
+                    content = @Content)})
     @DeleteMapping("/delete/{id}")
     public void deleteProject(@PathVariable("id") Long id) {
         service.deleteProject(id);
