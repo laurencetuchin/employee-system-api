@@ -38,15 +38,15 @@ public class EmployeeSystemApiApplication {
 		SpringApplication.run(EmployeeSystemApiApplication.class, args);
 
 	}
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/v3/api-docs/**").allowedOrigins("*");
-            }
-        };
-    }
+//    @Bean
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurerAdapter() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/v3/api-docs/**").allowedOrigins("*");
+//            }
+//        };
+//    }
 
 
 //	@Bean
