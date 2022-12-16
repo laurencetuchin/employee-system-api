@@ -195,9 +195,24 @@ public class ProjectController {
         }
     }
 
+    @Operation(summary = "Find Active Projects", description = "Find Active Projects", tags = "Project" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Project found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Project.class))}),
+            @ApiResponse(responseCode = "404", description = "Project not found",
+                    content = @Content)})
     @GetMapping("/status/active")
-    public List<Project> findByStatusActive() {
-        return service.findProjectByStatus(ProjectStatus.pending);
+    public ResponseEntity<List<Project>> findByStatusActive() {
+
+        List<Project> activeProjects = service.findProjectByStatus(ProjectStatus.pending);
+        if (activeProjects.isEmpty()){
+            throw new ProjectNotFoundException("Projects with status: Active not found");
+        } try {
+            return new ResponseEntity<>(activeProjects, HttpStatus.OK);
+        } catch (ProjectNotFoundException e){
+            return new ResponseEntity<>(activeProjects, HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/{projectId}/employee/{employeeId}")
