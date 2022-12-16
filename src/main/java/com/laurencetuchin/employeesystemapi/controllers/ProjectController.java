@@ -4,11 +4,20 @@ import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Project;
 import com.laurencetuchin.employeesystemapi.entities.ProjectStatus;
 import com.laurencetuchin.employeesystemapi.entities.Task;
+import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
+import com.laurencetuchin.employeesystemapi.exceptions.ProjectNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
 import com.laurencetuchin.employeesystemapi.services.ProjectService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,9 +43,24 @@ public class ProjectController {
         this.service = service;
     }
 
+    @Operation(summary = "Find Project by Name", description = "Find Project by Name using RequestParam", tags = "Get")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Project found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "404", description = "Project not found",
+                    content = @Content)})
     @GetMapping("/find/name/")
-    public List<Project> findProjectByName(@RequestParam String name) {
-        return service.findProjectByName(name);
+    public ResponseEntity<List<Project>> findProjectByName(@RequestParam String name) {
+
+        List<Project> project = service.findProjectByName(name);
+        if (project.isEmpty()){
+            throw new ProjectNotFoundException("Project with name: " + name + " not found");
+        } try {
+            return new ResponseEntity<>(project, HttpStatus.OK);
+        } catch (EmployeeNotFoundException e){
+            return new ResponseEntity<>(project, HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/find/status/")
