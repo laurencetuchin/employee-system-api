@@ -1,7 +1,6 @@
 package com.laurencetuchin.employeesystemapi.controllers;
 
 import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
-import com.laurencetuchin.employeesystemapi.dto.ErrorDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
@@ -13,25 +12,21 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
 import javax.validation.Valid;
-import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -42,21 +37,21 @@ import java.util.stream.Collectors;
 public class EmployeeController {
 
     @Autowired
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     @Autowired
     private TaskRepository taskRepository;
 
     private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
 
-    private EmployeeMapper employeeMapper = new EmployeeMapper();
+    private final EmployeeMapper employeeMapper = new EmployeeMapper();
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
 
-//    @GetMapping("/employees/all")
+    //    @GetMapping("/employees/all")
 //    public ResponseEntity<List<Employee>> getAllEmployees(@RequestParam(required = false) String name) {
 //        try {
 //            List<Employee> employees = new ArrayList<Employee>();
@@ -74,20 +69,20 @@ public class EmployeeController {
     @Operation(summary = "Get Employee by Id", description = "Get an Employee by Id", tags = "Get")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employee",
-            content = {@Content(mediaType = "application/json",
-            schema = @Schema(implementation = Employee.class))}),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
             @ApiResponse(responseCode = "404", description = "Employee not found",
-            content = @Content)})
+                    content = @Content)})
     @GetMapping("/employee/{id}")
     public ResponseEntity getEmployeeById(@PathVariable("id") Long id) {
         Optional<Employee> employeeIfExists = employeeService.findEmployeeById(id);
-        if (employeeIfExists.isEmpty()){
+        if (employeeIfExists.isEmpty()) {
             throw new EmployeeNotFoundException("Employee with id: " + id + " not found");
         }
         try {
             if (employeeIfExists.isPresent()) {
 
-                return ResponseEntity.status( HttpStatus.OK).body(employeeIfExists.get());
+                return ResponseEntity.status(HttpStatus.OK).body(employeeIfExists.get());
 //                return new ResponseEntity<>(employeeIfExists.get(), HttpStatus.OK);
             }
         } catch (EmployeeNotFoundException e) {
@@ -95,7 +90,7 @@ public class EmployeeController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Employee Found");
 //            throw new EmployeeNotFoundException("Employee not found");
         }
-        return new ResponseEntity<>(employeeIfExists.get(),HttpStatus.FOUND);
+        return new ResponseEntity<>(employeeIfExists.get(), HttpStatus.FOUND);
     }
 
 
@@ -110,14 +105,32 @@ public class EmployeeController {
 //                .collect(Collectors.toList());
 //    }
 
-
+    @Operation(summary = "Get Employees", description = "Get all Employees", tags = "Get")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found Employees",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "404", description = "Employees not found",
+                    content = @Content)})
     @GetMapping("/employees/all")
-    @ResponseBody
-    public List<Employee> getAllEmployees() {
-        return employeeService.getAllEmployees();
+    public ResponseEntity<List<Employee>> getAllEmployees() {
+        List<Employee> employees = employeeService.getAllEmployees();
+        if (employees.isEmpty()){
+            throw new EmployeeNotFoundException("Employees not found");
+        } try {
+            return new ResponseEntity<>(employees, HttpStatus.OK);
+        } catch (EmployeeNotFoundException e){
+            return new ResponseEntity<>(employees, HttpStatus.NOT_FOUND);
+        }
     }
 
-
+    @Operation(summary = "Get Employees DTO", description = "Get all Employees DTO", tags = "Get")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found Employees",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "404", description = "Employees not found",
+                    content = @Content)})
     @GetMapping("/employees/dto")
     public List<EmployeeDTO> getAllEmployeesDTO() {
         List<EmployeeDTO> employees = employeeService.getAllEmployees()
@@ -127,104 +140,128 @@ public class EmployeeController {
     }
 
     // Search result based on employment status
+    @Operation(summary = "Get Employees by Employment Status", description = "Get Employees by Employment Status, requires a boolean of true or false", tags = "Get")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found Employees",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "404", description = "Employees not found",
+                    content = @Content)})
     @GetMapping("/employment{result}")
     public ResponseEntity<List<Employee>> getCurrentlyEmployedEmployees(@RequestParam boolean result) {
-//            return employeeService.findCurrentlyEmployedEmployees(result);
-        // add in error handling
-        try {
-            return new ResponseEntity<>(employeeService.findCurrentlyEmployedEmployees(result), HttpStatus.FOUND);
-        } catch (HttpServerErrorException.InternalServerError e) {
-//             return "Error " + e;
-//            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
-            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
+        List<Employee> currentlyEmployedEmployees = employeeService.findCurrentlyEmployedEmployees(result);
+        if (currentlyEmployedEmployees.isEmpty()){
+            throw new EmployeeNotFoundException("Employees not found");
         }
-
-
+        try {
+            return new ResponseEntity<>(currentlyEmployedEmployees, HttpStatus.OK);
+        } catch (EmployeeNotFoundException e) {
+            return new ResponseEntity<>(currentlyEmployedEmployees,HttpStatus.NOT_FOUND);
+        }
     }
-
-//    @GetMapping("/exception/{exception_id}")
-//    public void getSpecificException(@PathVariable("exception_id") String pException){
-//        if ("not_found".equals(pException)){
-//            throw new EmployeeNotFoundException("employee not found");
-//        } else if ("bad_arguments".equals(pException)){
-//            throw new BadArgumentsException("bad arguments");
-//        } else {
-//            throw new InternalException("internal error");
-//        }
-//    }
-
-
 
 
     // add handler for no result
     // result is present?
-    @GetMapping("/search{partialName}")
+    @Operation(summary = "Get Employees by Name", description = "Get Employees by Name, case insensitive e.g. frodo, FRODO, FrOdO", tags = "Get")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found Employees",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "404", description = "Employees not found",
+                    content = @Content)})
+    @GetMapping("/search/name")
 //    @ResponseBody
-    ResponseEntity<List<Employee>> findByNameIgnoreCaseContains(@RequestParam String partialName){
-        Boolean noResult = employeeService.findByNameIgnoreCaseContains(partialName).isEmpty();
-        if (noResult){
+    ResponseEntity<List<Employee>> findByNameIgnoreCaseContains(@RequestParam String partialName) {
+        List<Employee> employees = employeeService.findByNameIgnoreCaseContains(partialName);
+        if (employees.isEmpty()) {
             throw new EmployeeNotFoundException("Employee with name: " + partialName + " not found");
         }
         try {
-            return new ResponseEntity<>(employeeService.findByNameIgnoreCaseContains(partialName), HttpStatus.FOUND);
+            return new ResponseEntity<>(employees, HttpStatus.OK);
         } catch (EmployeeNotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(employees, HttpStatus.NOT_FOUND);
         }
     }
 
-    @GetMapping("/search/role{role}") // example api/search/role?role=Delivery
-//    @ResponseBody
-    ResponseEntity<List<Employee>> findByRoleIgnoreCaseContains(@RequestParam String role){
-        boolean noResult = employeeService.findByRoleIgnoreCaseContains(role).isEmpty();
-        if (noResult){
+    @Operation(summary = "Get Employees by Role", description = "Get Employees by Role, case insensitive e.g. ring bearer, RING BEARER, RiNg BEaReR", tags = "Get")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found Employees",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "404", description = "Employees not found",
+                    content = @Content)})
+    @GetMapping("/search/role")
+    ResponseEntity<List<Employee>> findByRoleIgnoreCaseContains(@RequestParam String role) {
+        List<Employee> employees = employeeService.findByRoleIgnoreCaseContains(role);
+        if (employees.isEmpty()) {
             throw new EmployeeNotFoundException("No employee with role: " + role + " found. Please try again with a different role");
         }
         try {
-            return new ResponseEntity<>(employeeService.findByRoleIgnoreCaseContains(role), HttpStatus.FOUND);
+            return new ResponseEntity<>(employees, HttpStatus.OK);
         } catch (EmployeeNotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(employees, HttpStatus.NOT_FOUND);
         }
     }
 
-    @GetMapping("/search/partialNameAndRole{partialName}") // pushes URL string like ?partialName=example&role=example
-//    @ResponseBody
-    ResponseEntity<List<Employee>> findEmployeeByNameAndRole(@RequestParam String partialName, @RequestParam String role){
-        boolean noPartialNameOrRoleResult = employeeService.findEmployeeByNameAndRole(partialName,role).isEmpty();
-        if (noPartialNameOrRoleResult){
-            throw new EmployeeNotFoundException("Employee with name: " + partialName + " or role: " + role + " not found. Please try again with new parameters.");
+    @Operation(summary = "Get Employees by Name and Role", description = "Get Employees by Name and Role, Exact match on name and role e.g. name: Frodo, role: Ring bearer", tags = "Get")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found Employees",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "404", description = "Employees not found",
+                    content = @Content)})
+    @GetMapping("/search/NameAndRole")
+    ResponseEntity<List<Employee>> findEmployeeByNameAndRole(@RequestParam String name, @RequestParam String role) {
+
+        List<Employee> employees = employeeService.findEmployeeByNameAndRole(name, role);
+        if (employees.isEmpty()) {
+            throw new EmployeeNotFoundException("Employee with name: " + name + " or role: " + role + " not found. Please try again with new parameters.");
         }
         try {
-            System.out.println("name is: " + partialName + "role is : " + role);
+            System.out.println("name is: " + name + "role is : " + role);
 
-            return new ResponseEntity<>(employeeService.findEmployeeByNameAndRole(partialName,role), HttpStatus.FOUND);
+            return new ResponseEntity<>(employees, HttpStatus.OK);
         } catch (EmployeeNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
 
-
+    @Operation(summary = "Create new Employee", description = "Create new Employee, accepts @RequestBody if valid", tags = "Post")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created Employee",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "500", description = "Employees not created",
+                    content = @Content)})
     @PostMapping("/employee/create")
     public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee employee) {
         try {
             Employee employee1 = employeeService
-                    .addNewEmployee(new Employee(employee.getName(), employee.getRole()));
+                    .addNewEmployee(new Employee(employee.getName(), employee.getRole(), employee.isCurrentlyWorkingAtCompany()));
             return new ResponseEntity<>(employee1, HttpStatus.CREATED);
-        } catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Operation(summary = "Update Employee by Id", description = "Update existing Employee by Id, accepts @RequestBody if valid, uses PathVariable for id", tags = "Put")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Updated Employee",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "500", description = "Employees not updated",
+                    content = @Content)})
     @PutMapping("/employee/{id}")
-    public ResponseEntity<Employee> updateEmployeeById(@RequestBody @Valid Employee employee,@PathVariable Long id) {
+    public ResponseEntity<Employee> updateEmployeeById(@RequestBody @Valid Employee employee, @PathVariable Long id) {
         Optional<Employee> employeeExists = employeeService.findEmployeeById(id);
 //        Boolean employeeResult = employeeService.findEmployeeById(id).isEmpty();
-        if (employee == null){
+        if (employee == null) {
             throw new EmployeeNotFoundException("Please pass employee information in request body");
         }
         try {
-            return new ResponseEntity<>(employeeService.updateEmployeeById(employee, id),HttpStatus.OK);
-        } catch (Exception e){
+            return new ResponseEntity<>(employeeService.updateEmployeeById(employee, id), HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
@@ -246,8 +283,15 @@ public class EmployeeController {
 //        }
 //    }
 
+    @Operation(summary = "Delete Employee by Id", description = "Delete existing Employee by Id, accepts  if valid, uses PathVariable for id", tags = "Delete")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Deleted Employee",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "500", description = "Employees not deleted",
+                    content = @Content)})
     @DeleteMapping("/employee/delete/{id}") // update with Response Entity to return response
-    public void deleteEmployee(@PathVariable Long id){
+    public void deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployeeById(id);
     }
 
@@ -271,8 +315,15 @@ public class EmployeeController {
 //    }
 
 
+    @Operation(summary = "Assign Task to Employee", description = "Assign task to employee, uses PathVariable for id", tags = "Put")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task assigned to Employee",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "500", description = "Task not assigned",
+                    content = @Content)})
     @PutMapping("/{employeeId}/employee/{taskId}")
-    public Employee assignEmployeeTask(@PathVariable Long employeeId, @PathVariable Long taskId){
+    public Employee assignEmployeeTask(@PathVariable Long employeeId, @PathVariable Long taskId) {
         Optional<Employee> employeeExists = employeeService.findEmployeeById(employeeId);
         Optional<Task> taskOptional = taskRepository.findTaskById(taskId);
         Task task = taskOptional.get();
@@ -290,8 +341,15 @@ public class EmployeeController {
     }
 
     // remove task
+    @Operation(summary = "Remove Task from Employee", description = "Remove task from employee, uses PathVariable for id", tags = "Put")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task removed from Employee",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "500", description = "Task not removed",
+                    content = @Content)})
     @PutMapping("/{employeeId}/employee/{taskId}/remove")
-    public Employee removeTaskFromEmployee(@PathVariable Long employeeId, @PathVariable Long taskId){
+    public Employee removeTaskFromEmployee(@PathVariable Long employeeId, @PathVariable Long taskId) {
         Optional<Employee> employeeExists = employeeService.findEmployeeById(employeeId);
         Optional<Task> taskOptional = taskRepository.findTaskById(taskId);
         Task task = taskOptional.get();

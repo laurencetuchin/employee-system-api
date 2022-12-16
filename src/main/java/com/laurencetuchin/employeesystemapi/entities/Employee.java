@@ -24,11 +24,11 @@ public class Employee {
 
     @Column(name = "name")
     @Size(min = 1, max = 10)
-//    @NotNull @NotBlank
+    @NotNull @NotBlank
     private String name;
 
     @Column(name = "role")
-//    @NotNull @NotBlank
+    @NotNull @NotBlank(message = "role must not be blank")
     private String role;
 
     @Column(name = "email")
