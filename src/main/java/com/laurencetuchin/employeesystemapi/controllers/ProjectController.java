@@ -215,13 +215,29 @@ public class ProjectController {
         }
     }
 
+    @Operation(summary = "Assign Project to Employee", description = "Assign Project to Employee", tags = "Project" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Project assigned",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Project.class))}),
+            @ApiResponse(responseCode = "500", description = "Project not assigned",
+                    content = @Content)})
     @PutMapping("/{projectId}/employee/{employeeId}")
-    public Project assignProjectToEmployee(@PathVariable Long projectId, @PathVariable Long employeeId){
+    public ResponseEntity<Project> assignProjectToEmployee(@PathVariable Long projectId, @PathVariable Long employeeId){
+
         Optional<Project> project = service.findById(projectId);
         Optional<Employee> employee = employeeRepository.findById(employeeId);
-        project.get().setEmployee(employee.get());
-        service.saveProject(project.get());
-        return project.get();
+        if (project.isEmpty() && employee.isEmpty()){
+            throw new ProjectNotFoundException("Project cannot be assigned because project: " + project + " or employee: " + employee + " is empty");
+        }
+        Project project1 = project.get();
+                project1.setEmployee(employee.get());
+        Project saveProject = service.saveProject(project1);
+        try {
+            return new ResponseEntity<>(project1, HttpStatus.OK);
+        } catch (ProjectNotFoundException e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/{projectId}/employee/{employeeId}/remove")
