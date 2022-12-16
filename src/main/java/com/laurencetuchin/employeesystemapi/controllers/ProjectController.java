@@ -43,29 +43,43 @@ public class ProjectController {
         this.service = service;
     }
 
-    @Operation(summary = "Find Project by Name", description = "Find Project by Name using RequestParam", tags = "Get")
+    @Operation(summary = "Find Project by Name", description = "Find Project by Name query, case insensitive e.g. ManchEster, manchester, MANCHESTER", tags = "Project" )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Project found",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Employee.class))}),
+                            schema = @Schema(implementation = Project.class))}),
             @ApiResponse(responseCode = "404", description = "Project not found",
                     content = @Content)})
     @GetMapping("/find/name/")
     public ResponseEntity<List<Project>> findProjectByName(@RequestParam String name) {
-
         List<Project> project = service.findProjectByName(name);
         if (project.isEmpty()){
             throw new ProjectNotFoundException("Project with name: " + name + " not found");
         } try {
             return new ResponseEntity<>(project, HttpStatus.OK);
-        } catch (EmployeeNotFoundException e){
+        } catch (ProjectNotFoundException e){
             return new ResponseEntity<>(project, HttpStatus.NOT_FOUND);
         }
     }
 
+    @Operation(summary = "Find Project by Status", description = "Find Project by Status, must match enum e.g. pending, complete, notready", tags = "Project" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Project found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Project.class))}),
+            @ApiResponse(responseCode = "404", description = "Project not found",
+                    content = @Content)})
     @GetMapping("/find/status/")
-    public List<Project> findProjectByStatus(@RequestParam ProjectStatus status) {
-        return service.findProjectByStatus(status);
+    public ResponseEntity<List<Project>> findProjectByStatus(@RequestParam ProjectStatus status) {
+        List<Project> project = service.findProjectByStatus(status);
+        if (project.isEmpty()){
+            throw new ProjectNotFoundException("Project with status: " + status + " not found");
+        }
+        try {
+            return new ResponseEntity<>(project, HttpStatus.OK);
+        } catch (ProjectNotFoundException e) {
+            return new ResponseEntity<>(project, HttpStatus.NOT_FOUND);
+        }
     }
 
 
