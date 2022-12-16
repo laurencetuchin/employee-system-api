@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
                         .withDetail(exception.getMessage())
                         .withStatus(HttpStatus.NOT_FOUND.value())
                         .withErrorType(ProjectNotFoundException.class.getSimpleName())
-                        .withErrorCode(exception.getCause().toString()).build(),
+                        .withErrorCode("Project not found").build(),
                 HttpStatus.NOT_FOUND);
     }
 
