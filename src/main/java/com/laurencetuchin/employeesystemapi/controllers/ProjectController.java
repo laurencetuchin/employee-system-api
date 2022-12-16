@@ -251,7 +251,7 @@ public class ProjectController {
     public ResponseEntity<Project> removeProjectFromEmployee(@PathVariable Long projectId, @PathVariable Long employeeId){
         Optional<Project> project = service.findById(projectId);
         Optional<Employee> employee = employeeRepository.findById(employeeId);
-        if (project.isEmpty() && employee.isEmpty()){
+        if (project.isEmpty() || employee.isEmpty()){
             throw new ProjectNotFoundException("Project cannot be removed because project: " + project + " or employee: " + employee + " is empty");
         }
         Project project1 = project.get();
@@ -265,14 +265,29 @@ public class ProjectController {
 //        project.get().removeEmployee(employeeId);
     }
 
+    @Operation(summary = "Assign Task to Project", description = "Assign Task to Project", tags = "Project" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task assigned to Project",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Project.class))}),
+            @ApiResponse(responseCode = "500", description = "Task not assigned to Project",
+                    content = @Content)})
     @PutMapping("/{projectId}/task/{taskId}")
-    public Project assignTaskToProject(@PathVariable Long projectId, @PathVariable Long taskId){
+    public ResponseEntity<Project> assignTaskToProject(@PathVariable Long projectId, @PathVariable Long taskId){
         Optional<Project> projectOptional = service.findById(projectId);
         Optional<Task> taskOptional = taskRepository.findTaskById(taskId);
-
-        projectOptional.get().addTask(taskOptional.get());
-        service.saveProject(projectOptional.get());
-        return projectOptional.get();
+        if (projectOptional.isEmpty() || taskOptional.isEmpty()){
+            throw new ProjectNotFoundException("Project cannot be removed because project: " + projectId + " or task: " + taskId + " is empty");
+        }
+        Project project = projectOptional.get();
+        Task task = taskOptional.get();
+        try {
+        project.addTask(task);
+        Project saveProject = service.saveProject(project);
+            return new ResponseEntity<>(project, HttpStatus.OK);
+        } catch (ProjectNotFoundException e){
+            return new ResponseEntity<>(project, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
