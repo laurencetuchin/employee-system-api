@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/employee") // Need to add in API versioning
 //@CrossOrigin(origins = "http://localhost:8081")
 @Validated
+@CrossOrigin(origins = "http://localhost:8081/*")
 public class EmployeeController {
 
     @Autowired

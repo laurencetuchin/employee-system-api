@@ -64,6 +64,8 @@
 			<version>5.9.0</version>
 			<scope>test</scope>
 		</dependency>
+
+
 <!--		<dependency>-->
 <!--			<groupId>org.hibernate.validator</groupId>-->
 <!--			<artifactId>hibernate-validator</artifactId>-->
@@ -79,11 +81,12 @@
 <!--			<artifactId>hibernate-validator-cdi</artifactId>-->
 <!--			<version>8.0.0.Final</version>-->
 <!--		</dependency>-->
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-boot-starter</artifactId>
-			<version>3.0.0</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>io.springfox</groupId>-->
+<!--			<artifactId>springfox-boot-starter</artifactId>-->
+<!--			<version>3.0.0</version>-->
+<!--		</dependency>-->
+<!--		OpenAPI 3-->
 
 
 		<dependency>
@@ -99,6 +102,11 @@
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.6.11</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webflux</artifactId>
+			<version>6.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains</groupId>

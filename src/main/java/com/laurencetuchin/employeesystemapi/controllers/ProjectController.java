@@ -18,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/project")
+@CrossOrigin(origins = "http://localhost:8081/*")
 public class ProjectController {
 
     @Autowired
