@@ -1,6 +1,7 @@
 package com.laurencetuchin.employeesystemapi.exceptions;
 
 import com.laurencetuchin.employeesystemapi.dto.ErrorDTO;
+import com.laurencetuchin.employeesystemapi.entities.Project;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,17 @@ public class GlobalExceptionHandler {
                         .withStatus(HttpStatus.NOT_FOUND.value())
                         .withErrorType(EmployeeNotFoundException.class.getSimpleName())
                         .withErrorCode("Custom Error Code XXX").build(),
+                HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(ProjectNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleProjectNotFoundException(final ProjectNotFoundException exception) {
+        return new ResponseEntity<ErrorDTO>(
+                ErrorDTO.builder()
+                        .withTitle("Invalid Project")
+                        .withDetail(exception.getMessage())
+                        .withStatus(HttpStatus.NOT_FOUND.value())
+                        .withErrorType(ProjectNotFoundException.class.getSimpleName())
+                        .withErrorCode(exception.getCause().toString()).build(),
                 HttpStatus.NOT_FOUND);
     }
 
