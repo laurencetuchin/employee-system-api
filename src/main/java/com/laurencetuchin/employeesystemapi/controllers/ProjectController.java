@@ -153,9 +153,25 @@ public class ProjectController {
         service.deleteProject(id);
     }
 
+    @Operation(summary = "Update Project by Id", description = "Update Project by Id PathVariable", tags = {"Put"} )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Projects updated",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Project.class))}),
+            @ApiResponse(responseCode = "400", description = "Project not updated",
+                    content = @Content)})
     @PutMapping("/update/{id}")
-    public Project updateProjectById(@Valid @RequestBody Project project, @PathVariable Long id) {
-        return service.updateProjectById(project, id);
+    public ResponseEntity<Project> updateProjectById(@Valid @RequestBody Project project, @PathVariable Long id) {
+        Optional<Project> projectId = service.findById(id);
+        Project updateProjectById = service.updateProjectById(project, id);
+        if (projectId.isEmpty()){
+            throw new ProjectNotFoundException("Project with id: " + id + " not found");
+        }
+        try {
+            return new ResponseEntity<>(updateProjectById,HttpStatus.OK);
+        } catch (ProjectNotFoundException e){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/find/employee/")
