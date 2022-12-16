@@ -124,9 +124,21 @@ public class ProjectController {
         }
     }
 
+    @Operation(summary = "Create Project", description = "Create Project, accepts RequestBody", tags = {"Project","Post"} )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Projects created",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Project.class))}),
+            @ApiResponse(responseCode = "400", description = "Project not created",
+                    content = @Content)})
     @PostMapping("/save")
-    public Project saveProject(@Valid @RequestBody Project project) {
-        return service.saveProject(project);
+    public ResponseEntity<Project> saveProject(@Valid @RequestBody Project project) {
+        Project saveProject = service.saveProject(project);
+        try {
+            return new ResponseEntity<>(saveProject, HttpStatus.CREATED);
+        } catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/delete/{id}")
