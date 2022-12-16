@@ -174,9 +174,25 @@ public class ProjectController {
         }
     }
 
+    @Operation(summary = "Find Project by Employee", description = "Find Project by Employee, must have association between Project and Employee", tags = "Project" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Project found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Project.class))}),
+            @ApiResponse(responseCode = "404", description = "Project not found",
+                    content = @Content)})
     @GetMapping("/find/employee/")
-    public List<Project> findByEmployee_NameAllIgnoreCase(@RequestParam String name) {
-        return service.findByEmployee_NameAllIgnoreCase(name);
+    public ResponseEntity<List<Project>> findByEmployee_NameAllIgnoreCase(@RequestParam String name) {
+
+        List<Project> employee = service.findByEmployee_NameAllIgnoreCase(name);
+        if (employee.isEmpty()){
+            throw new ProjectNotFoundException("Project with Employee name: " + employee + " not found");
+        }
+        try {
+            return new ResponseEntity<>(employee,HttpStatus.OK);
+        } catch (ProjectNotFoundException e){
+            return new ResponseEntity<>(employee, HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/status/active")
