@@ -240,14 +240,29 @@ public class ProjectController {
         }
     }
 
+    @Operation(summary = "Remove Project from Employee", description = "Remove Project from Employee", tags = "Project" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Project removed",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Project.class))}),
+            @ApiResponse(responseCode = "500", description = "Project not removed",
+                    content = @Content)})
     @PutMapping("/{projectId}/employee/{employeeId}/remove")
-    public Project removeProjectFromEmployee(@PathVariable Long projectId, @PathVariable Long employeeId){
+    public ResponseEntity<Project> removeProjectFromEmployee(@PathVariable Long projectId, @PathVariable Long employeeId){
         Optional<Project> project = service.findById(projectId);
         Optional<Employee> employee = employeeRepository.findById(employeeId);
+        if (project.isEmpty() && employee.isEmpty()){
+            throw new ProjectNotFoundException("Project cannot be removed because project: " + project + " or employee: " + employee + " is empty");
+        }
+        Project project1 = project.get();
+        project1.setEmployee(null); // is null ok bc only one employee assigned to project
+        Project saveProject = service.saveProject(project1);
+        try {
+            return new ResponseEntity<>(project1, HttpStatus.OK);
+        } catch (ProjectNotFoundException e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 //        project.get().removeEmployee(employeeId);
-        project.get().setEmployee(null); // is null ok bc only one employee assigned to project
-        service.saveProject(project.get());
-        return project.get();
     }
 
     @PutMapping("/{projectId}/task/{taskId}")
