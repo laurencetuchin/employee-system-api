@@ -137,9 +137,21 @@ public class TaskController {
     }
 
 
-    @PostMapping("/save/") // request body????
-    public Task saveTask(@Valid @RequestBody Task task) {
-        return service.saveTask(task);
+    @Operation(summary = "Save Task", description = "Save Task, accepts RequestBody", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Task Saved",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "404", description = "Task not saved",
+                    content = @Content)})
+    @PostMapping("/save/")
+    public ResponseEntity<Task> saveTask(@Valid @RequestBody Task task) {
+        Task saveTask = service.saveTask(task);
+        try {
+            return new ResponseEntity<>(saveTask, HttpStatus.CREATED);
+        } catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/update/{id}")
