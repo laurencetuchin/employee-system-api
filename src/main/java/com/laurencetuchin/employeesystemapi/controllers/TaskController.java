@@ -12,6 +12,7 @@ import com.laurencetuchin.employeesystemapi.services.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -157,7 +158,18 @@ public class TaskController {
         }
     }
 
-    @Operation(summary = "Update Task", description = "Update Task by Id, accepts RequestBody, uses @PathVariable for id", tags = "Task", method = "Put")
+    @Operation(summary = "Update Task", description = "Update Task by Id, accepts RequestBody, uses @PathVariable for id", tags = "Task", method = "Put",
+            parameters = {@Parameter(name = "id", description = "Path Variable id for task", example = "1")},
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Request Body description",
+                    content = {@Content(
+                            examples = {@ExampleObject(
+                                    name = "endDate",
+                                    value = "2033-12-17T04:02:44.491Z",
+                                    description = "Date Task ends",
+                                    summary = "End date must be in future time")}
+                    )}
+            ))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Task updated",
                     content = {@Content(mediaType = "application/json",
@@ -165,7 +177,9 @@ public class TaskController {
             @ApiResponse(responseCode = "400", description = "Bad Request",
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Task not found",
-                    content = @Content)})
+                    content = @Content)
+    }
+    )
     @PutMapping("/update/{id}")
     public ResponseEntity<Task> updateTask(@Valid @RequestBody Task task, @PathVariable Long id) {
         Optional<Task> optionalTask = service.findTaskById(id);
