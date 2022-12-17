@@ -281,13 +281,30 @@ public class TaskController {
         }
     }
 
+    @Operation(summary = "Assign Task to Project", description = "Assign Task to Project, uses PathVariable for taskId and projectId", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task assigned",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server error",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Task Not assigned",
+                    content = @Content)})
     @PutMapping("/{taskId}/project/{projectId}")
-    public Task assignTaskToProject(@PathVariable Long taskId, @PathVariable Long projectId) {
+    public ResponseEntity<Task> assignTaskToProject(@PathVariable Long taskId, @PathVariable Long projectId) {
         Optional<Task> taskOptional = service.findTaskById(taskId);
         Optional<Project> projectOptional = projectService.findById(projectId);
-        taskOptional.get().setProject(projectOptional.get());
-        service.saveTask(taskOptional.get()); // saving or updating
-        return taskOptional.get();
+        if (taskOptional.isEmpty() || projectOptional.isEmpty()){
+            throw new TaskNotFoundException("Task with id: " + taskId + " or project with id: " + projectId + " not found");
+        }
+            Task task = taskOptional.get();
+            task.setProject(projectOptional.get());
+            Task saveTask = service.saveTask(task);
+        try {
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        } catch (TaskNotFoundException e) {
+            return new ResponseEntity<>(task,HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/project/{projectId}/task/{taskId}/remove")
