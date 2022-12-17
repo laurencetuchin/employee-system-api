@@ -15,14 +15,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -94,7 +90,6 @@ public class EmployeeController {
     }
 
 
-
     // Return Employee DTO for client
 //
 //    @GetMapping("/employees")
@@ -115,11 +110,12 @@ public class EmployeeController {
     @GetMapping("/employees/all")
     public ResponseEntity<List<Employee>> getAllEmployees() {
         List<Employee> employees = employeeService.getAllEmployees();
-        if (employees.isEmpty()){
+        if (employees.isEmpty()) {
             throw new EmployeeNotFoundException("Employees not found");
-        } try {
+        }
+        try {
             return new ResponseEntity<>(employees, HttpStatus.OK);
-        } catch (EmployeeNotFoundException e){
+        } catch (EmployeeNotFoundException e) {
             return new ResponseEntity<>(employees, HttpStatus.NOT_FOUND);
         }
     }
@@ -138,6 +134,7 @@ public class EmployeeController {
                 .collect(Collectors.toList());
         return employees;
     }
+
     @Operation(summary = "Get Employees DTO", description = "Get all Employees DTO", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employees",
@@ -164,13 +161,13 @@ public class EmployeeController {
     @GetMapping("/employment{result}")
     public ResponseEntity<List<Employee>> getCurrentlyEmployedEmployees(@RequestParam boolean result) {
         List<Employee> currentlyEmployedEmployees = employeeService.findCurrentlyEmployedEmployees(result);
-        if (currentlyEmployedEmployees.isEmpty()){
+        if (currentlyEmployedEmployees.isEmpty()) {
             throw new EmployeeNotFoundException("Employees not found");
         }
         try {
             return new ResponseEntity<>(currentlyEmployedEmployees, HttpStatus.OK);
         } catch (EmployeeNotFoundException e) {
-            return new ResponseEntity<>(currentlyEmployedEmployees,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(currentlyEmployedEmployees, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -233,8 +230,6 @@ public class EmployeeController {
             throw new EmployeeNotFoundException("Employee with name: " + name + " or role: " + role + " not found. Please try again with new parameters.");
         }
         try {
-            System.out.println("name is: " + name + "role is : " + role);
-
             return new ResponseEntity<>(employees, HttpStatus.OK);
         } catch (EmployeeNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -250,7 +245,7 @@ public class EmployeeController {
             @ApiResponse(responseCode = "500", description = "Employees not created",
                     content = @Content)})
     @PostMapping("/employee/create")
-    public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee employee) {
+    public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
         try {
             Employee employee1 = employeeService
                     .addNewEmployee(new Employee(employee.getName(), employee.getRole(), employee.isCurrentlyWorkingAtCompany()));
@@ -259,6 +254,7 @@ public class EmployeeController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @Operation(summary = "Update Employee by Id", description = "Update existing Employee by Id, accepts @RequestBody if valid, uses PathVariable for id", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Updated Employee",
@@ -268,34 +264,16 @@ public class EmployeeController {
                     content = @Content)})
     @PutMapping("/employee/{id}")
     public ResponseEntity<Employee> updateEmployeeById(@RequestBody @Valid Employee employee, @PathVariable Long id) {
-        Optional<Employee> employeeExists = employeeService.findEmployeeById(id);
-//        Boolean employeeResult = employeeService.findEmployeeById(id).isEmpty();
-        if (employee == null) {
-            throw new EmployeeNotFoundException("Please pass employee information in request body");
+        Optional<Employee> employeeOptional = employeeService.findEmployeeById(id);
+        if (employeeOptional.isEmpty()) {
+            throw new EmployeeNotFoundException("Employee with id: %d not found".formatted(id));
         }
         try {
             return new ResponseEntity<>(employeeService.updateEmployeeById(employee, id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
         }
     }
-
-//    @PutMapping("/employee/{id}")
-//    public ResponseEntity<Employee> updateEmployee(@PathVariable("id") Long id) {
-//        Optional<Employee> employeeIfExists = employeeService.findEmployeeById(id);
-//
-//
-//        if (employeeIfExists.isPresent()) {
-//            Employee employee1 = employeeIfExists.get();
-//            employee1.setName(employee1.getName());
-//            employee1.setRole(employee1.getRole());
-//            employeeService.save(employee1);
-//            return new ResponseEntity<>(employeeService.updateEmployeeById(employee1), HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
 
     @Operation(summary = "Delete Employee by Id", description = "Delete existing Employee by Id, accepts  if valid, uses PathVariable for id", tags = "Employee")
     @ApiResponses(value = {
@@ -309,18 +287,6 @@ public class EmployeeController {
         employeeService.deleteEmployeeById(id);
     }
 
-
-//    @PutMapping("/employee/update/{id}")
-//    public void updateEmployee(Long id){
-//        employeeService.
-//    }
-
-
-//    @GetMapping("/employee/tasks")
-//    @Query("select e from Employee e where e.employeeTasks = ?1")
-//    public List<Employee> findByEmployeeTasks(@RequestParam Task employeeTasks) {
-//        return employeeService.findByEmployeeTasks(employeeTasks);
-//    }
 
 //    @GetMapping("/employee/{id}/task/{named}")
 //    @Query("select e from Employee e inner join e.employeeTasks employeeTasks where employeeTasks.name = :name")
@@ -337,21 +303,21 @@ public class EmployeeController {
             @ApiResponse(responseCode = "500", description = "Task not assigned",
                     content = @Content)})
     @PutMapping("/{employeeId}/employee/{taskId}")
-    public Employee assignEmployeeTask(@PathVariable Long employeeId, @PathVariable Long taskId) {
-        Optional<Employee> employeeExists = employeeService.findEmployeeById(employeeId);
+    public ResponseEntity<Employee> assignEmployeeTask(@PathVariable Long employeeId, @PathVariable Long taskId) {
+        Optional<Employee> employeeOptional = employeeService.findEmployeeById(employeeId);
         Optional<Task> taskOptional = taskRepository.findTaskById(taskId);
+        if (employeeOptional.isEmpty() || taskOptional.isEmpty()) {
+            throw new EmployeeNotFoundException("Employee with id: %d or task id: %d not found".formatted(employeeId, taskId));
+        }
         Task task = taskOptional.get();
-        employeeExists.get().addTask(taskOptional.get());
-//        Set<Task> singleton = Collections.singleton(task);
-//        employeeExists.get().setTasks(singleton);
-        employeeService.save(employeeExists.get());
-        return employeeExists.get();
-//        if (!employeeExists.isPresent()){
-//            throw new EmployeeNotFoundException("Employee with id: " + employeeId + "does not exist");
-//        } else {
-//            employeeExists.get().addTask(task);
-//        }
-
+        Employee employee = employeeOptional.get();
+        employee.addTask(taskOptional.get());
+        employeeService.save(employee);
+        try {
+            return new ResponseEntity<>(employee, HttpStatus.OK);
+        } catch (EmployeeNotFoundException e) {
+            return new ResponseEntity<>(employee, HttpStatus.NOT_FOUND);
+        }
     }
 
     // remove task
@@ -363,14 +329,22 @@ public class EmployeeController {
             @ApiResponse(responseCode = "500", description = "Task not removed",
                     content = @Content)})
     @PutMapping("/{employeeId}/employee/{taskId}/remove")
-    public Employee removeTaskFromEmployee(@PathVariable Long employeeId, @PathVariable Long taskId) {
-        Optional<Employee> employeeExists = employeeService.findEmployeeById(employeeId);
+    public ResponseEntity<Employee> removeTaskFromEmployee(@PathVariable Long employeeId, @PathVariable Long taskId) {
+        Optional<Employee> employeeOptional = employeeService.findEmployeeById(employeeId);
         Optional<Task> taskOptional = taskRepository.findTaskById(taskId);
         Task task = taskOptional.get();
-//        employeeExists.get().setTasks(taskOptional.get().setEmployees(null)); // remove task on id
-        employeeExists.get().removeTask(taskId);
-        employeeService.save(employeeExists.get());
-        return employeeExists.get();
+        if (employeeOptional.isEmpty() || taskOptional.isEmpty()) {
+            throw new EmployeeNotFoundException("Employee with id: %d or task with id: %d not found".formatted(employeeId, taskId));
+        }
+        Employee employee = employeeOptional.get();
+        employee.removeTask(taskId);
+        employeeService.save(employee);
+        try {
+            return new ResponseEntity<>(employee, HttpStatus.OK);
+        } catch (EmployeeNotFoundException e) {
+            return new ResponseEntity<>(employee, HttpStatus.NOT_FOUND);
+        }
+
     }
 
 
