@@ -124,7 +124,7 @@ public class ProjectController {
         }
     }
 
-    @Operation(summary = "Create Project", description = "Create Project, accepts RequestBody", tags = {"Project","Post"} )
+    @Operation(summary = "Create Project", description = "Create Project, accepts RequestBody", tags = {"Project"} )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Projects created",
                     content = {@Content(mediaType = "application/json",
@@ -141,7 +141,7 @@ public class ProjectController {
         }
     }
 
-    @Operation(summary = "Delete Project by Id", description = "Delete Project by Id PathVariable", tags = {"Delete"} )
+    @Operation(summary = "Delete Project by Id", description = "Delete Project by Id PathVariable", tags = "Project" )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Projects deleted",
                     content = {@Content(mediaType = "application/json",
@@ -153,7 +153,7 @@ public class ProjectController {
         service.deleteProject(id);
     }
 
-    @Operation(summary = "Update Project by Id", description = "Update Project by Id PathVariable", tags = {"Put"} )
+    @Operation(summary = "Update Project by Id", description = "Update Project by Id PathVariable", tags = "Project" )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Projects updated",
                     content = {@Content(mediaType = "application/json",
