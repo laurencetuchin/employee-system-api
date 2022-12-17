@@ -151,15 +151,16 @@ public class EmployeeController {
             @ApiResponse(responseCode = "404", description = "Employees not found",
                     content = @Content)})
     @GetMapping("/employment-status")
-    public ResponseEntity<List<Employee>> getEmployeeByEmploymentStatus(@RequestParam EmploymentStatus status) {
+    public ResponseEntity<List<EmployeeDTO>> getEmployeeByEmploymentStatus(@RequestParam EmploymentStatus status) {
         List<Employee> employeeStatus = employeeService.findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(status);
+        List<EmployeeDTO> employeeDTOS = employeeStatus.stream().map(employee -> employeeMapper.toDto(employee)).collect(Collectors.toList());
         if (employeeStatus.isEmpty()) {
             throw new EmployeeNotFoundException("Employees not found");
         }
         try {
-            return new ResponseEntity<>(employeeStatus, HttpStatus.OK);
+            return new ResponseEntity<>(employeeDTOS, HttpStatus.OK);
         } catch (EmployeeNotFoundException e) {
-            return new ResponseEntity<>(employeeStatus, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(employeeDTOS, HttpStatus.NOT_FOUND);
         }
     }
 
