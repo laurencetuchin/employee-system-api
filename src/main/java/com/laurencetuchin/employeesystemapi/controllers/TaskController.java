@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -117,7 +118,7 @@ public class TaskController {
                     content = @Content)})
     @GetMapping("/ending/") // update to sort by end date
     @Query("select t from Task t where t.endDate = ?1 order by t.endDate")
-    public ResponseEntity<List<Task>> findByEndDateOrderByEndDateAsc(LocalDateTime endDate) {
+    public ResponseEntity<List<Task>> findByEndDateOrderByEndDateAsc(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
 
         List<Task> endDateAsc = service.findByEndDateOrderByEndDateAsc(endDate);
         if (endDateAsc.isEmpty()){
