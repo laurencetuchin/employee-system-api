@@ -80,12 +80,12 @@ public class TaskController {
     public ResponseEntity<List<Task>> findTaskByName(@RequestParam String name) {
 
         List<Task> task = service.findTaskByName(name);
-        if (task.isEmpty()){
+        if (task.isEmpty()) {
             throw new TaskNotFoundException("Task with name: " + name + " not found");
         }
         try {
             return new ResponseEntity<>(task, HttpStatus.OK);
-        } catch (TaskNotFoundException e){
+        } catch (TaskNotFoundException e) {
             return new ResponseEntity<>(task, HttpStatus.NOT_FOUND);
         }
     }
@@ -101,12 +101,12 @@ public class TaskController {
     @Query("select t from Task t where t.priority = ?1")
     public ResponseEntity<List<Task>> findByPriority(@RequestParam TaskPriority priority) {
         List<Task> task = service.findByPriority(priority);
-        if (task.isEmpty()){
+        if (task.isEmpty()) {
             throw new TaskNotFoundException("Task with priority: " + priority + " not found");
         }
         try {
             return new ResponseEntity<>(task, HttpStatus.OK);
-        } catch (TaskNotFoundException e){
+        } catch (TaskNotFoundException e) {
             return new ResponseEntity<>(task, HttpStatus.NOT_FOUND);
         }
     }
@@ -118,21 +118,21 @@ public class TaskController {
                             schema = @Schema(implementation = Task.class))}),
             @ApiResponse(responseCode = "404", description = "Task not found",
                     content = @Content),
-    @ApiResponse(responseCode = "500", description = "Internal Server Error",
+            @ApiResponse(responseCode = "500", description = "Internal Server Error",
                     content = @Content)})
     @GetMapping("/ending/") // update to sort by end date
     @Query("select t from Task t where t.endDate = ?1 order by t.endDate")
     public ResponseEntity<List<Task>> findByEndDateOrderByEndDateAsc(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
 
         List<Task> endDateAsc = service.findByEndDateOrderByEndDateAsc(endDate);
-        if (endDateAsc.isEmpty()){
+        if (endDateAsc.isEmpty()) {
             throw new TaskNotFoundException("Task with end date: " + endDate + " not found");
         }
         try {
-            return new ResponseEntity<>(endDateAsc,HttpStatus.OK);
-        } catch (TaskNotFoundException e){
-            return new ResponseEntity<>(endDateAsc,HttpStatus.NOT_FOUND);
-        } catch (MethodArgumentTypeMismatchException e){
+            return new ResponseEntity<>(endDateAsc, HttpStatus.OK);
+        } catch (TaskNotFoundException e) {
+            return new ResponseEntity<>(endDateAsc, HttpStatus.NOT_FOUND);
+        } catch (MethodArgumentTypeMismatchException e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -152,7 +152,7 @@ public class TaskController {
         Task saveTask = service.saveTask(task);
         try {
             return new ResponseEntity<>(saveTask, HttpStatus.CREATED);
-        } catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -183,13 +183,13 @@ public class TaskController {
     public ResponseEntity<Task> updateTask(@Valid @RequestBody Task task, @PathVariable Long id) {
         Optional<Task> optionalTask = service.findTaskById(id);
         Task updateTask = service.updateTask(task, id);
-        if (optionalTask.isEmpty()){
+        if (optionalTask.isEmpty()) {
             throw new TaskNotFoundException("Task with id: " + id + " not found");
         }
         try {
-            return new ResponseEntity<>(task,HttpStatus.OK);
-        } catch (TaskNotFoundException e){
-            return new ResponseEntity<>(task,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        } catch (TaskNotFoundException e) {
+            return new ResponseEntity<>(task, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -205,14 +205,14 @@ public class TaskController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteTaskById(@PathVariable Long id) {
         Optional<Task> task = service.findTaskById(id);
-        if (task.isEmpty()){
+        if (task.isEmpty()) {
             throw new TaskNotFoundException("Task with id: " + id + " not found");
         }
         try {
             service.deleteTaskById(id);
             return new ResponseEntity<>(null, HttpStatus.OK);
-        } catch (TaskNotFoundException e){
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (TaskNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -229,13 +229,13 @@ public class TaskController {
     @GetMapping("/all")
     public ResponseEntity<List<Task>> findAll() {
         List<Task> taskList = service.findAll();
-        if (taskList.isEmpty()){
+        if (taskList.isEmpty()) {
             throw new TaskNotFoundException("Tasks not found");
         }
         try {
-            return new ResponseEntity<>(taskList,HttpStatus.OK);
-        } catch (TaskNotFoundException e){
-            return new ResponseEntity<>(taskList,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(taskList, HttpStatus.OK);
+        } catch (TaskNotFoundException e) {
+            return new ResponseEntity<>(taskList, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -254,13 +254,30 @@ public class TaskController {
 //        return service.saveTask(taskRequest);
 //    }
 
+    @Operation(summary = "Assign Task to Employee", description = "Assign Task to Employee, uses PathVariable for taskId and employeeId", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task assigned",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server error",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Task Not assigned",
+                    content = @Content)})
     @PutMapping("/{taskId}/employee/{employeeId}")
-    public Task assignTaskToEmployee(@PathVariable Long taskId, @PathVariable Long employeeId) {
+    public ResponseEntity<Task> assignTaskToEmployee(@PathVariable Long taskId, @PathVariable Long employeeId) {
         Optional<Task> _task = service.findTaskById(taskId);
         Optional<Employee> _employee = employeeRepository.findById(employeeId);
-        _task.get().setEmployees(Collections.singleton(_employee.get()));
-        service.saveTask(_task.get());
-        return _task.get();
+        if (_task.isEmpty() || _employee.isEmpty()) {
+            throw new TaskNotFoundException("Task with id: " + taskId + " or Employee with id: " + employeeId + " not found");
+        }
+        Task task = _task.get();
+        task.setEmployees(Collections.singleton(_employee.get()));
+        service.saveTask(task);
+        try {
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        } catch (TaskNotFoundException e) {
+            return new ResponseEntity<>(task, HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/{taskId}/project/{projectId}")
