@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import javax.validation.executable.ValidateOnExecution;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -33,10 +30,12 @@ public class Task {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
+    @NotNull
     private TaskStatus status;
 
     @Column(name = "priority")
     @Enumerated(EnumType.STRING)
+    @NotNull
     private TaskPriority priority;
 
     @Column(name = "startDate") // add constraints for start date must be before end date

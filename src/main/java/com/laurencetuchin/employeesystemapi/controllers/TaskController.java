@@ -10,6 +10,7 @@ import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.services.ProjectService;
 import com.laurencetuchin.employeesystemapi.services.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -142,7 +143,9 @@ public class TaskController {
             @ApiResponse(responseCode = "201", description = "Task Saved",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Task.class))}),
-            @ApiResponse(responseCode = "404", description = "Task not saved",
+            @ApiResponse(responseCode = "500", description = "Internal Server error",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad Request",
                     content = @Content)})
     @PostMapping("/save/")
     public ResponseEntity<Task> saveTask(@Valid @RequestBody Task task) {
@@ -154,9 +157,27 @@ public class TaskController {
         }
     }
 
+    @Operation(summary = "Update Task", description = "Update Task by Id, accepts RequestBody, uses @PathVariable for id", tags = "Task", method = "Put")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task updated",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad Request",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Task not found",
+                    content = @Content)})
     @PutMapping("/update/{id}")
-    public Task updateTask(@Valid @RequestBody Task task, @PathVariable Long id) {
-        return service.updateTask(task, id);
+    public ResponseEntity<Task> updateTask(@Valid @RequestBody Task task, @PathVariable Long id) {
+        Optional<Task> optionalTask = service.findTaskById(id);
+        Task updateTask = service.updateTask(task, id);
+        if (optionalTask.isEmpty()){
+            throw new TaskNotFoundException("Task with id: " + id + " not found");
+        }
+        try {
+            return new ResponseEntity<>(task,HttpStatus.OK);
+        } catch (TaskNotFoundException e){
+            return new ResponseEntity<>(task,HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/delete/{id}")
