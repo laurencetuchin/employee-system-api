@@ -46,6 +46,18 @@ public class GlobalExceptionHandler {
                 HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleTaskNotFoundException(final TaskNotFoundException exception) {
+        return new ResponseEntity<ErrorDTO>(
+                ErrorDTO.builder()
+                        .withTitle("Invalid Task")
+                        .withDetail(exception.getMessage())
+                        .withStatus(HttpStatus.NOT_FOUND.value())
+                        .withErrorType(TaskNotFoundException.class.getSimpleName())
+                        .withErrorCode("Task not found").build(),
+                HttpStatus.NOT_FOUND);
+    }
+
 //    @ExceptionHandler(HttpClientErrorException.NotFound.class)
 //    public ResponseEntity<ErrorDTO> handleEmployeeNotFoundException(final HttpClientErrorException.NotFound exception) {
 //        return new ResponseEntity<ErrorDTO>(
