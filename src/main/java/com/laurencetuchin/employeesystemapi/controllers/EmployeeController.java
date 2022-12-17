@@ -141,6 +141,7 @@ public class EmployeeController {
         return employees;
     }
 
+    /// ** Refactor to ENUM
     @Operation(summary = "Get Employees by Employment Status", description = "Get Employees by Employment Status, requires a boolean of true or false", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employees",
@@ -275,12 +276,6 @@ public class EmployeeController {
         employeeService.deleteEmployeeById(id);
     }
 
-
-//    @GetMapping("/employee/{id}/task/{named}")
-//    @Query("select e from Employee e inner join e.employeeTasks employeeTasks where employeeTasks.name = :name")
-//    public List<Employee> findByEmployeeTasks_Name(@RequestParam String name, @PathVariable Long id) {
-//        return employeeService.findByEmployeeTasks_Name(name);
-//    }
 
 
     @Operation(summary = "Assign Task to Employee", description = "Assign task to employee, uses PathVariable for id", tags = "Employee")
