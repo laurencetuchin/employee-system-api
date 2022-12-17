@@ -270,9 +270,10 @@ public class TaskController {
         if (_task.isEmpty() || _employee.isEmpty()) {
             throw new TaskNotFoundException("Task with id: " + taskId + " or Employee with id: " + employeeId + " not found");
         }
-        Task task = _task.get();
-        task.setEmployees(Collections.singleton(_employee.get()));
-        service.saveTask(task);
+            Task task = _task.get();
+//            task.setEmployees(Collections.singleton(_employee.get()));
+            task.addEmployee(_employee.get());
+            service.saveTask(task);
         try {
             return new ResponseEntity<>(task, HttpStatus.OK);
         } catch (TaskNotFoundException e) {
