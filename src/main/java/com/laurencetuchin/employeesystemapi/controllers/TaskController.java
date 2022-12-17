@@ -20,6 +20,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -114,7 +115,9 @@ public class TaskController {
             @ApiResponse(responseCode = "200", description = "Task found",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Task.class))}),
-            @ApiResponse(responseCode = "400", description = "Task not found",
+            @ApiResponse(responseCode = "404", description = "Task not found",
+                    content = @Content),
+    @ApiResponse(responseCode = "500", description = "Internal Server Error",
                     content = @Content)})
     @GetMapping("/ending/") // update to sort by end date
     @Query("select t from Task t where t.endDate = ?1 order by t.endDate")
@@ -128,6 +131,8 @@ public class TaskController {
             return new ResponseEntity<>(endDateAsc,HttpStatus.OK);
         } catch (TaskNotFoundException e){
             return new ResponseEntity<>(endDateAsc,HttpStatus.NOT_FOUND);
+        } catch (MethodArgumentTypeMismatchException e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
