@@ -84,13 +84,27 @@ public class TaskController {
         } catch (TaskNotFoundException e){
             return new ResponseEntity<>(task, HttpStatus.NOT_FOUND);
         }
-
     }
 
+    @Operation(summary = "Get Task by Priority", description = "Get Task by Priority query", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "400", description = "Task not found",
+                    content = @Content)})
     @GetMapping("/priority/")
     @Query("select t from Task t where t.priority = ?1")
-    public List<Task> findByPriority(@RequestParam TaskPriority priority) {
-        return service.findByPriority(priority);
+    public ResponseEntity<List<Task>> findByPriority(@RequestParam TaskPriority priority) {
+        List<Task> task = service.findByPriority(priority);
+        if (task.isEmpty()){
+            throw new TaskNotFoundException("Task with priority: " + priority + " not found");
+        }
+        try {
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        } catch (TaskNotFoundException e){
+            return new ResponseEntity<>(task, HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/ending/") // update to sort by end date
