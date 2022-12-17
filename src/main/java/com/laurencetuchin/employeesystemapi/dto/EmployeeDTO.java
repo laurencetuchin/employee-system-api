@@ -57,11 +57,12 @@ public class EmployeeDTO {
         this.status = status;
     }
 
-    public EmployeeDTO(Long id, String name, String role, String email, EmploymentStatus employmentStatus) {
+
+    public EmployeeDTO(Long id, String name, String role, String email, EmploymentStatus status) {
         this.id = id;
         this.name = name;
         this.role = role;
         this.email = email;
+        this.status = status;
     }
-
 }

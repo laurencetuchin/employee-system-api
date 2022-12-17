@@ -11,7 +11,6 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
  // @Table not needed for object storage
@@ -38,7 +37,7 @@ public class Employee {
     @Column(name = "employment_status")
     @Enumerated(EnumType.STRING)
     @NotNull
-    private EmploymentStatus employmentStatus;
+    private EmploymentStatus status;
     @JsonIgnore
     @OneToMany( mappedBy = "employee")
     private List<Project> projects;
@@ -64,7 +63,7 @@ public class Employee {
         this.name = name;
         this.role = role;
         this.email = email;
-        this.employmentStatus = employmentStatus;
+        this.status = employmentStatus;
     }
 
     public String getEmail() {
@@ -75,12 +74,12 @@ public class Employee {
         this.email = email;
     }
 
-    public EmploymentStatus getEmploymentStatus() {
-        return employmentStatus;
+    public EmploymentStatus getStatus() {
+        return status;
     }
 
-    public void setEmploymentStatus(EmploymentStatus employmentStatus) {
-        this.employmentStatus = employmentStatus;
+    public void setStatus(EmploymentStatus status) {
+        this.status = status;
     }
 
     public Long getId() {
@@ -149,7 +148,7 @@ public class Employee {
                 ", name='" + name + '\'' +
                 ", role='" + role + '\'' +
                 ", email='" + email + '\'' +
-                ", employmentStatus=" + employmentStatus +
+                ", employmentStatus=" + status +
                 '}';
     }
 }

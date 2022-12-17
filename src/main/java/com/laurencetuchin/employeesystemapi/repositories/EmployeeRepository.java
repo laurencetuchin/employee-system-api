@@ -24,8 +24,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findEmployeeByNameOrRoleAllIgnoreCase(String partialName, String role);
 
-    @Query("select e from Employee e where upper(e.employmentStatus) = upper(?1) order by e.name")
-    List<Employee> findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(EmploymentStatus employmentStatus);
+    @Query("select e from Employee e where upper(e.status) = upper(?1) order by e.name")
+    List<Employee> findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(EmploymentStatus status);
+
+    @Query("select e from Employee e where e.status = ?1")
+    List<Employee> findByStatus(EmploymentStatus status);
 
 
 

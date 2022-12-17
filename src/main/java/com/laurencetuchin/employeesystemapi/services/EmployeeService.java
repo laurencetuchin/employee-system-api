@@ -90,7 +90,7 @@ public class EmployeeService {
         } else {
             employee1.setName(employee.getName());
             employee1.setRole(employee.getRole());
-            employee1.setEmploymentStatus(employee.getEmploymentStatus());
+            employee1.setStatus(employee.getStatus());
             employee1.setEmail(employee.getEmail());
             employeeRepository.save(employee1);
         }
@@ -99,8 +99,13 @@ public class EmployeeService {
 
 
     @Query("select e from Employee e where upper(e.employmentStatus) = upper(?1) order by e.name")
-    public List<Employee> findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(EmploymentStatus employmentStatus) {
-        return employeeRepository.findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(employmentStatus);
+    public List<Employee> findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(EmploymentStatus status) {
+        return employeeRepository.findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(status);
+    }
+
+    @Query("select e from Employee e where e.status = ?1")
+    public List<Employee> findByStatus(EmploymentStatus status) {
+        return employeeRepository.findByStatus(status);
     }
 }
 

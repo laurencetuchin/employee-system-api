@@ -152,10 +152,10 @@ public class EmployeeController {
                     content = @Content)})
     @GetMapping("/employment-status")
     public ResponseEntity<List<EmployeeDTO>> getEmployeeByEmploymentStatus(@RequestParam EmploymentStatus status) {
-        List<Employee> employeeStatus = employeeService.findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(status);
+        List<Employee> employeeStatus = employeeService.findByStatus(status);
         List<EmployeeDTO> employeeDTOS = employeeStatus.stream().map(employee -> employeeMapper.toDto(employee)).collect(Collectors.toList());
         if (employeeStatus.isEmpty()) {
-            throw new EmployeeNotFoundException("Employees not found");
+            throw new EmployeeNotFoundException("Employees not a found");
         }
         try {
             return new ResponseEntity<>(employeeDTOS, HttpStatus.OK);
@@ -259,7 +259,7 @@ public class EmployeeController {
     public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
         try {
             Employee employee1 = employeeService
-                    .createEmployee(new Employee(employee.getName(), employee.getRole(), employee.getEmail(), employee.getEmploymentStatus()));
+                    .createEmployee(new Employee(employee.getName(), employee.getRole(), employee.getEmail(), employee.getStatus()));
             return new ResponseEntity<>(employee1, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
