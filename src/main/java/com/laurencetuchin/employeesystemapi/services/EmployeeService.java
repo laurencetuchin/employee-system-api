@@ -25,15 +25,15 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> findByNameIgnoreCaseContains(String partialName){
+    public List<Employee> findByName(String partialName){
         return employeeRepository.findByNameIgnoreCaseContains(partialName);
     }
 
-    public List<Employee> findByRoleIgnoreCaseContains(String role){
+    public List<Employee> findByRole(String role){
         return employeeRepository.findByRoleIgnoreCaseContains(role);
     }
 
-    public List<Employee> findCurrentlyEmployedEmployees(boolean isCurrentlyEmployedAtCompany){
+    public List<Employee> findByEmploymentStatus(boolean isCurrentlyEmployedAtCompany){
         return employeeRepository.findByIsCurrentlyWorkingAtCompany(isCurrentlyEmployedAtCompany);
     }
 
@@ -42,7 +42,7 @@ public class EmployeeService {
     }
 
     public List<Employee> findEmployeeByNameOrRole(String partialName, String role){
-        return employeeRepository.findEmployeeByNameOrRole(partialName,role);
+        return employeeRepository.findEmployeeByNameOrRoleAllIgnoreCase(partialName,role);
     }
 
 
@@ -62,17 +62,11 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<Employee> getEmployeeDTOById(Long id){
-        return employeeRepository.findById(id);
-    }
 
     public Employee save(Employee employee){
         return employeeRepository.save(employee);
     }
 
-
-
-    // add check for already exists
     public Employee createEmployee(Employee employee){
         return employeeRepository.save(employee);
     }
@@ -102,19 +96,6 @@ public class EmployeeService {
     }
 
 
-//    @Query("select e from Employee e where e.employeeTasks = ?1")
-//    public List<Employee> findByEmployeeTasks(Task employeeTasks) {
-//        return employeeRepository.findByEmployeeTasks(employeeTasks);
-//    }
-
-//    @Query("select e from Employee e inner join e.employeeTasks employeeTasks where employeeTasks.name = :name")
-//    public List<Employee> findByEmployeeTasks_Name(String name) {
-//        return employeeRepository.findByEmployeeTasks_Name(name);
-//    }
-
-//    public Task addTaskToEmployee(Task task){
-//
-//    }
 
 
 

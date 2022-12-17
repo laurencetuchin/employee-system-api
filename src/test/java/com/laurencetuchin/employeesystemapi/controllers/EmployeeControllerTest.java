@@ -202,7 +202,7 @@ class EmployeeControllerTest {
         List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2,employee3));
 
         boolean result = true;
-        when(employeeService.findCurrentlyEmployedEmployees(result)).thenReturn(employeeList);
+        when(employeeService.findByEmploymentStatus(result)).thenReturn(employeeList);
 
         mockMvc.perform(get("/api/employment")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -289,7 +289,7 @@ class EmployeeControllerTest {
 
     @Test
     void findByRoleIgnoreCaseContains() {
-        when(employeeService.findByRoleIgnoreCaseContains("ring"))
+        when(employeeService.findByRole("ring"))
                 .thenReturn(List.of());
 
         try {
@@ -300,7 +300,7 @@ class EmployeeControllerTest {
             throw new RuntimeException(e);
         }
 
-        verify(employeeService.findByRoleIgnoreCaseContains("ring"));
+        verify(employeeService.findByRole("ring"));
     }
 
 
@@ -369,7 +369,7 @@ class EmployeeControllerTest {
         String partialName = "joao";
 
         // stub
-        when(employeeService.findByNameIgnoreCaseContains(partialName)).thenReturn(Collections.singletonList(employee3));
+        when(employeeService.findByName(partialName)).thenReturn(Collections.singletonList(employee3));
 
         ResultActions response = mockMvc.perform(get("/api/search")
                 .contentType(MediaType.APPLICATION_JSON)

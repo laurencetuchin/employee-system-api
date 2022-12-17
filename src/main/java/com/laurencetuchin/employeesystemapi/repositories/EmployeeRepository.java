@@ -2,9 +2,8 @@ package com.laurencetuchin.employeesystemapi.repositories;
 
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Task;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,7 +20,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findEmployeeByNameAndRole(String partialName, String role);
 
-    List<Employee> findEmployeeByNameOrRole(String partialName, String role);
+    List<Employee> findEmployeeByNameOrRoleAllIgnoreCase(String partialName, String role);
+
+
+
 
     List<Employee> findByTasksAllIgnoreCase(Task tasks);
 

@@ -51,7 +51,7 @@ class EmployeeServiceTest {
 
         // when
         Employee employee = employeeService.getAllEmployees().get(6);
-        List<Employee> findEmployeeWithName = employeeService.findByNameIgnoreCaseContains("Cristiano");
+        List<Employee> findEmployeeWithName = employeeService.findByName("Cristiano");
 
         // then
         // checks that expected name matches
@@ -59,7 +59,7 @@ class EmployeeServiceTest {
         assertEquals("Cristiano Ronaldo",employee.getName());
         // checks that expected size matches
         assertEquals(1, findEmployeeWithName.size());
-        assertEquals(1, employeeService.findByNameIgnoreCaseContains("FrOdo").size());
+        assertEquals(1, employeeService.findByName("FrOdo").size());
     }
 
     @Test
@@ -67,14 +67,14 @@ class EmployeeServiceTest {
         // given
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         // when
-        List<Employee> byRoleIgnoreCaseContains = employeeService.findByRoleIgnoreCaseContains("STriker");
+        List<Employee> byRoleIgnoreCaseContains = employeeService.findByRole("STriker");
         String role = byRoleIgnoreCaseContains.get(0).getRole();
         // then
         // checks role matches expected case
         assertEquals("Striker", role);
         // checks size of Employee is expected
         assertEquals(1, byRoleIgnoreCaseContains.size());
-        assertEquals(3, employeeService.findByRoleIgnoreCaseContains("riNg").size());
+        assertEquals(3, employeeService.findByRole("riNg").size());
     }
 
     @Test
@@ -82,7 +82,7 @@ class EmployeeServiceTest {
         // given
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         // when
-        List<Employee> byRoleIgnoreCaseContains = employeeService.findByRoleIgnoreCaseContains("striker");
+        List<Employee> byRoleIgnoreCaseContains = employeeService.findByRole("striker");
         String role = byRoleIgnoreCaseContains.get(0).getRole();
 
         // then
@@ -90,7 +90,7 @@ class EmployeeServiceTest {
         assertEquals("Striker", role);
         // checks role matches expected size
         assertEquals(1, byRoleIgnoreCaseContains.size());
-        assertEquals(3, employeeService.findByRoleIgnoreCaseContains("ring").size());
+        assertEquals(3, employeeService.findByRole("ring").size());
 
     }
 
@@ -99,14 +99,14 @@ class EmployeeServiceTest {
         // given
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         // when
-        List<Employee> byRoleIgnoreCaseContains = employeeService.findByRoleIgnoreCaseContains("STRIKER");
+        List<Employee> byRoleIgnoreCaseContains = employeeService.findByRole("STRIKER");
         String role = byRoleIgnoreCaseContains.get(0).getRole();
         // then
         // checks match expected role
         assertEquals("Striker", role);
         // checks match expected size
         assertEquals(1, byRoleIgnoreCaseContains.size());
-        assertEquals(2, employeeService.findByRoleIgnoreCaseContains("RING").size());
+        assertEquals(2, employeeService.findByRole("RING").size());
     }
 
     @Test
@@ -114,14 +114,14 @@ class EmployeeServiceTest {
         // given
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         // when
-        List<Employee> byRoleIgnoreCaseContains = employeeService.findByRoleIgnoreCaseContains("StRiKeR");
+        List<Employee> byRoleIgnoreCaseContains = employeeService.findByRole("StRiKeR");
         String role = byRoleIgnoreCaseContains.get(0).getRole();
         // then
         // checks expected match for role
         assertEquals("Striker", role);
         // checks expected match for employee size
         assertEquals(1, byRoleIgnoreCaseContains.size());
-        assertEquals(3,employeeService.findByRoleIgnoreCaseContains("RiNg").size());
+        assertEquals(3,employeeService.findByRole("RiNg").size());
 
     }
 
@@ -131,7 +131,7 @@ class EmployeeServiceTest {
         EmployeeService employeeService = new EmployeeService(employeeRepository);
 
         // when
-        List<Employee> currentlyEmployedEmployees = employeeService.findCurrentlyEmployedEmployees(true);
+        List<Employee> currentlyEmployedEmployees = employeeService.findByEmploymentStatus(true);
         List<Employee> totalEmployees = employeeService.getAllEmployees();
 
         assertThat(7).isEqualTo(currentlyEmployedEmployees.size());
@@ -145,7 +145,7 @@ class EmployeeServiceTest {
         Employee employee = new Employee("Alphonso Davies", "Left Winger", false);
         employeeService.save(employee);
         // when
-        List<Employee> currentlyNonEmployedEmployees = employeeService.findCurrentlyEmployedEmployees(false);
+        List<Employee> currentlyNonEmployedEmployees = employeeService.findByEmploymentStatus(false);
         boolean currentlyWorkingAtCompany = currentlyNonEmployedEmployees.get(0).isCurrentlyWorkingAtCompany();
 
         assertThat(currentlyNonEmployedEmployees).isNotNull();
@@ -154,7 +154,7 @@ class EmployeeServiceTest {
         Employee employee1 = new Employee("Bukayo Saka","Right winger", false);
         employeeService.save(employee1);
 
-        List<Employee> allFalseWorkingEmployees = employeeService.findCurrentlyEmployedEmployees(false);
+        List<Employee> allFalseWorkingEmployees = employeeService.findByEmploymentStatus(false);
         assertEquals(2, allFalseWorkingEmployees.size());
     }
 

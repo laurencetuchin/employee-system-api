@@ -151,7 +151,7 @@ public class EmployeeController {
                     content = @Content)})
     @GetMapping("/employment{result}")
     public ResponseEntity<List<Employee>> getCurrentlyEmployedEmployees(@RequestParam boolean result) {
-        List<Employee> currentlyEmployedEmployees = employeeService.findCurrentlyEmployedEmployees(result);
+        List<Employee> currentlyEmployedEmployees = employeeService.findByEmploymentStatus(result);
         if (currentlyEmployedEmployees.isEmpty()) {
             throw new EmployeeNotFoundException("Employees not found");
         }
@@ -173,7 +173,7 @@ public class EmployeeController {
     @GetMapping("/search/name")
 //    @ResponseBody
     ResponseEntity<List<Employee>> findByNameIgnoreCaseContains(@RequestParam String partialName) {
-        List<Employee> employees = employeeService.findByNameIgnoreCaseContains(partialName);
+        List<Employee> employees = employeeService.findByName(partialName);
         if (employees.isEmpty()) {
             throw new EmployeeNotFoundException("Employee with name: " + partialName + " not found");
         }
@@ -193,7 +193,7 @@ public class EmployeeController {
                     content = @Content)})
     @GetMapping("/search/role")
     ResponseEntity<List<Employee>> findByRoleIgnoreCaseContains(@RequestParam String role) {
-        List<Employee> employees = employeeService.findByRoleIgnoreCaseContains(role);
+        List<Employee> employees = employeeService.findByRole(role);
         if (employees.isEmpty()) {
             throw new EmployeeNotFoundException("No employee with role: " + role + " found. Please try again with a different role");
         }
