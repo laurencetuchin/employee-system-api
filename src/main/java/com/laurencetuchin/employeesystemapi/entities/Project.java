@@ -53,8 +53,8 @@ public class Project {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Employee employee;
 
-    @OneToMany(mappedBy = "project",fetch = FetchType.LAZY) // , orphanRemoval = true
-    @JsonIgnore
+    @OneToMany(mappedBy = "project") // , orphanRemoval = true
+//    @JsonIgnore
     private Set<Task> task;
 
     public Set<Task> getTask() {

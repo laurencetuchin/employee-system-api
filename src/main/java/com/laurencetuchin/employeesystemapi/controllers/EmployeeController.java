@@ -138,6 +138,20 @@ public class EmployeeController {
                 .collect(Collectors.toList());
         return employees;
     }
+    @Operation(summary = "Get Employees DTO", description = "Get all Employees DTO", tags = "Get")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found Employees",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "404", description = "Employees not found",
+                    content = @Content)})
+    @GetMapping("/employees/dto/{id}")
+    public List<EmployeeDTO> getAllEmployeesIDDTO(@PathVariable Long id) {
+        List<EmployeeDTO> employees = employeeService.findEmployeeById(id)
+                .stream().map(employee -> employeeMapper.toDto(employee))
+                .collect(Collectors.toList());
+        return employees;
+    }
 
     // Search result based on employment status
     @Operation(summary = "Get Employees by Employment Status", description = "Get Employees by Employment Status, requires a boolean of true or false", tags = "Get")

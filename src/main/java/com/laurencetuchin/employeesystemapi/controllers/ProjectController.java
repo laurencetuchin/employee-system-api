@@ -284,7 +284,7 @@ public class ProjectController {
         try {
         project.addTask(task);
         Project saveProject = service.saveProject(project);
-            return new ResponseEntity<>(project, HttpStatus.OK);
+            return new ResponseEntity<>(project,HttpStatus.OK);
         } catch (ProjectNotFoundException e){
             return new ResponseEntity<>(project, HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -1,12 +1,19 @@
 package com.laurencetuchin.employeesystemapi.controllers;
 
 import com.laurencetuchin.employeesystemapi.entities.*;
+import com.laurencetuchin.employeesystemapi.exceptions.TaskNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.services.ProjectService;
 import com.laurencetuchin.employeesystemapi.services.TaskService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +43,25 @@ public class TaskController {
     }
 
 
+    @Operation(summary = "Get Task by Id", description = "Get Task by Id", tags = "Task" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "400", description = "Task not found",
+                    content = @Content)})
     @GetMapping("/{id}")
-    public Optional<Task> findTaskById(@PathVariable("id") Long id) {
-        return service.findTaskById(id);
+    public ResponseEntity<Optional<Task>> findTaskById(@PathVariable("id") Long id) {
+
+        Optional<Task> task = service.findTaskById(id);
+        if (task.isEmpty()){
+            throw new TaskNotFoundException("Task with id: " + id + " not found");
+        }
+        try {
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        } catch (TaskNotFoundException e){
+            return new ResponseEntity<>(task, HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/name/")
