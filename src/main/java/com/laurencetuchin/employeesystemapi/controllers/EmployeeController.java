@@ -155,7 +155,7 @@ public class EmployeeController {
         List<Employee> employeeStatus = employeeService.findByStatus(status);
         List<EmployeeDTO> employeeDTOS = employeeStatus.stream().map(employee -> employeeMapper.toDto(employee)).collect(Collectors.toList());
         if (employeeStatus.isEmpty()) {
-            throw new EmployeeNotFoundException("Employees not a found");
+            throw new EmployeeNotFoundException("Employees not found");
         }
         try {
             return new ResponseEntity<>(employeeDTOS, HttpStatus.OK);
@@ -261,6 +261,26 @@ public class EmployeeController {
             Employee employee1 = employeeService
                     .createEmployee(new Employee(employee.getName(), employee.getRole(), employee.getEmail(), employee.getStatus()));
             return new ResponseEntity<>(employee1, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Operation(summary = "Create new Employee", description = "Create new Employee, accepts @RequestBody if valid", tags = "Employee")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created Employee",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = EmployeeDTO.class))}),
+            @ApiResponse(responseCode = "500", description = "Employees not created",
+                    content = @Content)})
+    @PostMapping("/employee/create/dto")
+    public ResponseEntity<EmployeeDTO> saveEmployeeAsDto(@Valid @RequestBody EmployeeDTO employeeDTO) {
+        Employee employee = employeeMapper.toEntity(employeeDTO);
+        employeeService.save(employee);
+        EmployeeDTO employeeDTO1 = employeeMapper.toDto(employee);
+        try {
+//            Employee employee1 = employeeService
+//                    .createEmployee(new Employee(employee.getName(), employee.getRole(), employee.getEmail(), employee.getStatus()));
+            return new ResponseEntity<>(employeeDTO1, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
