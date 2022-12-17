@@ -10,27 +10,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 
-import javax.print.attribute.standard.Media;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.equalTo;
@@ -320,7 +311,7 @@ class EmployeeControllerTest {
 
     @Test
     void EmployeeController_CreateEmployee_ReturnCreated() throws Exception {
-        given(employeeService.addNewEmployee(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
+        given(employeeService.createEmployee(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
 
         ResultActions response = mockMvc.perform(post("/api/employee/create")
                 .contentType(MediaType.APPLICATION_JSON)

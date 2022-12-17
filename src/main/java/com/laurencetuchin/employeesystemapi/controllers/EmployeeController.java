@@ -237,7 +237,7 @@ public class EmployeeController {
     public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
         try {
             Employee employee1 = employeeService
-                    .addNewEmployee(new Employee(employee.getName(), employee.getRole(), employee.getEmail(), employee.getEmploymentStatus()));
+                    .createEmployee(new Employee(employee.getName(), employee.getRole(), employee.getEmail(), employee.getEmploymentStatus()));
             return new ResponseEntity<>(employee1, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

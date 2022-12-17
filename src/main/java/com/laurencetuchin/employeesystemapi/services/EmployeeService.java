@@ -2,17 +2,14 @@ package com.laurencetuchin.employeesystemapi.services;
 
 import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
-import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
 import com.laurencetuchin.employeesystemapi.mappers.EmployeeMapper;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -76,7 +73,7 @@ public class EmployeeService {
 
 
     // add check for already exists
-    public Employee addNewEmployee(Employee employee){
+    public Employee createEmployee(Employee employee){
         return employeeRepository.save(employee);
     }
 
@@ -97,7 +94,8 @@ public class EmployeeService {
         } else {
             employee1.setName(employee.getName());
             employee1.setRole(employee.getRole());
-            employee1.setCurrentlyWorkingAtCompany(employee.isCurrentlyWorkingAtCompany());
+            employee1.setEmploymentStatus(employee.getEmploymentStatus());
+            employee1.setEmail(employee.getEmail());
             employeeRepository.save(employee1);
         }
         return employee1;

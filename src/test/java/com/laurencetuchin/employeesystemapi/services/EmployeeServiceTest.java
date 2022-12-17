@@ -213,7 +213,7 @@ class EmployeeServiceTest {
         Employee employee = new Employee("Lionel Messi","Playmaker",true);
         EmployeeService service = new EmployeeService(employeeRepository);
         // when
-        service.addNewEmployee(employee);
+        service.createEmployee(employee);
         // get last employee
         int size = service.getAllEmployees().size();
         // then
