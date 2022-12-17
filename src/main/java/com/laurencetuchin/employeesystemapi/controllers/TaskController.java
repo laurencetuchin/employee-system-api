@@ -1,6 +1,9 @@
 package com.laurencetuchin.employeesystemapi.controllers;
 
-import com.laurencetuchin.employeesystemapi.entities.*;
+import com.laurencetuchin.employeesystemapi.entities.Employee;
+import com.laurencetuchin.employeesystemapi.entities.Project;
+import com.laurencetuchin.employeesystemapi.entities.Task;
+import com.laurencetuchin.employeesystemapi.entities.TaskPriority;
 import com.laurencetuchin.employeesystemapi.exceptions.TaskNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.services.ProjectService;
@@ -11,11 +14,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,7 +31,7 @@ import java.util.Optional;
 public class TaskController {
 
     @Autowired
-    private TaskService service;
+    private final TaskService service;
 
     @Autowired
     private ProjectService projectService;
@@ -43,7 +44,7 @@ public class TaskController {
     }
 
 
-    @Operation(summary = "Get Task by Id", description = "Get Task by Id", tags = "Task" )
+    @Operation(summary = "Get Task by Id", description = "Get Task by Id", tags = "Task")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Task found",
                     content = {@Content(mediaType = "application/json",
@@ -54,19 +55,36 @@ public class TaskController {
     public ResponseEntity<Optional<Task>> findTaskById(@PathVariable("id") Long id) {
 
         Optional<Task> task = service.findTaskById(id);
-        if (task.isEmpty()){
+        if (task.isEmpty()) {
             throw new TaskNotFoundException("Task with id: " + id + " not found");
+        }
+        try {
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        } catch (TaskNotFoundException e) {
+            return new ResponseEntity<>(task, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Operation(summary = "Get Task by Name", description = "Get Task by Name query", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "400", description = "Task not found",
+                    content = @Content)})
+    @GetMapping("/name/")
+    public ResponseEntity<List<Task>> findTaskByName(@RequestParam String name) {
+
+        List<Task> task = service.findTaskByName(name);
+        if (task.isEmpty()){
+            throw new TaskNotFoundException("Task with name: " + name + " not found");
         }
         try {
             return new ResponseEntity<>(task, HttpStatus.OK);
         } catch (TaskNotFoundException e){
             return new ResponseEntity<>(task, HttpStatus.NOT_FOUND);
         }
-    }
 
-    @GetMapping("/name/")
-    public List<Task> findTaskByName(@RequestParam String name) {
-        return service.findTaskByName(name);
     }
 
     @GetMapping("/priority/")
@@ -88,7 +106,7 @@ public class TaskController {
     }
 
     @PutMapping("/update/{id}")
-    public Task updateTask(@Valid @RequestBody Task task,@PathVariable Long id) {
+    public Task updateTask(@Valid @RequestBody Task task, @PathVariable Long id) {
         return service.updateTask(task, id);
     }
 
@@ -118,7 +136,7 @@ public class TaskController {
 //    }
 
     @PutMapping("/{taskId}/employee/{employeeId}")
-    public Task assignTaskToEmployee(@PathVariable Long taskId, @PathVariable Long employeeId){
+    public Task assignTaskToEmployee(@PathVariable Long taskId, @PathVariable Long employeeId) {
         Optional<Task> _task = service.findTaskById(taskId);
         Optional<Employee> _employee = employeeRepository.findById(employeeId);
         _task.get().setEmployees(Collections.singleton(_employee.get()));
@@ -127,7 +145,7 @@ public class TaskController {
     }
 
     @PutMapping("/{taskId}/project/{projectId}")
-    public Task assignTaskToProject(@PathVariable Long taskId, @PathVariable Long projectId){
+    public Task assignTaskToProject(@PathVariable Long taskId, @PathVariable Long projectId) {
         Optional<Task> taskOptional = service.findTaskById(taskId);
         Optional<Project> projectOptional = projectService.findById(projectId);
         taskOptional.get().setProject(projectOptional.get());
@@ -136,7 +154,7 @@ public class TaskController {
     }
 
     @PutMapping("/project/{projectId}/task/{taskId}/remove")
-    public Task removeTaskFromProject(@PathVariable Long taskId, @PathVariable Long projectId){
+    public Task removeTaskFromProject(@PathVariable Long taskId, @PathVariable Long projectId) {
         Optional<Task> taskById = service.findTaskById(taskId);
         Optional<Project> projectbyId = projectService.findById(projectId);
         taskById.get().setProject(null);
@@ -144,7 +162,6 @@ public class TaskController {
         service.saveTask(taskById.get());
         return taskById.get();
     }
-
 
 
 }
