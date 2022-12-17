@@ -25,7 +25,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -270,10 +269,10 @@ public class TaskController {
         if (_task.isEmpty() || _employee.isEmpty()) {
             throw new TaskNotFoundException("Task with id: " + taskId + " or Employee with id: " + employeeId + " not found");
         }
-            Task task = _task.get();
+        Task task = _task.get();
 //            task.setEmployees(Collections.singleton(_employee.get()));
-            task.addEmployee(_employee.get());
-            service.saveTask(task);
+        task.addEmployee(_employee.get());
+        service.saveTask(task);
         try {
             return new ResponseEntity<>(task, HttpStatus.OK);
         } catch (TaskNotFoundException e) {
@@ -294,27 +293,45 @@ public class TaskController {
     public ResponseEntity<Task> assignTaskToProject(@PathVariable Long taskId, @PathVariable Long projectId) {
         Optional<Task> taskOptional = service.findTaskById(taskId);
         Optional<Project> projectOptional = projectService.findById(projectId);
-        if (taskOptional.isEmpty() || projectOptional.isEmpty()){
+        if (taskOptional.isEmpty() || projectOptional.isEmpty()) {
             throw new TaskNotFoundException("Task with id: " + taskId + " or project with id: " + projectId + " not found");
         }
-            Task task = taskOptional.get();
-            task.setProject(projectOptional.get());
-            Task saveTask = service.saveTask(task);
+        Task task = taskOptional.get();
+        task.setProject(projectOptional.get());
+        Task saveTask = service.saveTask(task);
         try {
             return new ResponseEntity<>(task, HttpStatus.OK);
         } catch (TaskNotFoundException e) {
-            return new ResponseEntity<>(task,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(task, HttpStatus.NOT_FOUND);
         }
     }
 
+    @Operation(summary = "Remove Task from Project", description = "Remove Task from Project, uses PathVariable for taskId and projectId", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task removed",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server error",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Task not removed",
+                    content = @Content)})
     @PutMapping("/project/{projectId}/task/{taskId}/remove")
-    public Task removeTaskFromProject(@PathVariable Long taskId, @PathVariable Long projectId) {
+    public ResponseEntity<Task> removeTaskFromProject(@PathVariable Long taskId, @PathVariable Long projectId) {
         Optional<Task> taskById = service.findTaskById(taskId);
         Optional<Project> projectbyId = projectService.findById(projectId);
-        taskById.get().setProject(null);
+        if (taskById.isEmpty() || projectbyId.isEmpty())    {
+            throw new TaskNotFoundException("Task with id: %d or project with id: %d not found".formatted(taskId, projectId));
+        }
 
-        service.saveTask(taskById.get());
-        return taskById.get();
+        Task task = taskById.get();
+        task.setProject(null);
+        Task saveTask = service.saveTask(task);
+
+        try {
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        } catch (TaskNotFoundException e) {
+            return new ResponseEntity<>(task, HttpStatus.NOT_FOUND);
+        }
     }
 
 
