@@ -193,7 +193,7 @@ public class TaskController {
         }
     }
 
-    @Operation(summary = "Delete Task", description = "Delete Task by id, accepts RequestBody", tags = "Task")
+    @Operation(summary = "Delete Task", description = "Delete Task by id, accepts PathVariable", tags = "Task")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Task Deleted",
                     content = {@Content(mediaType = "application/json",
@@ -217,9 +217,26 @@ public class TaskController {
 
     }
 
+    @Operation(summary = "Get all Tasks", description = "Get all Tasks", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tasks found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server error",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Tasks Not Found",
+                    content = @Content)})
     @GetMapping("/all")
-    public List<Task> findAll() {
-        return service.findAll();
+    public ResponseEntity<List<Task>> findAll() {
+        List<Task> taskList = service.findAll();
+        if (taskList.isEmpty()){
+            throw new TaskNotFoundException("Tasks not found");
+        }
+        try {
+            return new ResponseEntity<>(taskList,HttpStatus.OK);
+        } catch (TaskNotFoundException e){
+            return new ResponseEntity<>(taskList,HttpStatus.NOT_FOUND);
+        }
     }
 
 //    @PutMapping("/{taskId}/tasks/{employeeId}")
