@@ -147,7 +147,7 @@ public class EmployeeController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employees",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Employee.class))}),
+                            schema = @Schema(implementation = EmployeeDTO.class))}),
             @ApiResponse(responseCode = "404", description = "Employees not found",
                     content = @Content)})
     @GetMapping("/employment-status")
