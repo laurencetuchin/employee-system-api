@@ -4,7 +4,6 @@ import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Project;
 import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.entities.TaskPriority;
-import com.laurencetuchin.employeesystemapi.exceptions.ProjectNotFoundException;
 import com.laurencetuchin.employeesystemapi.exceptions.TaskNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.services.ProjectService;
@@ -194,9 +193,28 @@ public class TaskController {
         }
     }
 
+    @Operation(summary = "Delete Task", description = "Delete Task by id, accepts RequestBody", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task Deleted",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server error",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Not Found",
+                    content = @Content)})
     @DeleteMapping("/delete/{id}")
-    public void deleteTaskById(@PathVariable Long id) {
-        service.deleteTaskById(id);
+    public ResponseEntity<Object> deleteTaskById(@PathVariable Long id) {
+        Optional<Task> task = service.findTaskById(id);
+        if (task.isEmpty()){
+            throw new TaskNotFoundException("Task with id: " + id + " not found");
+        }
+        try {
+            service.deleteTaskById(id);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch (TaskNotFoundException e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @GetMapping("/all")
