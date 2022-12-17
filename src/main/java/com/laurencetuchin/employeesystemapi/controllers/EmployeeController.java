@@ -66,7 +66,7 @@ public class EmployeeController {
 //        }
 //        return new ResponseEntity<>
 //    }
-    @Operation(summary = "Get Employee by Id", description = "Get an Employee by Id", tags = "Get")
+    @Operation(summary = "Get Employee by Id", description = "Get an Employee by Id", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employee",
                     content = {@Content(mediaType = "application/json",
@@ -105,7 +105,7 @@ public class EmployeeController {
 //                .collect(Collectors.toList());
 //    }
 
-    @Operation(summary = "Get Employees", description = "Get all Employees", tags = "Get")
+    @Operation(summary = "Get Employees", description = "Get all Employees", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employees",
                     content = {@Content(mediaType = "application/json",
@@ -124,7 +124,7 @@ public class EmployeeController {
         }
     }
 
-    @Operation(summary = "Get Employees DTO", description = "Get all Employees DTO", tags = "Get")
+    @Operation(summary = "Get Employees DTO", description = "Get all Employees DTO", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employees",
                     content = {@Content(mediaType = "application/json",
@@ -138,7 +138,7 @@ public class EmployeeController {
                 .collect(Collectors.toList());
         return employees;
     }
-    @Operation(summary = "Get Employees DTO", description = "Get all Employees DTO", tags = "Get")
+    @Operation(summary = "Get Employees DTO", description = "Get all Employees DTO", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employees",
                     content = {@Content(mediaType = "application/json",
@@ -154,7 +154,7 @@ public class EmployeeController {
     }
 
     // Search result based on employment status
-    @Operation(summary = "Get Employees by Employment Status", description = "Get Employees by Employment Status, requires a boolean of true or false", tags = "Get")
+    @Operation(summary = "Get Employees by Employment Status", description = "Get Employees by Employment Status, requires a boolean of true or false", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employees",
                     content = {@Content(mediaType = "application/json",
@@ -177,7 +177,7 @@ public class EmployeeController {
 
     // add handler for no result
     // result is present?
-    @Operation(summary = "Get Employees by Name", description = "Get Employees by Name, case insensitive e.g. frodo, FRODO, FrOdO", tags = "Get")
+    @Operation(summary = "Get Employees by Name", description = "Get Employees by Name, case insensitive e.g. frodo, FRODO, FrOdO", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employees",
                     content = {@Content(mediaType = "application/json",
@@ -198,7 +198,7 @@ public class EmployeeController {
         }
     }
 
-    @Operation(summary = "Get Employees by Role", description = "Get Employees by Role, case insensitive e.g. ring bearer, RING BEARER, RiNg BEaReR", tags = "Get")
+    @Operation(summary = "Get Employees by Role", description = "Get Employees by Role, case insensitive e.g. ring bearer, RING BEARER, RiNg BEaReR", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employees",
                     content = {@Content(mediaType = "application/json",
@@ -218,7 +218,7 @@ public class EmployeeController {
         }
     }
 
-    @Operation(summary = "Get Employees by Name and Role", description = "Get Employees by Name and Role, Exact match on name and role e.g. name: Frodo, role: Ring bearer", tags = "Get")
+    @Operation(summary = "Get Employees by Name and Role", description = "Get Employees by Name and Role, Exact match on name and role e.g. name: Frodo, role: Ring bearer", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employees",
                     content = {@Content(mediaType = "application/json",
@@ -242,7 +242,7 @@ public class EmployeeController {
     }
 
 
-    @Operation(summary = "Create new Employee", description = "Create new Employee, accepts @RequestBody if valid", tags = "Post")
+    @Operation(summary = "Create new Employee", description = "Create new Employee, accepts @RequestBody if valid", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created Employee",
                     content = {@Content(mediaType = "application/json",
@@ -259,7 +259,7 @@ public class EmployeeController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @Operation(summary = "Update Employee by Id", description = "Update existing Employee by Id, accepts @RequestBody if valid, uses PathVariable for id", tags = "Put")
+    @Operation(summary = "Update Employee by Id", description = "Update existing Employee by Id, accepts @RequestBody if valid, uses PathVariable for id", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Updated Employee",
                     content = {@Content(mediaType = "application/json",
@@ -297,7 +297,7 @@ public class EmployeeController {
 //        }
 //    }
 
-    @Operation(summary = "Delete Employee by Id", description = "Delete existing Employee by Id, accepts  if valid, uses PathVariable for id", tags = "Delete")
+    @Operation(summary = "Delete Employee by Id", description = "Delete existing Employee by Id, accepts  if valid, uses PathVariable for id", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Deleted Employee",
                     content = {@Content(mediaType = "application/json",
@@ -329,7 +329,7 @@ public class EmployeeController {
 //    }
 
 
-    @Operation(summary = "Assign Task to Employee", description = "Assign task to employee, uses PathVariable for id", tags = "Put")
+    @Operation(summary = "Assign Task to Employee", description = "Assign task to employee, uses PathVariable for id", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Task assigned to Employee",
                     content = {@Content(mediaType = "application/json",
@@ -355,7 +355,7 @@ public class EmployeeController {
     }
 
     // remove task
-    @Operation(summary = "Remove Task from Employee", description = "Remove task from employee, uses PathVariable for id", tags = "Put")
+    @Operation(summary = "Remove Task from Employee", description = "Remove task from employee, uses PathVariable for id", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Task removed from Employee",
                     content = {@Content(mediaType = "application/json",
