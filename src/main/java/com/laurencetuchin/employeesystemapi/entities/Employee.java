@@ -33,13 +33,13 @@ public class Employee {
 
     @Column(name = "email")
     @Email(message = "Email must be valid", regexp = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")
-//    @Email(message = "Email must be valid", regexp = RegexEmailCompliant  );
+    @NotBlank @NotNull
     private String email;
 
     @Column(name = "employment_status")
-    private boolean isCurrentlyWorkingAtCompany = true;
-
-//    orphanRemoval = true,
+    @NotNull @NotBlank
+    @Enumerated(EnumType.STRING)
+    private EmploymentStatus employmentStatus = EmploymentStatus.employed;
     @JsonIgnore
     @OneToMany( mappedBy = "employee")
     private List<Project> projects;
@@ -61,10 +61,27 @@ public class Employee {
     }
 
     @Autowired
-    public Employee(String name, String role, boolean isCurrentlyWorkingAtCompany) {
+    public Employee(String name, String role, String email, EmploymentStatus employmentStatus) {
         this.name = name;
         this.role = role;
-        this.isCurrentlyWorkingAtCompany = isCurrentlyWorkingAtCompany;
+        this.email = email;
+        this.employmentStatus = employmentStatus;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public EmploymentStatus getEmploymentStatus() {
+        return employmentStatus;
+    }
+
+    public void setEmploymentStatus(EmploymentStatus employmentStatus) {
+        this.employmentStatus = employmentStatus;
     }
 
     public Long getId() {
@@ -91,13 +108,6 @@ public class Employee {
         this.role = role;
     }
 
-    public boolean isCurrentlyWorkingAtCompany() {
-        return isCurrentlyWorkingAtCompany;
-    }
-
-    public void setCurrentlyWorkingAtCompany(boolean currentlyWorkingAtCompany) {
-        isCurrentlyWorkingAtCompany = currentlyWorkingAtCompany;
-    }
 
     public List<Project> getProjects() {
         return projects;
@@ -136,9 +146,11 @@ public class Employee {
     @Override
     public String toString() {
         return "Employee{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", role='" + role + '\'' +
-                ", isCurrentlyWorkingAtCompany=" + isCurrentlyWorkingAtCompany +
+                ", email='" + email + '\'' +
+                ", employmentStatus=" + employmentStatus +
                 '}';
     }
 }
