@@ -27,15 +27,15 @@ public class DataLoader {
     @Bean
     CommandLineRunner loadData(EmployeeRepository repository, ProjectRepository projectRepository, TaskRepository taskRepository){
         return args -> {
-            repository.save(new Employee("Frodo","Ring bearer","frodo@mail.com",EmploymentStatus.employed));
+            repository.save(new Employee("Frodo","Ring bearer","frodo@gmail.com",EmploymentStatus.employed));
             Employee employee = repository.findAll().get(0);
             log.info("Employee 1 saved in Database");
-            repository.save(new Employee("Bilbo","Ring bearer","bilboswaggins@mail.com",EmploymentStatus.employed));
-            repository.save(new Employee("Bilbo2","Delivery", "Bilbothedriver@mail.com",EmploymentStatus.unemployed));
+            repository.save(new Employee("Bilbo","Ring bearer","bilboswaggins@gmail.com",EmploymentStatus.employed));
+            repository.save(new Employee("Bilbo2","Delivery", "bilbothedriver@gmail.com",EmploymentStatus.unemployed));
             log.info("Employee 2 saved in Database");
-            repository.save(new Employee("samwise","ring friend","samunwise@mail.com",EmploymentStatus.redunandant));
-            log.info("preloading" + repository.save(new Employee("Mr Log","information provider","tothelogman@mail.com",EmploymentStatus.onleave)));
-            repository.save(new Employee("John Smith","Hardest worker", "johnsmith@mail.com",EmploymentStatus.employed));
+            repository.save(new Employee("samwise","ring friend","samunwise@gmail.com",EmploymentStatus.redunandant));
+            log.info("preloading" + repository.save(new Employee("Mr Log","information provider","tothelogman@gmail.com",EmploymentStatus.onleave)));
+            repository.save(new Employee("John Smith","Hardest worker", "johnsmith@gmail.com",EmploymentStatus.employed));
             log.info("Total employees: " + repository.count());
 
              log.info("Total projects: " + projectRepository.save(new Project(1L,"Manchester", ProjectStatus.pending)));

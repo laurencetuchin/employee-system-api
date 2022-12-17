@@ -142,25 +142,25 @@ public class EmployeeController {
     }
 
     /// ** Refactor to ENUM
-    @Operation(summary = "Get Employees by Employment Status", description = "Get Employees by Employment Status, requires a boolean of true or false", tags = "Employee")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found Employees",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Employee.class))}),
-            @ApiResponse(responseCode = "404", description = "Employees not found",
-                    content = @Content)})
-    @GetMapping("/employment{result}")
-    public ResponseEntity<List<Employee>> getCurrentlyEmployedEmployees(@RequestParam boolean result) {
-        List<Employee> currentlyEmployedEmployees = employeeService.findByEmploymentStatus(result);
-        if (currentlyEmployedEmployees.isEmpty()) {
-            throw new EmployeeNotFoundException("Employees not found");
-        }
-        try {
-            return new ResponseEntity<>(currentlyEmployedEmployees, HttpStatus.OK);
-        } catch (EmployeeNotFoundException e) {
-            return new ResponseEntity<>(currentlyEmployedEmployees, HttpStatus.NOT_FOUND);
-        }
-    }
+//    @Operation(summary = "Get Employees by Employment Status", description = "Get Employees by Employment Status, requires a boolean of true or false", tags = "Employee")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Found Employees",
+//                    content = {@Content(mediaType = "application/json",
+//                            schema = @Schema(implementation = Employee.class))}),
+//            @ApiResponse(responseCode = "404", description = "Employees not found",
+//                    content = @Content)})
+//    @GetMapping("/employment{result}")
+//    public ResponseEntity<List<Employee>> getCurrentlyEmployedEmployees(@RequestParam boolean result) {
+//        List<Employee> currentlyEmployedEmployees = employeeService.findByEmploymentStatus(result);
+//        if (currentlyEmployedEmployees.isEmpty()) {
+//            throw new EmployeeNotFoundException("Employees not found");
+//        }
+//        try {
+//            return new ResponseEntity<>(currentlyEmployedEmployees, HttpStatus.OK);
+//        } catch (EmployeeNotFoundException e) {
+//            return new ResponseEntity<>(currentlyEmployedEmployees, HttpStatus.NOT_FOUND);
+//        }
+//    }
 
 
     @Operation(summary = "Get Employees by Name", description = "Get Employees by Name, case insensitive e.g. frodo, FRODO, FrOdO", tags = "Employee")
@@ -204,7 +204,7 @@ public class EmployeeController {
         }
     }
 
-    @Operation(summary = "Get Employees by Name and Role", description = "Get Employees by Name and Role, Exact match on name and role e.g. name: Frodo, role: Ring bearer", tags = "Employee")
+    @Operation(summary = "Get Employees by Name and Role", description = "Get Employees by Name and Role, ignores case contains name and role e.g. name: Frodo, role: Ring bearer", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employees",
                     content = {@Content(mediaType = "application/json",
@@ -215,6 +215,26 @@ public class EmployeeController {
     ResponseEntity<List<Employee>> findEmployeeByNameAndRole(@RequestParam String name, @RequestParam String role) {
 
         List<Employee> employees = employeeService.findEmployeeByNameAndRole(name, role);
+        if (employees.isEmpty()) {
+            throw new EmployeeNotFoundException("Employee with name: " + name + " or role: " + role + " not found. Please try again with new parameters.");
+        }
+        try {
+            return new ResponseEntity<>(employees, HttpStatus.OK);
+        } catch (EmployeeNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+    @Operation(summary = "Get Employees by Name and Role", description = "Get Employees by Name or Role, ignores case contains e.g. name: Frodo, role: Ring bearer", tags = "Employee")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found Employees",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "404", description = "Employees not found",
+                    content = @Content)})
+    @GetMapping("/search/NameOrRole")
+    ResponseEntity<List<Employee>> findEmployeeByNameOrRole(@RequestParam String name, @RequestParam String role) {
+
+        List<Employee> employees = employeeService.findEmployeeByNameOrRole(name, role);
         if (employees.isEmpty()) {
             throw new EmployeeNotFoundException("Employee with name: " + name + " or role: " + role + " not found. Please try again with new parameters.");
         }
