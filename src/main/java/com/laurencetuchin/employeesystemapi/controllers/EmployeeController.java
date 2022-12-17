@@ -90,15 +90,6 @@ public class EmployeeController {
     }
 
 
-    // Return Employee DTO for client
-//
-//    @GetMapping("/employees")
-//    @ResponseBody
-//    public List<EmployeeDTO> getAllEmployeesDTO() {
-//        return employeeService.getAllEmployees().stream()
-//                .map(EmployeeDTO::new)
-//                .collect(Collectors.toList());
-//    }
 
     @Operation(summary = "Get Employees", description = "Get all Employees", tags = "Employee")
     @ApiResponses(value = {
@@ -150,7 +141,6 @@ public class EmployeeController {
         return employees;
     }
 
-    // Search result based on employment status
     @Operation(summary = "Get Employees by Employment Status", description = "Get Employees by Employment Status, requires a boolean of true or false", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employees",
@@ -172,8 +162,6 @@ public class EmployeeController {
     }
 
 
-    // add handler for no result
-    // result is present?
     @Operation(summary = "Get Employees by Name", description = "Get Employees by Name, case insensitive e.g. frodo, FRODO, FrOdO", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employees",
@@ -248,7 +236,7 @@ public class EmployeeController {
     public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
         try {
             Employee employee1 = employeeService
-                    .addNewEmployee(new Employee(employee.getName(), employee.getRole(), employee.isCurrentlyWorkingAtCompany()));
+                    .addNewEmployee(new Employee(employee.getName(), employee.getRole(), employee.getEmail(), employee.getEmploymentStatus()));
             return new ResponseEntity<>(employee1, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
