@@ -4,6 +4,7 @@ import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Project;
 import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.entities.TaskPriority;
+import com.laurencetuchin.employeesystemapi.exceptions.ProjectNotFoundException;
 import com.laurencetuchin.employeesystemapi.exceptions.TaskNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.services.ProjectService;
@@ -107,10 +108,26 @@ public class TaskController {
         }
     }
 
+    @Operation(summary = "Get Task by Date Ending", description = "Get Task by Date Ending query", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "400", description = "Task not found",
+                    content = @Content)})
     @GetMapping("/ending/") // update to sort by end date
     @Query("select t from Task t where t.endDate = ?1 order by t.endDate")
-    public List<Task> findByEndDateOrderByEndDateAsc(LocalDateTime endDate) {
-        return service.findByEndDateOrderByEndDateAsc(endDate);
+    public ResponseEntity<List<Task>> findByEndDateOrderByEndDateAsc(LocalDateTime endDate) {
+
+        List<Task> endDateAsc = service.findByEndDateOrderByEndDateAsc(endDate);
+        if (endDateAsc.isEmpty()){
+            throw new TaskNotFoundException("Task with end date: " + endDate + " not found");
+        }
+        try {
+            return new ResponseEntity<>(endDateAsc,HttpStatus.OK);
+        } catch (TaskNotFoundException e){
+            return new ResponseEntity<>(endDateAsc,HttpStatus.NOT_FOUND);
+        }
     }
 
 
