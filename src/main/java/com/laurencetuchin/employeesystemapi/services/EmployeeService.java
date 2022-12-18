@@ -1,6 +1,6 @@
 package com.laurencetuchin.employeesystemapi.services;
 
-import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
+import com.laurencetuchin.employeesystemapi.dto.EmployeeDto;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.EmploymentStatus;
 import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
@@ -57,7 +57,7 @@ public class EmployeeService {
     }
 
     // Add employee DTO list
-    public List<EmployeeDTO> getAllEmployeesDTO(){
+    public List<EmployeeDto> getAllEmployeesDTO(){
         return getAllEmployees()
                 .stream()
                 .map(employee -> employeeMapper.toDto(employee))
