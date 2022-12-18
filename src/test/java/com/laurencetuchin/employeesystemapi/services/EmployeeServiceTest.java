@@ -1,6 +1,7 @@
 package com.laurencetuchin.employeesystemapi.services;
 
 import com.laurencetuchin.employeesystemapi.entities.Employee;
+import com.laurencetuchin.employeesystemapi.entities.EmploymentStatus;
 import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import org.springframework.test.context.event.annotation.BeforeTestClass;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,7 +41,7 @@ class EmployeeServiceTest {
     void setup() {
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         if (employeeService.getAllEmployees().size() < 7) {
-            Employee employee = new Employee("Cristiano Ronaldo", "Striker", true);
+            Employee employee = new Employee("Cristiano Ronaldo", "Striker", "cristiano@gmail.com", EmploymentStatus.unemployed, LocalDate.of(1985,12,12),"Win everything");
             employeeService.save(employee);
         }
     }
@@ -126,12 +128,12 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void findCurrentlyEmployedEmployeesThatAreTrue() {
+    void findByEmploymentStatusEmployed() {
         // given
         EmployeeService employeeService = new EmployeeService(employeeRepository);
 
         // when
-        List<Employee> currentlyEmployedEmployees = employeeService.findByEmploymentStatus(true);
+        List<Employee> currentlyEmployedEmployees = employeeService.findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(EmploymentStatus.employed);
         List<Employee> totalEmployees = employeeService.getAllEmployees();
 
         assertThat(7).isEqualTo(currentlyEmployedEmployees.size());
@@ -139,22 +141,36 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void findCurrentlyEmployedEmployeesThatAreFalse(){
+    void findCurrentlyEmployedEmployeesThatAreUnemployed(){
         // given
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-        Employee employee = new Employee("Alphonso Davies", "Left Winger", false);
+        Employee employee = new Employee(
+                "Alphonso Davies",
+                "Left Winger",
+                "davies@gmail.com",
+                EmploymentStatus.unemployed,
+                LocalDate.of(2001,1,1),
+                "Win win win"
+        );
         employeeService.save(employee);
         // when
-        List<Employee> currentlyNonEmployedEmployees = employeeService.findByEmploymentStatus(false);
-        boolean currentlyWorkingAtCompany = currentlyNonEmployedEmployees.get(0).isCurrentlyWorkingAtCompany();
+        List<Employee> currentlyUnemployed = employeeService.findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(EmploymentStatus.unemployed);
+        Employee employee1 = currentlyUnemployed.get(0);
 
-        assertThat(currentlyNonEmployedEmployees).isNotNull();
-        assertEquals(false,currentlyWorkingAtCompany);
+        assertThat(currentlyUnemployed).isNotNull();
+        assertEquals(EmploymentStatus.unemployed,currentlyUnemployed);
 
-        Employee employee1 = new Employee("Bukayo Saka","Right winger", false);
-        employeeService.save(employee1);
+        Employee employee2 = new Employee(
+                "Bukayo Saka",
+                "Right winger",
+                "bukayo@gmail.com",
+                EmploymentStatus.unemployed,
+                LocalDate.of(2011,1,1),
+                "Leave Arsenal"
+        );
+        employeeService.save(employee2);
 
-        List<Employee> allFalseWorkingEmployees = employeeService.findByEmploymentStatus(false);
+        List<Employee> allFalseWorkingEmployees = employeeService.findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(EmploymentStatus.unemployed);
         assertEquals(2, allFalseWorkingEmployees.size());
     }
 
@@ -191,7 +207,14 @@ class EmployeeServiceTest {
     @Test
     void save() {
         // given
-        Employee employee = new Employee("Frenkie De Jong", "Box to Box Midfielder", true);
+        Employee employee = new Employee(
+                "Frenkie De Jong",
+                "Box to Box Midfielder",
+                "frenkie@gmail.com",
+                EmploymentStatus.employed,
+                LocalDate.of(2000,5,5),
+                "Stay at Barca"
+        );
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         // when
         Employee employee1 = employeeService.save(employee);
@@ -200,7 +223,7 @@ class EmployeeServiceTest {
         // then
         assertThat(employee1.getName()).isEqualTo(employee.getName());
         assertThat(employee1.getRole()).isEqualTo(employee.getRole());
-        assertThat(employee1.isCurrentlyWorkingAtCompany()).isEqualTo(employee.isCurrentlyWorkingAtCompany());
+        assertThat(employee1.getStatus()).isEqualTo(employee.getStatus());
         // checks ID automatically generated
         assertThat(employee1.getId()).isNotNull();
 
@@ -210,7 +233,14 @@ class EmployeeServiceTest {
     @Test
     void addNewEmployee() {
         // given
-        Employee employee = new Employee("Lionel Messi","Playmaker",true);
+        Employee employee = new Employee(
+                "Lionel Messi",
+                "Playmaker",
+                "messigoat@gmail.com",
+                EmploymentStatus.employed,
+                LocalDate.of(1987,2,2),
+                "Win world cup"
+        );
         EmployeeService service = new EmployeeService(employeeRepository);
         // when
         service.createEmployee(employee);
