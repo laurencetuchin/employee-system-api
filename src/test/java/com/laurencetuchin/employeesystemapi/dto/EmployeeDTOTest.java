@@ -21,7 +21,7 @@ class EmployeeDTOTest {
 //    private final EmployeeDTO employeeDTO = new EmployeeDTO();
 
     @MockBean
-    private EmployeeDTO employeeDTO;
+    private EmployeeDto employeeDto;
 
     @MockBean
     private Employee employee;
@@ -51,7 +51,7 @@ class EmployeeDTOTest {
 
     @Test
     void checkEmployeeIsSaved() {
-        List<EmployeeDTO> employeeDTOList = employeeService.getAllEmployeesDTO();
+        List<EmployeeDto> employeeDTOList = employeeService.getAllEmployeesDTO();
         List<Employee> employeeList = employeeRepository.findAll();
 //        List<EmployeeDTO> employeeDTOList = employeeRepository.
         assertThat(employeeList.stream().count()).isEqualTo(1);

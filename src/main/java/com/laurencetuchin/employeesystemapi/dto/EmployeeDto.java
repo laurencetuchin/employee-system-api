@@ -8,9 +8,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDate;
 
-public class EmployeeDTO {
+public class EmployeeDto {
 
 
     private Long id;
@@ -30,9 +30,9 @@ public class EmployeeDTO {
     @NotNull
     private EmploymentStatus status;
 
-    @NotBlank
+//    @NotBlank
     @DateTimeFormat
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @NotBlank
     @Size(min = 1, max = 100)
@@ -79,8 +79,23 @@ public class EmployeeDTO {
         this.status = status;
     }
 
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
 
-    public EmployeeDTO(Long id, String name, String role, String email, EmploymentStatus status, Date dateOfBirth, String careerGoal) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getCareerGoal() {
+        return careerGoal;
+    }
+
+    public void setCareerGoal(String careerGoal) {
+        this.careerGoal = careerGoal;
+    }
+
+    public EmployeeDto(Long id, String name, String role, String email, EmploymentStatus status, LocalDate dateOfBirth, String careerGoal) {
         this.id = id;
         this.name = name;
         this.role = role;
@@ -88,5 +103,15 @@ public class EmployeeDTO {
         this.status = status;
         this.dateOfBirth = dateOfBirth;
         this.careerGoal = careerGoal;
+    }
+
+    @Override
+    public String toString() {
+        return "EmployeeDTO{" +
+                "name='" + name + '\'' +
+                ", role='" + role + '\'' +
+                ", email='" + email + '\'' +
+                ", status=" + status +
+                '}';
     }
 }
