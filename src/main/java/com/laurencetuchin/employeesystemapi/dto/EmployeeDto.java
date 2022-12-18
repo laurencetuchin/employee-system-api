@@ -3,6 +3,8 @@ package com.laurencetuchin.employeesystemapi.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.laurencetuchin.employeesystemapi.entities.EmploymentStatus;
 
+import java.time.LocalDate;
+
 public class EmployeeDto {
 
 
@@ -70,4 +72,5 @@ public class EmployeeDto {
     public String toString() {
         return "EmployeeDTO{" + "name='" + name + '\'' + ", role='" + role + '\'' + ", email='" + email + '\'' + ", status=" + status + '}';
     }
+
 }
