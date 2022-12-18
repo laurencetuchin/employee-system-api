@@ -2,12 +2,14 @@ package com.laurencetuchin.employeesystemapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,6 +40,17 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     @NotNull
     private EmploymentStatus status;
+
+    @Column(name = "dateOfBirth")
+    @NotBlank
+    @DateTimeFormat
+    private Date dateOfBirth;
+
+    @Column(name = "careerGoal")
+    @NotBlank
+    @Size(min = 1, max = 100)
+    private String careerGoal;
+
     @JsonIgnore
     @OneToMany( mappedBy = "employee")
     private List<Project> projects;
