@@ -2,6 +2,7 @@ package com.laurencetuchin.employeesystemapi.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
+import com.laurencetuchin.employeesystemapi.entities.EmploymentStatus;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
 import org.hamcrest.CoreMatchers;
@@ -21,6 +22,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
@@ -53,16 +55,16 @@ class EmployeeControllerTest {
     private ObjectMapper objectMapper;
 
 
-    Employee employee1 = new Employee("Bruno Fernandes","Midfielder",true);
+    Employee employee1 = new Employee("Bruno Fernandes","Midfielder", "brunofernandes@gmail.com", EmploymentStatus.employed, LocalDate.of(1992,6,6),"Win everything I can");
 
-    Employee employee2 = new Employee("Diogo Dalot","Right Back",true);
-    Employee employee3 = new Employee("Joao Felix","Second Striker",true);
+    Employee employee2 = new Employee("Diogo Dalot","Right Back", "diogodalot@gmail.com", EmploymentStatus.employed,LocalDate.of(2001,1,1),"Win everything with Bruno");
+    Employee employee3 = new Employee("Joao Felix","Second Striker","joaofelix@hotmail.com",EmploymentStatus.unemployed,LocalDate.of(2000,1,1),"Move to manchester");
 
 
 
     @BeforeEach
     void setup() {
-        Employee employee = new Employee("Cristiano Ronaldo","Striker", true);
+        Employee employee = new Employee("Cristiano Ronaldo","Striker", "cristiano@gmail.com",EmploymentStatus.unemployed,LocalDate.of(1985,12,12),"Win everything");
 //        EmployeeService service = new EmployeeService(employeeRepository);
 //        service.save(employee);
 
@@ -171,7 +173,7 @@ class EmployeeControllerTest {
 
     @Test
     void itShouldCreateEmployee() throws Exception {
-        Employee employee = new Employee("Bukayo Saka","Right Winger",true);
+        Employee employee = new Employee("Bukayo Saka","Right Winger","bukayo@gmail.com",EmploymentStatus.onleave,LocalDate.of(2001,4,4),"Move from Arsenal");
 
         mockMvc.perform(post("/api/employee/create")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -198,15 +200,14 @@ class EmployeeControllerTest {
 
 
     @Test
-    void itShouldReturnListOfEmployeesWithEmploymentStatusBooleanTrue() throws Exception{
-        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2,employee3));
+    void itShouldReturnListOfEmployeesWithEmploymentStatusEmployed() throws Exception{
+        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2));
 
-        boolean result = true;
-        when(employeeService.findByEmploymentStatus(result)).thenReturn(employeeList);
+        when(employeeService.findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(EmploymentStatus.employed)).thenReturn(employeeList);
 
-        mockMvc.perform(get("/api/employment")
+        mockMvc.perform(get("/api/employee/employment-status")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("result", String.valueOf(true))
+                .param("status", "employed")
 
         )           .andExpect(jsonPath("$.size()").value(employeeList.size()))
                 .andExpect(status().isFound())
@@ -266,7 +267,11 @@ class EmployeeControllerTest {
                 .willReturn(Arrays.asList(new Employee(
                         "Freddy Peters",
                         "Nothing",
-                        false)));
+                        "freddy@gmail.com",
+                        EmploymentStatus.employed,
+                        LocalDate.of(2002,5,5),
+                        "Not win anything"
+                )));
         mockMvc.perform(get("/api/employees/all"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$").isArray())
