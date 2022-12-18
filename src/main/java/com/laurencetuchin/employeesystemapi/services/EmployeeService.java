@@ -47,11 +47,7 @@ public class EmployeeService {
 
     public Optional<Employee> findEmployeeById(Long id){
         Optional<Employee> optionalEmployee = employeeRepository.findById(id);
-        if (optionalEmployee.isEmpty()){
-            throw new EmployeeNotFoundException("Employee with id: " + id + " not found");
-        } else {
-            return optionalEmployee;
-        }
+        return optionalEmployee;
     }
 
     public List<Employee> getAllEmployees(){
@@ -87,7 +83,7 @@ public class EmployeeService {
     public Employee updateEmployeeById(@NotNull Employee employee, Long id){
         Optional<Employee> employeeExists = employeeRepository.findById(id);
         Employee employee1 = employeeExists.get();
-        if (!employeeExists.isPresent()){
+        if (employeeExists.isEmpty()){
             throw new EmployeeNotFoundException("Employee with id: " + id + " does not exist");
         } else {
             employee1.setName(employee.getName());

@@ -25,7 +25,7 @@ public class Employee {
     private Long id;
 
     @Column(name = "name")
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 40)
     @NotNull @NotBlank
     private String name;
 

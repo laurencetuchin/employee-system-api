@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.EmploymentStatus;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
+import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
@@ -25,7 +26,6 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,6 +45,9 @@ class EmployeeControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
+    private TaskRepository taskRepository;
+
+    @MockBean
     private EmployeeService employeeService; // Injects during runtime
 
 
@@ -55,16 +58,15 @@ class EmployeeControllerTest {
     private ObjectMapper objectMapper;
 
 
-    Employee employee1 = new Employee("Bruno Fernandes","Midfielder", "brunofernandes@gmail.com", EmploymentStatus.employed, LocalDate.of(1992,6,6),"Win everything I can");
+    Employee employee1 = new Employee("Bruno Fernandes", "Midfielder", "brunofernandes@gmail.com", EmploymentStatus.employed, LocalDate.of(1992, 6, 6), "Win everything I can");
 
-    Employee employee2 = new Employee("Diogo Dalot","Right Back", "diogodalot@gmail.com", EmploymentStatus.employed,LocalDate.of(2001,1,1),"Win everything with Bruno");
-    Employee employee3 = new Employee("Joao Felix","Second Striker","joaofelix@hotmail.com",EmploymentStatus.unemployed,LocalDate.of(2000,1,1),"Move to manchester");
-
+    Employee employee2 = new Employee("Diogo Dalot", "Right Back", "diogodalot@gmail.com", EmploymentStatus.employed, LocalDate.of(2001, 1, 1), "Win everything with Bruno");
+    Employee employee3 = new Employee("Joao Felix", "Second Striker", "joaofelix@hotmail.com", EmploymentStatus.unemployed, LocalDate.of(2000, 1, 1), "Move to manchester");
 
 
     @BeforeEach
     void setup() {
-        Employee employee = new Employee("Cristiano Ronaldo","Striker", "cristiano@gmail.com",EmploymentStatus.unemployed,LocalDate.of(1985,12,12),"Win everything");
+        Employee employee = new Employee("Cristiano Ronaldo", "Striker", "cristiano@gmail.com", EmploymentStatus.unemployed, LocalDate.of(1985, 12, 12), "Win everything");
 //        EmployeeService service = new EmployeeService(employeeRepository);
 //        service.save(employee);
 
@@ -91,8 +93,8 @@ class EmployeeControllerTest {
         when(employeeService.getAllEmployees()).thenReturn(employees);
 
         mockMvc.perform(
-                get("/api/employees/all")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        get("/api/employees/all")
+                                .contentType(MediaType.APPLICATION_JSON))
 
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(3)))
@@ -102,14 +104,14 @@ class EmployeeControllerTest {
                 .andExpect(jsonPath("$[2].currentlyWorkingAtCompany", Matchers.is(true)))
 
 //                .andExpect((ResultMatcher) jsonPath("$[2].name", is("Joao Felix"))
-                ;
+        ;
 
     }
 
     @Test
     void itShouldReturnEmployeeWithId() throws Exception {
         // given
-        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2,employee3));
+        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1, employee2, employee3));
         // when
         Long id = 1L;
         when(employeeService.findEmployeeById(id)).thenReturn(Optional.of(employee1));
@@ -125,25 +127,19 @@ class EmployeeControllerTest {
 
 
 
-//
-//        response.andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(jsonPath("$",hasSize(1)))
-////                .andExpect(
-//                .andExpect(jsonPath("$.name",CoreMatchers.is("Bruno Fernandes")) )
-//        ;
-
     }
+
     @Test
     void itShouldReturnEmployeeWithIdRequest() throws Exception {
         // given
-        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2,employee3));
+        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1, employee2, employee3));
         // when
 //        when(employeeService.findEmployeeById(1L)).thenReturn(Optional.ofNullable(employee1).map(employee -> Collections.singletonList(employee).get(0)));
         when(employeeService.findEmployeeById(1L)).thenReturn(Optional.ofNullable(employee1));
 //        String id = "1";
         // then
         ResultActions response = mockMvc.perform(get("/api/employees/request/1")
-                .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
 //                .param("id", String.valueOf(1L))
 
 
@@ -160,7 +156,7 @@ class EmployeeControllerTest {
 
     @Test
     void itShouldReturnListOfEmployees() throws Exception {
-        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2,employee3));
+        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1, employee2, employee3));
 
         when(employeeService.getAllEmployees()).thenReturn(employeeList);
 
@@ -173,11 +169,11 @@ class EmployeeControllerTest {
 
     @Test
     void itShouldCreateEmployee() throws Exception {
-        Employee employee = new Employee("Bukayo Saka","Right Winger","bukayo@gmail.com",EmploymentStatus.onleave,LocalDate.of(2001,4,4),"Move from Arsenal");
+        Employee employee = new Employee("Bukayo Saka", "Right Winger", "bukayo@gmail.com", EmploymentStatus.onleave, LocalDate.of(2001, 4, 4), "Move from Arsenal");
 
         mockMvc.perform(post("/api/employee/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(employee)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(employee)))
                 .andExpect(status().isCreated())
                 .andDo(print());
 
@@ -195,21 +191,21 @@ class EmployeeControllerTest {
     public void itShouldGetEmployeeByIdAndReturnEmployeeIfExists() {
 
 
-
     }
 
 
     @Test
-    void itShouldReturnListOfEmployeesWithEmploymentStatusEmployed() throws Exception{
-        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2));
+    void itShouldReturnListOfEmployeesWithEmploymentStatusEmployed() throws Exception {
+        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1, employee2));
 
-        when(employeeService.findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(EmploymentStatus.employed)).thenReturn(employeeList);
+        when(employeeService.findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(EmploymentStatus.employed))
+                .thenReturn(employeeList);
 
         mockMvc.perform(get("/api/employee/employment-status")
-                .contentType(MediaType.APPLICATION_JSON)
-                .param("status", "employed")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("status", "employed")
 
-        )           .andExpect(jsonPath("$.size()").value(employeeList.size()))
+                ).andExpect(jsonPath("$.size()").value(employeeList.size()))
                 .andExpect(status().isFound())
                 .andDo(print());
 
@@ -220,15 +216,14 @@ class EmployeeControllerTest {
         String exceptionParam = "bad_request";
 
         mockMvc.perform(get("/api/employment{result}", exceptionParam)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof MissingServletRequestParameterException))
                 .andExpect(result -> assertEquals("Required request parameter 'result' for method parameter type boolean is not present", result.getResolvedException().getMessage())
-        );
+                );
 
 //        doThrow(Exception.class).when(employeeService).findCurrentlyEmployedEmployees(Boolean.parseBoolean(result));
 //        employeeService.findCurrentlyEmployedEmployees(true);
-
 
 
     }
@@ -269,7 +264,7 @@ class EmployeeControllerTest {
                         "Nothing",
                         "freddy@gmail.com",
                         EmploymentStatus.employed,
-                        LocalDate.of(2002,5,5),
+                        LocalDate.of(2002, 5, 5),
                         "Not win anything"
                 )));
         mockMvc.perform(get("/api/employees/all"))
@@ -341,7 +336,6 @@ class EmployeeControllerTest {
 //                        .param("role","ring")
 
 
-
         );
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
@@ -357,12 +351,12 @@ class EmployeeControllerTest {
 
     @Test
     void deleteEmployee() throws Exception {
-         doNothing().when(employeeService).deleteEmployeeById(1L);
+        doNothing().when(employeeService).deleteEmployeeById(1L);
 
-         ResultActions response = mockMvc.perform(delete("/api/employee/delete/1")
-                 .contentType(MediaType.APPLICATION_JSON));
+        ResultActions response = mockMvc.perform(delete("/api/employee/delete/1")
+                .contentType(MediaType.APPLICATION_JSON));
 
-         response.andExpect(MockMvcResultMatchers.status().isOk());
+        response.andExpect(MockMvcResultMatchers.status().isOk());
 
     }
 
@@ -370,15 +364,15 @@ class EmployeeControllerTest {
     @Test
     public void itShouldSearchUserByName() throws Exception {
 
-        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1,employee2,employee3));
+        List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1, employee2, employee3));
         String partialName = "joao";
 
         // stub
         when(employeeService.findByName(partialName)).thenReturn(Collections.singletonList(employee3));
 
         ResultActions response = mockMvc.perform(get("/api/search")
-                .contentType(MediaType.APPLICATION_JSON)
-                .param("partialName","joao")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("partialName", "joao")
 //                .param("badParam","badvalue")
         );
 
@@ -386,7 +380,7 @@ class EmployeeControllerTest {
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].name", CoreMatchers.is(employee3.getName())))
                 .andExpect(jsonPath("$[0].role", CoreMatchers.is(employee3.getRole()))
-        );
+                );
 
     }
 }

@@ -26,7 +26,7 @@ class EmployeeDTOTest {
     private EmployeeDto employeeDto;
 
     @MockBean
-    private Employee employee;
+    private final Employee employee;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -41,7 +41,7 @@ class EmployeeDTOTest {
 
     @BeforeEach
     void setup() {
-        List<Employee> employee1 = Collections.singletonList(new Employee("Cristiano Ronaldo", "Striker", "cristiano@gmail.com", EmploymentStatus.unemployed, LocalDate.of(1985,1, 11),"win everything"));
+        List<Employee> employee1 = Collections.singletonList(new Employee("Cristiano Ronaldo", "Striker", "cristiano@gmail.com", EmploymentStatus.unemployed, LocalDate.of(1985, 1, 11), "win everything"));
         employeeRepository.saveAllAndFlush(employee1);
         //                .collect(Collectors.toList());
 
@@ -57,7 +57,7 @@ class EmployeeDTOTest {
 
     @Test
     void itShouldGetEmployeeNameAsEmployeeDTO() {
-    // List<EmployeeDTO> getAllEmployeesAsDTO = employeeService.getAllEmployees()
+        // List<EmployeeDTO> getAllEmployeesAsDTO = employeeService.getAllEmployees()
         //                        .stream()
         //                        .map(EmployeeDTO::new)
         //                        .collect(Collectors.toList());
@@ -75,6 +75,6 @@ class EmployeeDTOTest {
         // then
         List<Employee> totalEmployees = employeeRepository.findAll();
         List<Employee> expected = employeeRepository.findAll().stream().filter(employee1 -> employee1.getName().matches("Cristiano Ronaldo")).collect(Collectors.toList());
-    //    assertThat(employeeDTO.getEmployeeName()).isEqualTo(expected);
+        //    assertThat(employeeDTO.getEmployeeName()).isEqualTo(expected);
     }
 }
