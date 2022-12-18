@@ -1,11 +1,13 @@
 package com.laurencetuchin.employeesystemapi.repositories;
 
 import com.laurencetuchin.employeesystemapi.entities.Employee;
+import com.laurencetuchin.employeesystemapi.entities.EmploymentStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +15,6 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 class EmployeeRepositoryTest {
@@ -24,9 +25,9 @@ class EmployeeRepositoryTest {
 
     @BeforeEach
     void setup() {
-        Employee employee1 = new Employee("Cristiano Ronaldo", "Striker", true);
-        Employee employee2 = new Employee("Marcus Rashford", "Left winger", true);
-        Employee employee3 = new Employee("Zlatan Ibrahimovic", "Striker", false);
+        Employee employee1 = new Employee("Cristiano Ronaldo", "Striker", "cristino@gmail.com", EmploymentStatus.unemployed, LocalDate.of(1985, 12, 12), "Win everything");
+        Employee employee2 = new Employee("Marcus Rashford", "Left winger", "rashy@gmail.com", EmploymentStatus.onleave, LocalDate.of(2001, 1, 1), "Win at Manchester");
+        Employee employee3 = new Employee("Zlatan Ibrahimovic", "Striker", "zlatan@gmail.com", EmploymentStatus.employed, LocalDate.of(1951, 11, 11), "Be juman");
 
         // Employee 4,5,6 used for edge case Search matching
         Employee employee4 = new Employee("anne Hathaway", "Catwoman");
@@ -122,34 +123,6 @@ class EmployeeRepositoryTest {
 
     }
 
-    @Test
-    void itShouldGiveADefaultEmploymentStatusOfTrue() {
-        // given no assigned employment status value
-        Employee employee1 = new Employee("Kylian Mbappe", "Striker");
-        // when
-        // created variable to Employee with no employment status assigned
-//        boolean employmentStatusDefaultTrue = employeeRepository.getReferenceById(1L).isCurrentlyWorkingAtCompany();
-//        Employee employmentStatusDefaultFalse = employeeRepository.getById(3L);
-        // then
-//        assertThat(employmentStatusDefaultTrue.isCurrentlyWorkingAtCompany()).isTrue();
-        assertTrue(employee1.isCurrentlyWorkingAtCompany());
-    }
-
-    @Test
-    void itShouldAssignAFalseValueWhenSpecified() {
-        // given Employee with default true
-        Employee employee1 = new Employee("Kylian Mbappe", "Striker", false);
-//        Employee employmentStatusDefaultTrue = employeeRepository.findById(4L).get();
-        // checks value is true before updating
-//        assertThat(employmentStatusDefaultTrue.isCurrentlyWorkingAtCompany()).isTrue();
-
-        // when updated to false
-//        employmentStatusDefaultTrue.setCurrentlyWorkingAtCompany(false);
-
-        // then assert
-        assertThat(employee1.isCurrentlyWorkingAtCompany()).isFalse();
-        assertThat(employee1.isCurrentlyWorkingAtCompany()).isEqualTo(false);
-    }
 
     @Test
     void itShouldFindByNameIgnoreCaseContains() {
@@ -159,7 +132,10 @@ class EmployeeRepositoryTest {
         Employee employee = new Employee(
                 "Tom",
                 "Destroying Batman",
-                true
+                "tom@gmail.com",
+                EmploymentStatus.employed,
+                LocalDate.of(2001, 1, 1),
+                "Save gotham"
         );
         employeeRepository.save(employee);
         // when
@@ -250,17 +226,6 @@ class EmployeeRepositoryTest {
 
     }
 
-    @Test
-    void itShouldFindByIsCurrentlyWorkingAtCompany() {
-        // given
-        List<Employee> currentlyEmployed = employeeRepository.findByIsCurrentlyWorkingAtCompany(true);
-        // when
-        List<Employee> expectedEmployee = employeeRepository.findAll().stream().filter(employee -> employee.isCurrentlyWorkingAtCompany()).collect(Collectors.toList());
-
-        // then
-        assertThat(currentlyEmployed).isEqualTo(expectedEmployee);
-
-    }
 
     @Test
     void itShouldFindEmployeeByNameAndRole() {
