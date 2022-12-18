@@ -48,21 +48,6 @@ public class EmployeeController {
     }
 
 
-    //    @GetMapping("/employees/all")
-//    public ResponseEntity<List<Employee>> getAllEmployees(@RequestParam(required = false) String name) {
-//        try {
-//            List<Employee> employees = new ArrayList<Employee>();
-//
-//            if (!employeeService.getAllEmployees().isEmpty()) {
-//                employeeService.getAllEmployees();
-//            } else {
-//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//            }
-//        } catch(Exception ex){
-//            System.out.println(ex);
-//        }
-//        return new ResponseEntity<>
-//    }
     @Operation(summary = "Get Employee by Id", description = "Get an Employee by Id", tags = "Employee")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employee",
@@ -70,7 +55,7 @@ public class EmployeeController {
                             schema = @Schema(implementation = Employee.class))}),
             @ApiResponse(responseCode = "404", description = "Employee not found",
                     content = @Content)})
-    @GetMapping("/employee/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity getEmployeeById(@PathVariable("id") Long id) {
         Optional<Employee> employeeIfExists = employeeService.findEmployeeById(id);
         if (employeeIfExists.isEmpty()) {
@@ -99,7 +84,7 @@ public class EmployeeController {
                             schema = @Schema(implementation = Employee.class))}),
             @ApiResponse(responseCode = "404", description = "Employees not found",
                     content = @Content)})
-    @GetMapping("/employees/all")
+    @GetMapping("/all")
     public ResponseEntity<List<Employee>> getAllEmployees() {
         List<Employee> employees = employeeService.getAllEmployees();
         if (employees.isEmpty()) {
@@ -119,7 +104,7 @@ public class EmployeeController {
                             schema = @Schema(implementation = Employee.class))}),
             @ApiResponse(responseCode = "404", description = "Employees not found",
                     content = @Content)})
-    @GetMapping("/employees/dto")
+    @GetMapping("/dto")
     public List<EmployeeDto> getAllEmployeesDTO() {
         List<EmployeeDto> employees = employeeService.getAllEmployees()
                 .stream().map(employee -> employeeMapper.toDto(employee))
@@ -134,7 +119,7 @@ public class EmployeeController {
                             schema = @Schema(implementation = Employee.class))}),
             @ApiResponse(responseCode = "404", description = "Employees not found",
                     content = @Content)})
-    @GetMapping("/employees/dto/{id}")
+    @GetMapping("/dto/{id}")
     public List<EmployeeDto> getAllEmployeesIDDTO(@PathVariable Long id) {
         List<EmployeeDto> employees = employeeService.findEmployeeById(id)
                 .stream().map(employee -> employeeMapper.toDto(employee))
@@ -255,7 +240,7 @@ public class EmployeeController {
                             schema = @Schema(implementation = Employee.class))}),
             @ApiResponse(responseCode = "500", description = "Employees not created",
                     content = @Content)})
-    @PostMapping("/employee/create")
+    @PostMapping("/create")
     public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
         try {
             Employee employee1 = employeeService
@@ -273,26 +258,6 @@ public class EmployeeController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @Operation(summary = "Create new Employee", description = "Create new Employee, accepts @RequestBody if valid", tags = "Employee")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Created Employee",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = EmployeeDto.class))}),
-            @ApiResponse(responseCode = "500", description = "Employees not created",
-                    content = @Content)})
-    @PostMapping("/employee/create/dto")
-    public ResponseEntity<EmployeeDto> saveEmployeeAsDto(@Valid @RequestBody EmployeeDto employeeDTO) {
-        Employee employee = employeeMapper.toEntity(employeeDTO);
-        employeeService.save(employee);
-        EmployeeDto employeeDTO1 = employeeMapper.toDto(employee);
-        try {
-//            Employee employee1 = employeeService
-//                    .createEmployee(new Employee(employee.getName(), employee.getRole(), employee.getEmail(), employee.getStatus()));
-            return new ResponseEntity<>(employeeDTO1, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 
     @Operation(summary = "Update Employee by Id", description = "Update existing Employee by Id, accepts @RequestBody if valid, uses PathVariable for id", tags = "Employee")
     @ApiResponses(value = {
@@ -301,7 +266,7 @@ public class EmployeeController {
                             schema = @Schema(implementation = Employee.class))}),
             @ApiResponse(responseCode = "500", description = "Employees not updated",
                     content = @Content)})
-    @PutMapping("/employee/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Employee> updateEmployeeById(@RequestBody @Valid Employee employee, @PathVariable Long id) {
         Optional<Employee> employeeOptional = employeeService.findEmployeeById(id);
         if (employeeOptional.isEmpty()) {
@@ -321,7 +286,7 @@ public class EmployeeController {
                             schema = @Schema(implementation = Employee.class))}),
             @ApiResponse(responseCode = "500", description = "Employees not deleted",
                     content = @Content)})
-    @DeleteMapping("/employee/delete/{id}") // update with Response Entity to return response
+    @DeleteMapping("/{id}/delete") // update with Response Entity to return response
     public void deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployeeById(id);
     }
@@ -335,7 +300,7 @@ public class EmployeeController {
                             schema = @Schema(implementation = Employee.class))}),
             @ApiResponse(responseCode = "500", description = "Task not assigned",
                     content = @Content)})
-    @PutMapping("/{employeeId}/employee/{taskId}")
+    @PutMapping("/{employeeId}/task/{taskId}")
     public ResponseEntity<Employee> assignEmployeeTask(@PathVariable Long employeeId, @PathVariable Long taskId) {
         Optional<Employee> employeeOptional = employeeService.findEmployeeById(employeeId);
         Optional<Task> taskOptional = taskRepository.findTaskById(taskId);
@@ -361,7 +326,7 @@ public class EmployeeController {
                             schema = @Schema(implementation = Employee.class))}),
             @ApiResponse(responseCode = "500", description = "Task not removed",
                     content = @Content)})
-    @PutMapping("/{employeeId}/employee/{taskId}/remove")
+    @PutMapping("/{employeeId}/task/{taskId}/remove")
     public ResponseEntity<Employee> removeTaskFromEmployee(@PathVariable Long employeeId, @PathVariable Long taskId) {
         Optional<Employee> employeeOptional = employeeService.findEmployeeById(employeeId);
         Optional<Task> taskOptional = taskRepository.findTaskById(taskId);
