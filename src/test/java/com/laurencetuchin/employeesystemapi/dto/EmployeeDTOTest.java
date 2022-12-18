@@ -1,6 +1,7 @@
 package com.laurencetuchin.employeesystemapi.dto;
 
 import com.laurencetuchin.employeesystemapi.entities.Employee;
+import com.laurencetuchin.employeesystemapi.entities.EmploymentStatus;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.services.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,12 +41,8 @@ class EmployeeDTOTest {
 
     @BeforeEach
     void setup() {
-        List<Employee> employee1 = Collections.singletonList(new Employee("Cristiano Ronaldo", "Striker", true));
+        List<Employee> employee1 = Collections.singletonList(new Employee("Cristiano Ronaldo", "Striker", "cristiano@gmail.com", EmploymentStatus.unemployed, LocalDate.of(1985,1, 11),"win everything"));
         employeeRepository.saveAllAndFlush(employee1);
-
-
-
-
         //                .collect(Collectors.toList());
 
     }
