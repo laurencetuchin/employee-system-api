@@ -133,6 +133,22 @@ public class Employee {
 //        project.getEmployee().
     }
 
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getCareerGoal() {
+        return careerGoal;
+    }
+
+    public void setCareerGoal(String careerGoal) {
+        this.careerGoal = careerGoal;
+    }
+
     public Set<Task> getTasks() {
         return tasks;
     }

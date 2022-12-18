@@ -2,16 +2,19 @@ package com.laurencetuchin.employeesystemapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.laurencetuchin.employeesystemapi.entities.EmploymentStatus;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 public class EmployeeDTO {
 
 
     private Long id;
+
 
     @Size(min = 1, max = 10)
     @NotNull @NotBlank
@@ -26,6 +29,15 @@ public class EmployeeDTO {
     @JsonProperty("EmploymentStatus")
     @NotNull
     private EmploymentStatus status;
+
+    @NotBlank
+    @DateTimeFormat
+    private Date dateOfBirth;
+
+    @NotBlank
+    @Size(min = 1, max = 100)
+    private String careerGoal;
+
 
     public void setId(Long id) {
         this.id = id;
@@ -68,11 +80,13 @@ public class EmployeeDTO {
     }
 
 
-    public EmployeeDTO(Long id, String name, String role, String email, EmploymentStatus status) {
+    public EmployeeDTO(Long id, String name, String role, String email, EmploymentStatus status, Date dateOfBirth, String careerGoal) {
         this.id = id;
         this.name = name;
         this.role = role;
         this.email = email;
         this.status = status;
+        this.dateOfBirth = dateOfBirth;
+        this.careerGoal = careerGoal;
     }
 }
