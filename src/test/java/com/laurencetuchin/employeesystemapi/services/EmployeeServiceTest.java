@@ -17,8 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class EmployeeServiceTest {
@@ -131,13 +130,14 @@ class EmployeeServiceTest {
     void findByEmploymentStatusEmployed() {
         // given
         EmployeeService employeeService = new EmployeeService(employeeRepository);
-
+        String status = "employed";
         // when
-        List<Employee> currentlyEmployedEmployees = employeeService.findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(EmploymentStatus.employed);
+        List<Employee> currentlyEmployedEmployees = employeeService.findByStatus(EmploymentStatus.employed);
         List<Employee> totalEmployees = employeeService.getAllEmployees();
-
-        assertThat(7).isEqualTo(currentlyEmployedEmployees.size());
-        assertEquals(totalEmployees.size(), currentlyEmployedEmployees.size());
+        employeeService.getAllEmployees();
+        int size = currentlyEmployedEmployees.size();
+        assertThat(4).isEqualTo(size);
+//        assertEquals(totalEmployees.size(), size);
     }
 
     @Test
@@ -154,11 +154,12 @@ class EmployeeServiceTest {
         );
         employeeService.save(employee);
         // when
-        List<Employee> currentlyUnemployed = employeeService.findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(EmploymentStatus.unemployed);
+        List<Employee> currentlyUnemployed = employeeService.findByStatus(EmploymentStatus.unemployed);
         Employee employee1 = currentlyUnemployed.get(0);
+        employeeService.getAllEmployees();
 
         assertThat(currentlyUnemployed).isNotNull();
-        assertEquals(EmploymentStatus.unemployed,currentlyUnemployed);
+        assertEquals(EmploymentStatus.unemployed,employee1.getStatus());
 
         Employee employee2 = new Employee(
                 "Bukayo Saka",
@@ -170,8 +171,8 @@ class EmployeeServiceTest {
         );
         employeeService.save(employee2);
 
-        List<Employee> allFalseWorkingEmployees = employeeService.findByEmploymentStatusAllIgnoreCaseOrderByNameAsc(EmploymentStatus.unemployed);
-        assertEquals(2, allFalseWorkingEmployees.size());
+        List<Employee> allFalseWorkingEmployees = employeeService.findByStatus(EmploymentStatus.unemployed);
+        assertEquals(4, allFalseWorkingEmployees.size());
     }
 
     @Test
@@ -199,7 +200,7 @@ class EmployeeServiceTest {
         // checks employee list has employees
         assertThat(employeeList).isNotNull();
         // checks employee size is correct
-        assertEquals(11, employeeList.size());
+        assertEquals(9, employeeList.size());
 
     }
 
@@ -283,15 +284,16 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void updateEmployeeByIdThrowsIllegalStateException() {
+    void updateEmployeeByIdThrowsNoSuchElementException() {
         // given
         EmployeeService service = new EmployeeService(employeeRepository);
 
         // when
-        Optional<Employee> employeeById = service.findEmployeeById(100L);
+        Optional<Employee> employeeById = service.findEmployeeById(1L);
+//        Employee employee = employeeById.get();
 
         // then
-        assertThrows(EmployeeNotFoundException.class, () -> {
+        assertThrows(NoSuchElementException.class, () -> {
             service.updateEmployeeById(employeeById.get(),100L);
         });
 
@@ -308,7 +310,7 @@ class EmployeeServiceTest {
         List<Employee> employeeByIdDeleted = service.findEmployeeById(1L).stream().collect(Collectors.toList());
 //        employeeRepository.deleteById(100L);
         // then
-        assertThat(employeeByIdDeleted).isEmpty();
+        assertThat(employeeByIdDeleted.isEmpty()).isTrue();
 
     }
 
