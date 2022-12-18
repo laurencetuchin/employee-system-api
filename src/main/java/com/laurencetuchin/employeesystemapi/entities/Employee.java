@@ -46,6 +46,7 @@ public class Employee {
     @DateTimeFormat
     private Date dateOfBirth;
 
+
     @Column(name = "careerGoal")
     @NotBlank
     @Size(min = 1, max = 100)
@@ -72,12 +73,15 @@ public class Employee {
     }
 
     @Autowired
-    public Employee(String name, String role, String email, EmploymentStatus employmentStatus) {
+    public Employee(String name, String role, String email, EmploymentStatus status, Date dateOfBirth, String careerGoal) {
         this.name = name;
         this.role = role;
         this.email = email;
-        this.status = employmentStatus;
+        this.status = status;
+        this.dateOfBirth = dateOfBirth;
+        this.careerGoal = careerGoal;
     }
+
 
     public String getEmail() {
         return email;
