@@ -35,9 +35,6 @@ public class EmployeeService {
         return employeeRepository.findByRoleIgnoreCaseContains(role);
     }
 
-//    public List<Employee> findByEmploymentStatus(boolean isCurrentlyEmployedAtCompany){
-//        return employeeRepository.findByIsCurrentlyWorkingAtCompany(isCurrentlyEmployedAtCompany);
-//    }
 
     public List<Employee> findEmployeeByNameAndRole(String partialName, String role){
         return employeeRepository.findEmployeeByNameAndRole(partialName, role);
@@ -49,7 +46,12 @@ public class EmployeeService {
 
 
     public Optional<Employee> findEmployeeById(Long id){
-        return employeeRepository.findById(id);
+        Optional<Employee> optionalEmployee = employeeRepository.findById(id);
+        if (optionalEmployee.isEmpty()){
+            throw new EmployeeNotFoundException("Employee with id: " + id + " not found");
+        } else {
+            return optionalEmployee;
+        }
     }
 
     public List<Employee> getAllEmployees(){
@@ -92,6 +94,8 @@ public class EmployeeService {
             employee1.setRole(employee.getRole());
             employee1.setStatus(employee.getStatus());
             employee1.setEmail(employee.getEmail());
+            employee1.setDateOfBirth(employee.getDateOfBirth());
+            employee1.setCareerGoal(employee.getCareerGoal());
             employeeRepository.save(employee1);
         }
         return employee1;
