@@ -9,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -42,9 +43,8 @@ public class Employee {
     private EmploymentStatus status;
 
     @Column(name = "dateOfBirth")
-    @NotBlank
     @DateTimeFormat
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
 
     @Column(name = "careerGoal")
@@ -73,7 +73,7 @@ public class Employee {
     }
 
     @Autowired
-    public Employee(String name, String role, String email, EmploymentStatus status, Date dateOfBirth, String careerGoal) {
+    public Employee(String name, String role, String email, EmploymentStatus status, LocalDate dateOfBirth, String careerGoal) {
         this.name = name;
         this.role = role;
         this.email = email;
@@ -82,6 +82,13 @@ public class Employee {
         this.careerGoal = careerGoal;
     }
 
+    public Employee(Long id, String name, String role, String email, EmploymentStatus status) {
+        this.id = id;
+        this.name = name;
+        this.role = role;
+        this.email = email;
+        this.status = status;
+    }
 
     public String getEmail() {
         return email;
@@ -137,11 +144,11 @@ public class Employee {
 //        project.getEmployee().
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
