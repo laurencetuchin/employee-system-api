@@ -1,6 +1,6 @@
 package com.laurencetuchin.employeesystemapi.controllers;
 
-import com.laurencetuchin.employeesystemapi.dto.EmployeeDTO;
+import com.laurencetuchin.employeesystemapi.dto.EmployeeDto;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.EmploymentStatus;
 import com.laurencetuchin.employeesystemapi.entities.Task;
@@ -120,8 +120,8 @@ public class EmployeeController {
             @ApiResponse(responseCode = "404", description = "Employees not found",
                     content = @Content)})
     @GetMapping("/employees/dto")
-    public List<EmployeeDTO> getAllEmployeesDTO() {
-        List<EmployeeDTO> employees = employeeService.getAllEmployees()
+    public List<EmployeeDto> getAllEmployeesDTO() {
+        List<EmployeeDto> employees = employeeService.getAllEmployees()
                 .stream().map(employee -> employeeMapper.toDto(employee))
                 .collect(Collectors.toList());
         return employees;
@@ -135,8 +135,8 @@ public class EmployeeController {
             @ApiResponse(responseCode = "404", description = "Employees not found",
                     content = @Content)})
     @GetMapping("/employees/dto/{id}")
-    public List<EmployeeDTO> getAllEmployeesIDDTO(@PathVariable Long id) {
-        List<EmployeeDTO> employees = employeeService.findEmployeeById(id)
+    public List<EmployeeDto> getAllEmployeesIDDTO(@PathVariable Long id) {
+        List<EmployeeDto> employees = employeeService.findEmployeeById(id)
                 .stream().map(employee -> employeeMapper.toDto(employee))
                 .collect(Collectors.toList());
         return employees;
@@ -147,13 +147,13 @@ public class EmployeeController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Employees",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = EmployeeDTO.class))}),
+                            schema = @Schema(implementation = EmployeeDto.class))}),
             @ApiResponse(responseCode = "404", description = "Employees not found",
                     content = @Content)})
     @GetMapping("/employment-status")
-    public ResponseEntity<List<EmployeeDTO>> getEmployeeByEmploymentStatus(@RequestParam EmploymentStatus status) {
+    public ResponseEntity<List<EmployeeDto>> getEmployeeByEmploymentStatus(@RequestParam EmploymentStatus status) {
         List<Employee> employeeStatus = employeeService.findByStatus(status);
-        List<EmployeeDTO> employeeDTOS = employeeStatus.stream().map(employee -> employeeMapper.toDto(employee)).collect(Collectors.toList());
+        List<EmployeeDto> employeeDTOS = employeeStatus.stream().map(employee -> employeeMapper.toDto(employee)).collect(Collectors.toList());
         if (employeeStatus.isEmpty()) {
             throw new EmployeeNotFoundException("Employees not found");
         }
@@ -259,7 +259,15 @@ public class EmployeeController {
     public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
         try {
             Employee employee1 = employeeService
-                    .createEmployee(new Employee(employee.getName(), employee.getRole(), employee.getEmail(), employee.getStatus()));
+                    .createEmployee(new Employee(
+                            employee.getName(),
+                            employee.getRole(),
+                            employee.getEmail(),
+                            employee.getStatus(),
+                            employee.getDateOfBirth(),
+                            employee.getCareerGoal()
+                            ));
+
             return new ResponseEntity<>(employee1, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -269,14 +277,14 @@ public class EmployeeController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created Employee",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = EmployeeDTO.class))}),
+                            schema = @Schema(implementation = EmployeeDto.class))}),
             @ApiResponse(responseCode = "500", description = "Employees not created",
                     content = @Content)})
     @PostMapping("/employee/create/dto")
-    public ResponseEntity<EmployeeDTO> saveEmployeeAsDto(@Valid @RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<EmployeeDto> saveEmployeeAsDto(@Valid @RequestBody EmployeeDto employeeDTO) {
         Employee employee = employeeMapper.toEntity(employeeDTO);
         employeeService.save(employee);
-        EmployeeDTO employeeDTO1 = employeeMapper.toDto(employee);
+        EmployeeDto employeeDTO1 = employeeMapper.toDto(employee);
         try {
 //            Employee employee1 = employeeService
 //                    .createEmployee(new Employee(employee.getName(), employee.getRole(), employee.getEmail(), employee.getStatus()));
