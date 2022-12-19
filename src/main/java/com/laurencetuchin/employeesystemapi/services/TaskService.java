@@ -70,7 +70,15 @@ public class TaskService {
     }
 
 
+    @Query("select t from Task t where t.startDate < ?1 and t.endDate > ?2")
+    public List<Task> findByStartDateLessThanAndEndDateGreaterThan(LocalDateTime startDate, LocalDateTime endDate) {
+        return taskRepository.findByStartDateLessThanAndEndDateGreaterThan(startDate, endDate);
+    }
 
+    @Query("select t from Task t where t.endDate < ?1 order by t.endDate")
+    public List<Task> findByEndDateLessThanOrderByEndDateAsc(LocalDateTime endDate) {
+        return taskRepository.findByEndDateLessThanOrderByEndDateAsc(endDate);
+    }
 
 
 }
