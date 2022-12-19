@@ -385,4 +385,20 @@ public class TaskController {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(endDate.toInstant(), ZoneId.systemDefault());
         return service.findByEndDateBeforeOrderByEndDateAsc(localDateTime);
     }
+
+
+    @Operation(summary = "Find Task ending in less than 7 days", description = "Find Task End Date ends 7 days", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server error",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Task not found",
+                    content = @Content)})
+    @GetMapping("/ends-week")
+    @Query("select t from Task t where t.endDate >= ?1")
+    public List<Task> findByEndDateGreaterThanEqual(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+        return service.findByEndDateLessThanEqual(endDate);
+    }
 }

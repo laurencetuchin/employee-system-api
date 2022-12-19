@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -94,4 +96,12 @@ public class TaskService {
     }
 
 
+    @Query("select t from Task t where t.endDate <= ?1")
+    public List<Task> findByEndDateLessThanEqual(LocalDateTime endDate) {
+        LocalDateTime endsIn7Days = LocalDateTime.now().plusDays(7);
+        long between = ChronoUnit.DAYS.between(endsIn7Days,endDate);
+        Duration duration = Duration.between(endsIn7Days, endDate);
+        LocalDateTime finalDate = LocalDateTime.ofInstant(Instant.ofEpochSecond(duration.toMillis()),ZoneId.systemDefault());
+        return taskRepository.findByEndDateGreaterThanEqual(endsIn7Days);
+    }
 }
