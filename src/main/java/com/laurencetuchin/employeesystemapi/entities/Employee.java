@@ -90,6 +90,7 @@ public class Employee {
         this.status = status;
     }
 
+    // for EmployeeDto
     public Employee(String name, String role, String email, EmploymentStatus status) {
         this.name = name;
         this.role = role;

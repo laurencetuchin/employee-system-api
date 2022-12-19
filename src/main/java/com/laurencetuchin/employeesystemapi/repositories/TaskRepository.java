@@ -28,6 +28,14 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
     @Query("select t from Task t where t.endDate = ?1 order by t.endDate")
     List<Task> findByEndDateOrderByEndDateAsc(LocalDateTime endDate);
 
+    @Query("select t from Task t where t.startDate > ?1 and t.endDate < ?2")
+    List<Task> findByStartDateGreaterThanAndEndDateLessThan(LocalDateTime startDate, LocalDateTime endDate);
+
+    @Query("select t from Task t where t.endDate < ?1 order by t.endDate")
+    List<Task> findByEndDateLessThanOrderByEndDateAsc(LocalDateTime endDate);
+
+
+
 
 //    List<Task> findTaskByEmployeeId(Long employeeId);
 
