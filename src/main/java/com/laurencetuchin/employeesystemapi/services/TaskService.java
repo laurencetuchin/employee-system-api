@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -78,6 +80,11 @@ public class TaskService {
     @Query("select t from Task t where t.endDate < ?1 order by t.endDate")
     public List<Task> findByEndDateLessThanOrderByEndDateAsc(LocalDateTime endDate) {
         return taskRepository.findByEndDateLessThanOrderByEndDateAsc(endDate);
+    }
+
+    @Query("select t from Task t where t.endDate < ?1 order by t.endDate")
+    public List<Task> findByEndDateBeforeOrderByEndDateAsc(LocalDateTime endDate) {
+        return taskRepository.findByEndDateBeforeOrderByEndDateAsc(endDate);
     }
 
 

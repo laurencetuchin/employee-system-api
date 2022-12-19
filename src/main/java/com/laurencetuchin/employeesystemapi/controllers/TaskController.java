@@ -25,6 +25,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -335,7 +337,7 @@ public class TaskController {
     }
 
 
-    @Operation(summary = "Find Task between dates", description = "Find Task ending between start and end date", tags = "Task")
+    @Operation(summary = "Find Task between dates", description = "Find Task ending between start and end date, includes exactly starting at and exactly ending at", tags = "Task")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Task found",
                     content = {@Content(mediaType = "application/json",
@@ -365,5 +367,20 @@ public class TaskController {
         return service.findByEndDateLessThanOrderByEndDateAsc(endDate);
     }
 
+    @Operation(summary = "Find Task End Date before", description = "Find Task End Date before", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server error",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Task not found",
+                    content = @Content)})
+    @GetMapping("/before-ending")
+    @Query("select t from Task t where t.endDate < ?1 order by t.endDate")
+    public List<Task> findByEndDateBeforeOrderByEndDateAsc(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(endDate.toInstant(), ZoneId.systemDefault());
 
+        return service.findByEndDateBeforeOrderByEndDateAsc(localDateTime);
+    }
 }
