@@ -345,8 +345,8 @@ public class TaskController {
             @ApiResponse(responseCode = "404", description = "Task not found",
                     content = @Content)})
     @GetMapping("/find-between-dates")
-    @Query("select t from Task t where t.startDate < ?1 and t.endDate > ?2")
-    public List<Task> findByStartDateLessThanAndEndDateGreaterThan(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+    @Query("select t from Task t where t.startDate <= ?1 and t.endDate >= ?2 order by t.endDate")
+    public List<Task> findBetweenStartAndEndDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
         return service.findByStartDateLessThanAndEndDateGreaterThan(startDate, endDate);
     }
 
