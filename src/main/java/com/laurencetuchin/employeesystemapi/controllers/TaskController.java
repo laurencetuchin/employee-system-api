@@ -348,8 +348,11 @@ public class TaskController {
                     content = @Content)})
     @GetMapping("/find-between-dates")
     @Query("select t from Task t where t.startDate <= ?1 and t.endDate >= ?2 order by t.endDate")
-    public List<Task> findBetweenStartAndEndDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
-        return service.findByStartDateLessThanAndEndDateGreaterThan(startDate, endDate);
+    public List<Task> findBetweenStartAndEndDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startAsDateType, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endAsDateType) {
+        LocalDateTime startLocalDateTime = LocalDateTime.ofInstant(endAsDateType.toInstant(), ZoneId.systemDefault());
+        LocalDateTime endLocalDateTime = LocalDateTime.ofInstant(startAsDateType.toInstant(), ZoneId.systemDefault());
+
+        return service.findByStartDateLessThanAndEndDateGreaterThan(startLocalDateTime, endLocalDateTime);
     }
 
     @Operation(summary = "Find Task less than End Date", description = "Find Task less than End date", tags = "Task")
@@ -380,7 +383,6 @@ public class TaskController {
     @Query("select t from Task t where t.endDate < ?1 order by t.endDate")
     public List<Task> findByEndDateBeforeOrderByEndDateAsc(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(endDate.toInstant(), ZoneId.systemDefault());
-
         return service.findByEndDateBeforeOrderByEndDateAsc(localDateTime);
     }
 }
