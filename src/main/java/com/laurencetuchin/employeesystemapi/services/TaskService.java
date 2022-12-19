@@ -97,11 +97,8 @@ public class TaskService {
 
 
     @Query("select t from Task t where t.endDate <= ?1")
-    public List<Task> findByEndDateLessThanEqual(LocalDateTime endDate) {
+    public List<Task> findByEndDateLessThanEqual() {
         LocalDateTime endsIn7Days = LocalDateTime.now().plusDays(7);
-        long between = ChronoUnit.DAYS.between(endsIn7Days,endDate);
-        Duration duration = Duration.between(endsIn7Days, endDate);
-        LocalDateTime finalDate = LocalDateTime.ofInstant(Instant.ofEpochSecond(duration.toMillis()),ZoneId.systemDefault());
         return taskRepository.findByEndDateGreaterThanEqual(endsIn7Days);
     }
 }

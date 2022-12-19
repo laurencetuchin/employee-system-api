@@ -398,7 +398,7 @@ public class TaskController {
                     content = @Content)})
     @GetMapping("/ends-week")
     @Query("select t from Task t where t.endDate >= ?1")
-    public List<Task> findByEndDateGreaterThanEqual(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
-        return service.findByEndDateLessThanEqual(endDate);
+    public List<Task> findByEndDateGreaterThanEqual() {
+        return service.findByEndDateLessThanEqual();
     }
 }
