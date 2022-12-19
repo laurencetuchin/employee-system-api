@@ -2,6 +2,7 @@ package com.laurencetuchin.employeesystemapi.services;
 
 import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.entities.TaskPriority;
+import com.laurencetuchin.employeesystemapi.exceptions.TaskNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
@@ -74,7 +75,12 @@ public class TaskService {
 
     @Query("select t from Task t where t.startDate <= ?1 and t.endDate >= ?2 order by t.endDate")
     public List<Task> findByStartDateLessThanAndEndDateGreaterThan(LocalDateTime startDate, LocalDateTime endDate) {
-        return taskRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByEndDateAsc(startDate, endDate);
+
+        List<Task> tasks = taskRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByEndDateAsc(startDate, endDate);
+        if (tasks.isEmpty()){
+            throw new TaskNotFoundException("Task with startDate: "+startDate+" or endDate: "+endDate+" not found");
+        } else
+            return tasks;
     }
 
     @Query("select t from Task t where t.endDate < ?1 order by t.endDate")
