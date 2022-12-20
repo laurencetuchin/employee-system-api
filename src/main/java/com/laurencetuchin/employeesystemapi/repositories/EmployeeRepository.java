@@ -30,6 +30,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("select e from Employee e where e.status = ?1")
     List<Employee> findByStatus(EmploymentStatus status);
 
+    @Query("select e from Employee e where e.tasks = ?1")
+    List<Employee> findByTasks(Task tasks);
+
 
 
 
