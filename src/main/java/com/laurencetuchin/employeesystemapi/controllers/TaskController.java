@@ -355,37 +355,6 @@ public class TaskController {
         return service.findByStartDateLessThanAndEndDateGreaterThan(startLocalDateTime, endLocalDateTime);
     }
 
-    @Operation(summary = "Find Task less than End Date", description = "Find Task less than End date", tags = "Task")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Task fond",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Task.class))}),
-            @ApiResponse(responseCode = "500", description = "Internal Server error",
-                    content = @Content),
-            @ApiResponse(responseCode = "404", description = "Task not found",
-                    content = @Content)})
-    @Query("select t from Task t where t.endDate < ?1 order by t.endDate")
-    @GetMapping("/less-than-ending")
-    public List<Task> findByEndDateLessThanOrderByEndDateAsc(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
-        return service.findByEndDateLessThanOrderByEndDateAsc(endDate);
-    }
-
-    @Operation(summary = "Find Task End Date before", description = "Find Task End Date before", tags = "Task")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Task found",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Task.class))}),
-            @ApiResponse(responseCode = "500", description = "Internal Server error",
-                    content = @Content),
-            @ApiResponse(responseCode = "404", description = "Task not found",
-                    content = @Content)})
-    @GetMapping("/before-ending")
-    @Query("select t from Task t where t.endDate < ?1 order by t.endDate")
-    public List<Task> findByEndDateBeforeOrderByEndDateAsc(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(endDate.toInstant(), ZoneId.systemDefault());
-        return service.findByEndDateBeforeOrderByEndDateAsc(localDateTime);
-    }
-
 
     @Operation(summary = "Find Task ending in less than 7 days", description = "Find Task End Date ends 7 days", tags = "Task")
     @ApiResponses(value = {
