@@ -1,5 +1,6 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +54,10 @@ public class Employee {
     @Size(min = 1, max = 100)
     private String careerGoal;
 
-    @JsonIgnore
     @OneToMany( mappedBy = "employee")
-    @JsonManagedReference
+//    @JsonManagedReference
+//    @JsonIgnore
+    @JsonBackReference
     private List<Project> projects;
 
     @JsonIgnore

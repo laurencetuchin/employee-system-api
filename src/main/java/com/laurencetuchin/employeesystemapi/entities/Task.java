@@ -3,6 +3,7 @@ package com.laurencetuchin.employeesystemapi.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +53,9 @@ public class Task {
 
     @ManyToOne(fetch = FetchType.LAZY) // , optional = false
     @JoinColumn(name = "project_id") //, nullable = false
-    @JsonIgnore
+//    @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE)// deletes Task if project is deleted
-    @JsonBackReference
+    @JsonManagedReference
     private Project project;
 
     @JsonIgnore
