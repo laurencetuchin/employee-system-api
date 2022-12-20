@@ -53,11 +53,13 @@ public class Project {
     @ManyToOne
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
     @OnDelete(action = OnDeleteAction.CASCADE)
-//    @JsonIgnoreProperties("employee")
+//    @JsonIgnoreProperties("projects")
+    @JsonIgnore
     private Employee employee;
 
     @OneToMany(mappedBy = "project") // , orphanRemoval = true
-    @JsonBackReference
+//    @JsonBackReference
+    @JsonManagedReference
     private Set<Task> task;
 
     public Set<Task> getTask() {

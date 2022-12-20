@@ -52,10 +52,11 @@ public class Task {
     @JoinColumn(name = "project_id") //, nullable = false
 //    @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE)// deletes Task if project is deleted
-    @JsonIgnoreProperties("employee")
+//    @JsonIgnoreProperties("employee")
+    @JsonBackReference
     private Project project;
 
-    @JsonIgnoreProperties("tasks")
+    @JsonIgnoreProperties({"projects", "tasks"})
     @ManyToMany(mappedBy = "tasks")
     private Set<Employee> employees = new HashSet<>();
 //
