@@ -2,6 +2,7 @@ package com.laurencetuchin.employeesystemapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import net.bytebuddy.asm.Advice;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -54,7 +55,7 @@ public class Project {
     private Employee employee;
 
     @OneToMany(mappedBy = "project") // , orphanRemoval = true
-//    @JsonIgnore
+    @JsonManagedReference
     private Set<Task> task;
 
     public Set<Task> getTask() {
