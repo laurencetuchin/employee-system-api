@@ -3,6 +3,7 @@ package com.laurencetuchin.employeesystemapi.services;
 import com.laurencetuchin.employeesystemapi.dto.EmployeeDto;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.EmploymentStatus;
+import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
 import com.laurencetuchin.employeesystemapi.mappers.EmployeeMapper;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
@@ -106,6 +107,12 @@ public class EmployeeService {
     @Query("select e from Employee e where e.status = ?1")
     public List<Employee> findByStatus(EmploymentStatus status) {
         return employeeRepository.findByStatus(status);
+    }
+
+
+    @Query("select e from Employee e where e.tasks = ?1")
+    public List<Employee> findByTasks(Task tasks) {
+        return employeeRepository.findByTasks(tasks);
     }
 }
 
