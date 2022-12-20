@@ -1,5 +1,6 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -52,6 +53,7 @@ public class Project {
     @ManyToOne
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference
     private Employee employee;
 
     @OneToMany(mappedBy = "project") // , orphanRemoval = true
