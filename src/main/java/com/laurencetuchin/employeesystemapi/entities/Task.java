@@ -1,5 +1,6 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
@@ -52,7 +53,8 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY) // , optional = false
     @JoinColumn(name = "project_id") //, nullable = false
     @JsonIgnore
-    @OnDelete(action = OnDeleteAction.CASCADE) // deletes Task if project is deleted
+    @OnDelete(action = OnDeleteAction.CASCADE)// deletes Task if project is deleted
+    @JsonBackReference
     private Project project;
 
     @JsonIgnore
