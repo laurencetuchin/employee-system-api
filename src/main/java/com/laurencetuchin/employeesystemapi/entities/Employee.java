@@ -63,6 +63,7 @@ public class Employee {
     joinColumns = @JoinColumn(name = "employee_id"),
     inverseJoinColumns = @JoinColumn(name = "task_id")
     )
+    @JsonIgnoreProperties("employees")
     private Set<Task> tasks = new HashSet<>();
 
     public Employee() {
