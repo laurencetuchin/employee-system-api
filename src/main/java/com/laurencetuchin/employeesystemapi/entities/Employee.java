@@ -1,6 +1,7 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -54,6 +55,7 @@ public class Employee {
 
     @JsonIgnore
     @OneToMany( mappedBy = "employee")
+    @JsonManagedReference
     private List<Project> projects;
 
     @JsonIgnore
