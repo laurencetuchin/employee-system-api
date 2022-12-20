@@ -1,8 +1,6 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -57,10 +55,9 @@ public class Employee {
     @OneToMany( mappedBy = "employee")
 //    @JsonManagedReference
 //    @JsonIgnore
-    @JsonBackReference
+    @JsonIgnoreProperties("employee")
     private List<Project> projects;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "employee_tasks",
     joinColumns = @JoinColumn(name = "employee_id"),

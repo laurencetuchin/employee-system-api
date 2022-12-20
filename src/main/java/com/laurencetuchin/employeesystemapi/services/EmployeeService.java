@@ -111,7 +111,8 @@ public class EmployeeService {
 
 
     @Query("select e from Employee e where e.tasks = ?1")
-    public List<Employee> findByTasks(Task tasks) {
+    public List<Employee> findByTasks(Task tasks, Long employeeId) {
+        Optional<Employee> findEmployee = employeeRepository.findById(employeeId);
         return employeeRepository.findByTasks(tasks);
     }
 }

@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -346,4 +347,16 @@ public class EmployeeController {
     }
 
 
+    @Operation(summary = "Find Employee Tasks", description = "Find Employee Tasks", tags = "Employee")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tasks from Employee found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "500", description = "Tasks from Employee not found",
+                    content = @Content)})
+    @Query("select e from Employee e where e.tasks = ?1")
+    @GetMapping("/{employeeId}/tasks")
+    public List<Employee> findByTasks(Task tasks, @PathVariable Long employeeId) {
+        return employeeService.findByTasks(tasks, employeeId);
+    }
 }

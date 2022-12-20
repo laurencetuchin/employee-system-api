@@ -1,9 +1,6 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +52,10 @@ public class Task {
     @JoinColumn(name = "project_id") //, nullable = false
 //    @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE)// deletes Task if project is deleted
-    @JsonManagedReference
+    @JsonIgnoreProperties("employee")
     private Project project;
 
-    @JsonIgnore
+    @JsonIgnoreProperties("tasks")
     @ManyToMany(mappedBy = "tasks")
     private Set<Employee> employees = new HashSet<>();
 //

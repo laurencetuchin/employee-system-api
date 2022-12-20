@@ -53,7 +53,7 @@ public class Project {
     @ManyToOne
     @JoinColumn(name = "EMPLOYEE_ID", referencedColumnName = "ID")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonManagedReference
+//    @JsonIgnoreProperties("employee")
     private Employee employee;
 
     @OneToMany(mappedBy = "project") // , orphanRemoval = true
