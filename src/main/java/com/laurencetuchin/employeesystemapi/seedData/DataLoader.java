@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Random;
 
 
 @Configuration
@@ -41,8 +42,10 @@ public class DataLoader {
             repository.save(new Employee("John Smith","Hardest worker", "johnsmith@gmail.com",EmploymentStatus.employed,LocalDate.of(1961,7,7),"Find secrets of the island"));
             log.info("Total employees: " + repository.count());
 
-            log.info("Total projects: " + projectRepository.save(new Project(1L, "Manchester", ProjectStatus.progress)));
-            log.info("Total projects: " + projectRepository.save(new Project(2L, "Chelsea", ProjectStatus.progress)));
+            log.info("Total projects: " + projectRepository.save(new Project( "Manchester", ProjectStatus.progress,LocalDateTime.now().plusDays(1),LocalDateTime.now().plusDays(5))));
+            log.info("Total projects: " + projectRepository.save(new Project( "Chelsea", ProjectStatus.progress,LocalDateTime.now().plusDays(1),LocalDateTime.now().plusDays(3))));
+            log.info("Total projects: " + projectRepository.save(new Project( "Arsenal", ProjectStatus.review,LocalDateTime.now().plusDays(10),LocalDateTime.now().plusDays(50))));
+            log.info("Total projects: " + projectRepository.save(new Project( "Spurs", ProjectStatus.complete,LocalDateTime.now().plusDays(100),LocalDateTime.now().plusDays(500))));
 //             Project project = projectRepository.findAll().get(0);
 //             Project project2 = projectRepository.findAll().get(1);
             log.info("Total tasks: " + taskRepository.save(new Task("Play game", "Play game very well", TaskStatus.progress, TaskPriority.high, LocalDateTime.now(), LocalDateTime.now().plusDays(1))));

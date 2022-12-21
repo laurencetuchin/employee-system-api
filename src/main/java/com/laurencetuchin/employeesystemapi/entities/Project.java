@@ -47,7 +47,7 @@ public class Project {
     private LocalDateTime endDate = LocalDateTime.now().plusDays(7);
 
 
-    @Column(name = "timeRemaining")
+    @Column(name = "timeRemaining") // remove from DB?
     private Long timeRemaining = Duration.between(startDate,endDate).toMillis();
 
     @ManyToOne
@@ -88,12 +88,11 @@ public class Project {
     }
 
     @Autowired
-    public Project(String name, ProjectStatus status, LocalDateTime startDate, LocalDateTime endDate, Long timeRemaining) {
+    public Project(String name, ProjectStatus status, LocalDateTime startDate, LocalDateTime endDate) {
         this.name = name;
         this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.timeRemaining = timeRemaining;
     }
 
     public Long getId() {
