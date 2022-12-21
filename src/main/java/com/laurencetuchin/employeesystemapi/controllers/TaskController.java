@@ -1,5 +1,6 @@
 package com.laurencetuchin.employeesystemapi.controllers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.laurencetuchin.employeesystemapi.entities.*;
 import com.laurencetuchin.employeesystemapi.exceptions.TaskNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;

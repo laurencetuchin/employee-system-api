@@ -9,11 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -95,6 +91,10 @@ public class TaskService {
 
     @Query("select t from Task t where t.status <> ?1 order by t.name")
     public List<Task> findByStatusNotOrderByNameAsc(TaskStatus status) {
+        List<Task> tasks = taskRepository.findByStatusNotOrderByNameAsc(status);
+        if (tasks.isEmpty()){
+            throw new TaskNotFoundException("Tasks with status: %s not found".formatted(status));
+        }
         return taskRepository.findByStatusNotOrderByNameAsc(status);
     }
 }
