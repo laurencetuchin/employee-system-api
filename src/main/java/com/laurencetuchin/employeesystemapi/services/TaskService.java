@@ -93,7 +93,7 @@ public class TaskService {
     public List<Task> findByStatusNotOrderByNameAsc(TaskStatus status) {
         List<Task> tasks = taskRepository.findByStatusNotOrderByNameAsc(status);
         if (tasks.isEmpty()){
-            throw new TaskNotFoundException("Tasks with status: %s not found".formatted(status));
+            throw new TaskNotFoundException("Tasks without status: %s not found".formatted(status));
         }
         return taskRepository.findByStatusNotOrderByNameAsc(status);
     }
