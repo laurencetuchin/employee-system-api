@@ -41,8 +41,8 @@ public class DataLoader {
             repository.save(new Employee("John Smith","Hardest worker", "johnsmith@gmail.com",EmploymentStatus.employed,LocalDate.of(1961,7,7),"Find secrets of the island"));
             log.info("Total employees: " + repository.count());
 
-            log.info("Total projects: " + projectRepository.save(new Project(1L, "Manchester", ProjectStatus.pending)));
-            log.info("Total projects: " + projectRepository.save(new Project(2L, "Chelsea", ProjectStatus.pending)));
+            log.info("Total projects: " + projectRepository.save(new Project(1L, "Manchester", ProjectStatus.progress)));
+            log.info("Total projects: " + projectRepository.save(new Project(2L, "Chelsea", ProjectStatus.progress)));
 //             Project project = projectRepository.findAll().get(0);
 //             Project project2 = projectRepository.findAll().get(1);
             log.info("Total tasks: " + taskRepository.save(new Task("Play game", "Play game very well", TaskStatus.progress, TaskPriority.high, LocalDateTime.now(), LocalDateTime.now().plusDays(1))));

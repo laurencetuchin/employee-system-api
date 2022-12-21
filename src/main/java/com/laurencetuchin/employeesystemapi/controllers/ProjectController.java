@@ -4,7 +4,6 @@ import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Project;
 import com.laurencetuchin.employeesystemapi.entities.ProjectStatus;
 import com.laurencetuchin.employeesystemapi.entities.Task;
-import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
 import com.laurencetuchin.employeesystemapi.exceptions.ProjectNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
@@ -15,10 +14,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -205,7 +202,7 @@ public class ProjectController {
     @GetMapping("/status/active")
     public ResponseEntity<List<Project>> findByStatusActive() {
 
-        List<Project> activeProjects = service.findProjectByStatus(ProjectStatus.pending);
+        List<Project> activeProjects = service.findProjectByStatus(ProjectStatus.progress);
         if (activeProjects.isEmpty()){
             throw new ProjectNotFoundException("Projects with status: Active not found");
         } try {

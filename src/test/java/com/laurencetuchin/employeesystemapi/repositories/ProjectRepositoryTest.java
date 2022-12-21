@@ -76,13 +76,13 @@ class ProjectRepositoryTest {
     @Test
     void findByStatus() {
         // given
-        List<Project> projectByStatus = projectRepository.findByStatus(pending);
+        List<Project> projectByStatus = projectRepository.findByStatus(progress);
 
         // when
         ProjectStatus status = projectByStatus.get(0).getStatus();
 
         // then
-        assertThat(status).isEqualTo(pending);
+        assertThat(status).isEqualTo(progress);
     }
 
 

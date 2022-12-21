@@ -1,7 +1,8 @@
 package com.laurencetuchin.employeesystemapi.entities;
 
 public enum ProjectStatus {
-    pending,
+    todo,
+    progress,
     complete,
     review
 }
