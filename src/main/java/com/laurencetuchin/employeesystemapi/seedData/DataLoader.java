@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 @Configuration
@@ -50,7 +49,8 @@ public class DataLoader {
             log.info("Total tasks: " + taskRepository.save(new Task("game", "Play game well", TaskStatus.progress, TaskPriority.high, LocalDateTime.now(), LocalDateTime.now().plusDays(1))));
             log.info("Total tasks: " + taskRepository.save(new Task("game3", "Play game well", TaskStatus.progress, TaskPriority.high, LocalDateTime.now(), LocalDateTime.now().plusDays(7))));
             log.info("Total tasks: " + taskRepository.save(new Task("game4", "Play game well", TaskStatus.progress, TaskPriority.high, LocalDateTime.now(), LocalDateTime.now().plusDays(8))));
-            log.info("Total tasks: " + taskRepository.save(new Task("game5", "Play game well", TaskStatus.ready, TaskPriority.high, LocalDateTime.now().minusDays(7), LocalDateTime.now().minusDays(2))));
+            log.info("Total tasks: " + taskRepository.save(new Task("game5", "Play game well", TaskStatus.review, TaskPriority.high, LocalDateTime.now().minusDays(7), LocalDateTime.now().minusDays(2))));
+            log.info("Total tasks: " + taskRepository.save(new Task("game6", "Play game well", TaskStatus.todo, TaskPriority.low, LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(2))));
 //            log.info("Returned task: " +  taskRepository.findAll().get(0));
             log.info("task employee assigned: ");
 //            Set<Employee> assignedEmployees = new HashSet<>();

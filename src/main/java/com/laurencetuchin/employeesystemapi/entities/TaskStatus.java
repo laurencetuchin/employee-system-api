@@ -2,9 +2,10 @@ package com.laurencetuchin.employeesystemapi.entities;
 
 public enum TaskStatus {
 
-    ready,
+    review,
+    todo,
     progress,
-    complete
+    complete,
 
 
 }
