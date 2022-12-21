@@ -384,4 +384,35 @@ public class TaskController {
     public List<Task> findByStatusNotOrderByNameAsc(@RequestParam TaskStatus status) {
         return service.findByStatusNotOrderByNameAsc(status);
     }
+
+
+    @Operation(summary = "Find Task order end date", description = "Find Task order end date", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server error",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Task not found",
+                    content = @Content)})
+    @Query("select t from Task t order by t.endDate")
+    @GetMapping("/end-asc")
+    public List<Task> findByOrderByEndDateAsc() {
+        return service.findByOrderByEndDateAsc();
+    }
+
+    @Operation(summary = "Find Task order end date not ended", description = "Find Task order end date not ended", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server error",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Task not found",
+                    content = @Content)})
+    @Query("select t from Task t where t.endDate >= ?1 order by t.endDate")
+    @GetMapping("/not-ended")
+    public List<Task> findByEndDateLessThanEqualOrderByEndDateAsc() {
+        return service.findByEndDateLessThanEqualOrderByEndDateAsc();
+    }
 }

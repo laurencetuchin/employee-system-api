@@ -109,7 +109,7 @@ public class TaskService {
         return taskRepository.findByOrderByEndDateAsc();
     }
 
-    @Query("select t from Task t where t.endDate <= ?1 order by t.endDate")
+    @Query("select t from Task t where t.endDate >= ?1 order by t.endDate")
     public List<Task> findByEndDateLessThanEqualOrderByEndDateAsc() {
         LocalDateTime endDate = LocalDateTime.now();
         return taskRepository.findByEndDateLessThanEqualOrderByEndDateAsc(endDate);
