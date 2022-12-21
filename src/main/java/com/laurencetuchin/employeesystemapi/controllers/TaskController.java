@@ -380,7 +380,7 @@ public class TaskController {
             @ApiResponse(responseCode = "404", description = "Task not found",
                     content = @Content)})
     @Query("select t from Task t where t.status <> ?1 order by t.name")
-    @GetMapping("/find-status-not")
+    @GetMapping("/find-status-exclude")
     public List<Task> findByStatusNotOrderByNameAsc(@RequestParam TaskStatus status) {
         return service.findByStatusNotOrderByNameAsc(status);
     }
