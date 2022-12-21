@@ -36,6 +36,12 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
     @Query("select t from Task t where t.status <> ?1 order by t.name")
     List<Task> findByStatusNotOrderByNameAsc(TaskStatus status);
 
+    @Query("select t from Task t order by t.endDate")
+    List<Task> findByOrderByEndDateAsc();
+
+    @Query("select t from Task t where t.endDate <= ?1 order by t.endDate")
+    List<Task> findByEndDateLessThanEqualOrderByEndDateAsc(LocalDateTime endDate);
+
 
 
 
