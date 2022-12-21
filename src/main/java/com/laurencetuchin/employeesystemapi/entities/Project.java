@@ -43,7 +43,7 @@ public class Project {
     private LocalDateTime startDate = LocalDateTime.now();
 
     @Column(name = "endDate") // defaults Project end time to 7 days from now
-    @FutureOrPresent
+//    @FutureOrPresent
     private LocalDateTime endDate = LocalDateTime.now().plusDays(7);
 
 
@@ -81,11 +81,19 @@ public class Project {
     public Project() {
     }
 
-    @Autowired
     public Project(Long id, String name, ProjectStatus status) {
         this.id = id;
         this.name = name;
         this.status = status;
+    }
+
+    @Autowired
+    public Project(String name, ProjectStatus status, LocalDateTime startDate, LocalDateTime endDate, Long timeRemaining) {
+        this.name = name;
+        this.status = status;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.timeRemaining = timeRemaining;
     }
 
     public Long getId() {
