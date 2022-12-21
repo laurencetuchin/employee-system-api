@@ -1,7 +1,9 @@
 package com.laurencetuchin.employeesystemapi.services;
 
+import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Project;
 import com.laurencetuchin.employeesystemapi.entities.ProjectStatus;
+import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
 import com.laurencetuchin.employeesystemapi.exceptions.ProjectNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ import java.util.Optional;
 
 @Service
 public class ProjectService {
+
+    @Autowired
+    private EmployeeService employeeService;
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -87,6 +92,17 @@ public class ProjectService {
 
     @Query("select p from Project p where p.employee.id = ?1 order by p.name")
     public List<Project> findByEmployee_IdOrderByNameAsc(Long id) {
-        return projectRepository.findByEmployee_IdOrderByNameAsc(id);
+        // employee repo check if Employee exists
+        Optional<Employee> employee = employeeService.findEmployeeById(id);
+        if (employee.isEmpty()){
+            throw new EmployeeNotFoundException("Employee with id: %d not found".formatted(id));
+        }
+
+        // check for no projects under that employee
+        List<Project> projects = projectRepository.findByEmployee_IdOrderByNameAsc(id);
+        if (projects.isEmpty()){
+            throw new ProjectNotFoundException("No Projects found with Employee id: %d".formatted(id));
+        }
+        return projects;
     }
 }
