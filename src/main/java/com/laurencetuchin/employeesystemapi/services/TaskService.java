@@ -86,15 +86,20 @@ public class TaskService {
     @Query("select t from Task t where t.endDate <= ?1")
     public List<Task> findByEndDateLessThanEqual() {
         LocalDateTime endsIn7Days = LocalDateTime.now().plusDays(7);
-        return taskRepository.findByEndDateGreaterThanEqual(endsIn7Days);
+
+        List<Task> tasks = taskRepository.findByEndDateGreaterThanEqual(endsIn7Days);
+        if (tasks.isEmpty()){
+            throw new TaskNotFoundException("No tasks ending in 7 days found");
+        }
+        return tasks;
     }
 
     @Query("select t from Task t where t.status <> ?1 order by t.name")
     public List<Task> findByStatusNotOrderByNameAsc(TaskStatus status) {
         List<Task> tasks = taskRepository.findByStatusNotOrderByNameAsc(status);
         if (tasks.isEmpty()){
-            throw new TaskNotFoundException("No tasks excluding status: %s found".formatted(status));
+            throw new TaskNotFoundException("No tasks found excluding status: %s".formatted(status));
         }
-        return taskRepository.findByStatusNotOrderByNameAsc(status);
+        return tasks;
     }
 }
