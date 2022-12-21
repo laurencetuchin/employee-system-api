@@ -102,4 +102,16 @@ public class TaskService {
         }
         return tasks;
     }
+
+
+    @Query("select t from Task t order by t.endDate")
+    public List<Task> findByOrderByEndDateAsc() {
+        return taskRepository.findByOrderByEndDateAsc();
+    }
+
+    @Query("select t from Task t where t.endDate <= ?1 order by t.endDate")
+    public List<Task> findByEndDateLessThanEqualOrderByEndDateAsc() {
+        LocalDateTime endDate = LocalDateTime.now();
+        return taskRepository.findByEndDateLessThanEqualOrderByEndDateAsc(endDate);
+    }
 }
