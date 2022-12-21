@@ -2,6 +2,7 @@ package com.laurencetuchin.employeesystemapi.services;
 
 import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.entities.TaskPriority;
+import com.laurencetuchin.employeesystemapi.entities.TaskStatus;
 import com.laurencetuchin.employeesystemapi.exceptions.TaskNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,5 +91,10 @@ public class TaskService {
     public List<Task> findByEndDateLessThanEqual() {
         LocalDateTime endsIn7Days = LocalDateTime.now().plusDays(7);
         return taskRepository.findByEndDateGreaterThanEqual(endsIn7Days);
+    }
+
+    @Query("select t from Task t where t.status <> ?1 order by t.name")
+    public List<Task> findByStatusNotOrderByNameAsc(TaskStatus status) {
+        return taskRepository.findByStatusNotOrderByNameAsc(status);
     }
 }
