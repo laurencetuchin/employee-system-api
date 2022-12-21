@@ -2,6 +2,7 @@ package com.laurencetuchin.employeesystemapi.repositories;
 
 import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.entities.TaskPriority;
+import com.laurencetuchin.employeesystemapi.entities.TaskStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -31,6 +32,9 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
 
     @Query("select t from Task t where t.endDate <= ?1")
     List<Task> findByEndDateGreaterThanEqual(LocalDateTime endDate);
+
+    @Query("select t from Task t where t.status <> ?1 order by t.name")
+    List<Task> findByStatusNotOrderByNameAsc(TaskStatus status);
 
 
 
