@@ -1,18 +1,13 @@
 package com.laurencetuchin.employeesystemapi.services;
 
-import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Project;
 import com.laurencetuchin.employeesystemapi.entities.ProjectStatus;
-import com.laurencetuchin.employeesystemapi.entities.Task;
+import com.laurencetuchin.employeesystemapi.exceptions.ProjectNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.ProjectRepository;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Null;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -78,4 +73,15 @@ public class ProjectService {
 //    public void addTaskToProject(Task task){
 //
 //    }
+
+
+    @Query("select p from Project p where p.status <> ?1 order by p.name")
+    public List<Project> findByStatusNotOrderByNameAsc(ProjectStatus status) {
+
+        List<Project> projects = projectRepository.findByStatusNotOrderByNameAsc(status);
+        if (projects.isEmpty()){
+            throw new ProjectNotFoundException("No projects found excluding status: %s".formatted(status));
+        }
+        return projects;
+    }
 }
