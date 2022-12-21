@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -288,5 +289,16 @@ public class ProjectController {
     }
 
 
-
+    @Operation(summary = "Find project status excluding", description = "Find project status excluding", tags = "Project" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Project found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Project.class))}),
+            @ApiResponse(responseCode = "500", description = "Project not found",
+                    content = @Content)})
+    @Query("select p from Project p where p.status <> ?1 order by p.name")
+    @GetMapping("/find-status-excluding")
+    public List<Project> findByStatusNotOrderByNameAsc(@RequestParam ProjectStatus status) {
+        return service.findByStatusNotOrderByNameAsc(status);
+    }
 }
