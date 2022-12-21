@@ -45,7 +45,7 @@ public class Task {
     private LocalDateTime startDate = LocalDateTime.now();
 
     @Column(name = "endDate")
-    @FutureOrPresent
+//    @FutureOrPresent
     private LocalDateTime endDate = LocalDateTime.now().plusDays(7);
 
     @ManyToOne(fetch = FetchType.LAZY) // , optional = false
