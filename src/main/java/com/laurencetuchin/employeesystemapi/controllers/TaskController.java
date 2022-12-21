@@ -1,9 +1,6 @@
 package com.laurencetuchin.employeesystemapi.controllers;
 
-import com.laurencetuchin.employeesystemapi.entities.Employee;
-import com.laurencetuchin.employeesystemapi.entities.Project;
-import com.laurencetuchin.employeesystemapi.entities.Task;
-import com.laurencetuchin.employeesystemapi.entities.TaskPriority;
+import com.laurencetuchin.employeesystemapi.entities.*;
 import com.laurencetuchin.employeesystemapi.exceptions.TaskNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.services.ProjectService;
@@ -369,5 +366,21 @@ public class TaskController {
     @Query("select t from Task t where t.endDate >= ?1")
     public List<Task> findByEndDateGreaterThanEqual() {
         return service.findByEndDateLessThanEqual();
+    }
+
+
+    @Operation(summary = "Find Task with status not equal", description = "Find Task with status not equal e.g. not equal to complete will show non complete tasks", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server error",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Task not found",
+                    content = @Content)})
+    @Query("select t from Task t where t.status <> ?1 order by t.name")
+    @GetMapping("/find-status-not")
+    public List<Task> findByStatusNotOrderByNameAsc(@RequestParam TaskStatus status) {
+        return service.findByStatusNotOrderByNameAsc(status);
     }
 }
