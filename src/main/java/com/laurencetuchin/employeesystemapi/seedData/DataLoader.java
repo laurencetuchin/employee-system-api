@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,24 +30,24 @@ public class DataLoader {
 //
 
     @Bean
-    CommandLineRunner loadData(EmployeeRepository repository, ProjectRepository projectRepository, TaskRepository taskRepository) {
+    CommandLineRunner loadData(EmployeeRepository employeeRepository, ProjectRepository projectRepository, TaskRepository taskRepository) {
         return args -> {
-            repository.save(new Employee("Frodo", "Ring bearer", "frodo@gmail.com", EmploymentStatus.employed, LocalDate.now(), "Destroy the ring"));
-            Employee employee = repository.findAll().get(0);
+            employeeRepository.save(new Employee("Frodo", "Ring bearer", "frodo@gmail.com", EmploymentStatus.employed, LocalDate.now(), "Destroy the ring"));
+            Employee employee = employeeRepository.findAll().get(0);
             log.info("Employee 1 saved in Database");
-            repository.save(new Employee("Bilbo","Ring bearer","bilboswaggins@gmail.com",EmploymentStatus.employed,LocalDate.of(1811,1,1),"Steal frodos ring"));
-            repository.save(new Employee("Bilbo2","Delivery", "bilbothedriver@gmail.com",EmploymentStatus.unemployed, LocalDate.of(1951,2,15), "Help frodos"));
+            employeeRepository.save(new Employee("Bilbo","Ring bearer","bilboswaggins@gmail.com",EmploymentStatus.employed,LocalDate.of(1811,1,1),"Steal frodos ring"));
+            employeeRepository.save(new Employee("Bilbo2","Delivery", "bilbothedriver@gmail.com",EmploymentStatus.unemployed, LocalDate.of(1951,2,15), "Help frodos"));
             log.info("Employee 2 saved in Database");
-            repository.save(new Employee("samwise","ring friend","samunwise@gmail.com",EmploymentStatus.redunandant, LocalDate.of(1979,9,15),"Help mr frodo" ));
-            log.info("preloading" + repository.save(new Employee("Mr Log","information provider","tothelogman@gmail.com",EmploymentStatus.onleave,LocalDate.of(2000,5,5),"Provide information")));
-            repository.save(new Employee("John Smith","Hardest worker", "johnsmith@gmail.com",EmploymentStatus.employed,LocalDate.of(1961,7,7),"Find secrets of the island"));
-            log.info("Total employees: " + repository.count());
+            employeeRepository.save(new Employee("samwise","ring friend","samunwise@gmail.com",EmploymentStatus.redunandant, LocalDate.of(1979,9,15),"Help mr frodo" ));
+            log.info("preloading" + employeeRepository.save(new Employee("Mr Log","information provider","tothelogman@gmail.com",EmploymentStatus.onleave,LocalDate.of(2000,5,5),"Provide information")));
+            employeeRepository.save(new Employee("John Smith","Hardest worker", "johnsmith@gmail.com",EmploymentStatus.employed,LocalDate.of(1961,7,7),"Find secrets of the island"));
+            log.info("Total employees: " + employeeRepository.count());
 
             log.info("Total projects: " + projectRepository.save(new Project( "Manchester", ProjectStatus.progress,LocalDateTime.now().plusDays(1),LocalDateTime.now().plusDays(5))));
             log.info("Total projects: " + projectRepository.save(new Project( "Chelsea", ProjectStatus.progress,LocalDateTime.now().plusDays(1),LocalDateTime.now().plusDays(3))));
             log.info("Total projects: " + projectRepository.save(new Project( "Arsenal", ProjectStatus.review,LocalDateTime.now().plusDays(10),LocalDateTime.now().plusDays(50))));
             log.info("Total projects: " + projectRepository.save(new Project( "Spurs", ProjectStatus.complete,LocalDateTime.now().plusDays(100),LocalDateTime.now().plusDays(500))));
-//             Project project = projectRepository.findAll().get(0);
+             Project project = projectRepository.findAll().get(0);
 //             Project project2 = projectRepository.findAll().get(1);
             log.info("Total tasks: " + taskRepository.save(new Task("Play game", "Play game very well", TaskStatus.progress, TaskPriority.high, LocalDateTime.now(), LocalDateTime.now().plusDays(1))));
             log.info("Total tasks: " + taskRepository.save(new Task("game", "Play game well", TaskStatus.progress, TaskPriority.high, LocalDateTime.now(), LocalDateTime.now().plusDays(1))));
@@ -59,6 +60,9 @@ public class DataLoader {
 //            Set<Employee> assignedEmployees = new HashSet<>();
 //            assignedEmployees.add(employee);
 //            Task task = taskRepository.findAll().get(0);
+            Task task1 = new Task("game7", "Play game well", TaskStatus.todo, TaskPriority.low, LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(2));
+//            project.addTask(task1);
+//            projectRepository.save(project);
 //            Optional<Employee> employee1 = repository.findById(1L);
 //            Employee employee2 = employee1.get();
 //

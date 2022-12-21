@@ -158,7 +158,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+       return "Task{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
@@ -166,7 +166,7 @@ public class Task {
                 ", priority=" + priority +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-//                ", project=" + project +
+                ", project=" + project +
                 ", employeesAssignedTask=" + employees +
                 '}';
     }

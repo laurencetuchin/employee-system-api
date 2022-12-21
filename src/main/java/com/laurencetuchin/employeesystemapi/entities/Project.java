@@ -10,6 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.EnumOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -67,6 +68,7 @@ public class Project {
     }
 
     // helper method to add Tasks to project
+//    @Transactional
     public void addTask(Task task) {
         this.task.add(task);
         task.setProject(this);

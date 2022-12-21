@@ -3,11 +3,13 @@ package com.laurencetuchin.employeesystemapi.services;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Project;
 import com.laurencetuchin.employeesystemapi.entities.ProjectStatus;
+import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.repositories.ProjectRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Null;
@@ -71,4 +73,9 @@ public class ProjectService {
     public List<Project> findByEmployee_NameAllIgnoreCase(String name) {
         return projectRepository.findByEmployee_NameAllIgnoreCase(name);
     }
+
+//    @Transactional
+//    public void addTaskToProject(Task task){
+//
+//    }
 }
