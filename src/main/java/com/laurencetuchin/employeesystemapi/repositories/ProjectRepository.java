@@ -28,6 +28,11 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
     @Query("select p from Project p where p.status <> ?1 order by p.name")
     List<Project> findByStatusNotOrderByNameAsc(ProjectStatus status);
 
+    @Query("select p from Project p where p.employee.id = ?1 order by p.name")
+    List<Project> findByEmployee_IdOrderByNameAsc(Long id);
+
+
+
 //    Optional<Project> findById(Long id);
 
 

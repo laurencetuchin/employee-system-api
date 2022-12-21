@@ -84,4 +84,9 @@ public class ProjectService {
         }
         return projects;
     }
+
+    @Query("select p from Project p where p.employee.id = ?1 order by p.name")
+    public List<Project> findByEmployee_IdOrderByNameAsc(Long id) {
+        return projectRepository.findByEmployee_IdOrderByNameAsc(id);
+    }
 }

@@ -301,4 +301,17 @@ public class ProjectController {
     public List<Project> findByStatusNotOrderByNameAsc(@RequestParam ProjectStatus status) {
         return service.findByStatusNotOrderByNameAsc(status);
     }
+
+    @Operation(summary = "Find project by Employee id", description = "Find project by Employee id", tags = "Project" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Project found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Project.class))}),
+            @ApiResponse(responseCode = "500", description = "Project not found",
+                    content = @Content)})
+    @Query("select p from Project p where p.employee.id = ?1 order by p.name")
+    @GetMapping("/employee/{id}/projects")
+    public List<Project> findByEmployee_IdOrderByNameAsc(@PathVariable Long id) {
+        return service.findByEmployee_IdOrderByNameAsc(id);
+    }
 }
