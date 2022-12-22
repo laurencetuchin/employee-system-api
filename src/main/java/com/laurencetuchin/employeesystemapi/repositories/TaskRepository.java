@@ -45,6 +45,9 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
     @Query("select t from Task t where t.project.id = ?1 order by t.name")
     List<Task> findByProject_IdOrderByNameAsc(Long id);
 
+    @Query("select t from Task t inner join t.employees employees where employees.id = ?1 order by t.name")
+    List<Task> findByEmployees_IdOrderByNameAsc(Long id);
+
 
 
 
