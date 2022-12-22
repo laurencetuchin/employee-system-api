@@ -314,4 +314,17 @@ public class ProjectController {
     public List<Project> findByEmployee_IdOrderByNameAsc(@PathVariable Long id) {
         return service.findByEmployee_IdOrderByNameAsc(id);
     }
+
+    @Operation(summary = "Find project by Task id", description = "Find project by Task id", tags = "Project" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Project found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Project.class))}),
+            @ApiResponse(responseCode = "500", description = "Project not found",
+                    content = @Content)})
+    @Query("select p from Project p inner join p.task task where task.id = ?1")
+    @GetMapping("/task/{id}/projects")
+    public List<Project> findByTask_Id(Long id) {
+        return service.findByTask_Id(id);
+    }
 }
