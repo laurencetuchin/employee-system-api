@@ -114,4 +114,12 @@ public class TaskService {
         LocalDateTime endDate = LocalDateTime.now();
         return taskRepository.findByEndDateLessThanEqualOrderByEndDateAsc(endDate);
     }
+
+
+    @Query("select t from Task t where t.project.id = ?1 order by t.name")
+    public List<Task> findByProject_IdOrderByNameAsc(Long id) {
+        return taskRepository.findByProject_IdOrderByNameAsc(id);
+    }
+
+
 }
