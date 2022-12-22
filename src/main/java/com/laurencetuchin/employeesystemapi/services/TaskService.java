@@ -1,9 +1,7 @@
 package com.laurencetuchin.employeesystemapi.services;
 
-import com.laurencetuchin.employeesystemapi.entities.Project;
-import com.laurencetuchin.employeesystemapi.entities.Task;
-import com.laurencetuchin.employeesystemapi.entities.TaskPriority;
-import com.laurencetuchin.employeesystemapi.entities.TaskStatus;
+import com.laurencetuchin.employeesystemapi.entities.*;
+import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
 import com.laurencetuchin.employeesystemapi.exceptions.ProjectNotFoundException;
 import com.laurencetuchin.employeesystemapi.exceptions.TaskNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
@@ -24,6 +22,9 @@ public class TaskService {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private EmployeeService employeeService;
 
     public Optional<Task> findTaskById(Long id) {
         return taskRepository.findTaskById(id);
@@ -137,7 +138,15 @@ public class TaskService {
 
     @Query("select t from Task t inner join t.employees employees where employees.id = ?1 order by t.name")
     public List<Task> findTasksByEmployeeId(Long id) {
-        return taskRepository.findByEmployees_IdOrderByNameAsc(id);
+        Optional<Employee> employee = employeeService.findEmployeeById(id);
+        if (employee.isEmpty()){
+            throw new EmployeeNotFoundException("Employee with id %d not found".formatted(id));
+        }
+        List<Task> tasks = taskRepository.findByEmployees_IdOrderByNameAsc(id);
+        if (tasks.isEmpty()){
+            throw new TaskNotFoundException("Tasks with Employee id: %d not found".formatted(id));
+        }
+        return tasks;
     }
 
 
