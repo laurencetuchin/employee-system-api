@@ -17,11 +17,11 @@ import java.util.Optional;
 @Service
 public class ProjectService {
 
-    @Autowired
-    private EmployeeService employeeService;
 
     @Autowired
     private ProjectRepository projectRepository;
+    @Autowired
+    private EmployeeService employeeService;
 
     public List<Project> findProjectByName(String projectName){
         return projectRepository.findProjectByNameIgnoreCaseContains(projectName);
@@ -104,5 +104,11 @@ public class ProjectService {
             throw new ProjectNotFoundException("No Projects found with Employee id: %d".formatted(id));
         }
         return projects;
+    }
+
+
+    @Query("select p from Project p inner join p.task task where task.id = ?1")
+    public List<Project> findByTask_Id(Long id) {
+        return projectRepository.findByTask_Id(id);
     }
 }
