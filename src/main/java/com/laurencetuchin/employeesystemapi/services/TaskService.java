@@ -136,7 +136,7 @@ public class TaskService {
 
 
     @Query("select t from Task t inner join t.employees employees where employees.id = ?1 order by t.name")
-    public List<Task> findByEmployees_IdOrderByNameAsc(Long id) {
+    public List<Task> findTasksByEmployeeId(Long id) {
         return taskRepository.findByEmployees_IdOrderByNameAsc(id);
     }
 

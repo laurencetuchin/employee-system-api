@@ -429,4 +429,20 @@ public class TaskController {
     public List<Task> findTaskByProjectId(@PathVariable Long id) {
         return service.findTaskByProjectId(id);
     }
+
+
+    @Operation(summary = "Find Tasks by Employee id", description = "Find Tasks by Employee id", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server error",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Task not found",
+                    content = @Content)})
+    @Query("select t from Task t inner join t.employees employees where employees.id = ?1 order by t.name")
+    @GetMapping("/employee/{id}/tasks")
+    public List<Task> findTasksByEmployeeId(@PathVariable Long id) {
+        return service.findTasksByEmployeeId(id);
+    }
 }
