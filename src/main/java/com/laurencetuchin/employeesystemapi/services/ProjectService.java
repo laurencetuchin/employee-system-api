@@ -45,7 +45,7 @@ public class ProjectService {
 
     public Project updateProjectById( Project project, Long id){
         Optional<Project> _project = projectRepository.findProjectById(id);
-        if (!_project.isPresent()){
+        if (_project.isEmpty()){
             throw new NoSuchElementException("Project with id: " + id + " does not exist");
         } else {
             _project.get().setName(project.getName());
