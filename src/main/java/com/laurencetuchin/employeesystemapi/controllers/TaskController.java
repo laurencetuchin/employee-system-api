@@ -1,6 +1,5 @@
 package com.laurencetuchin.employeesystemapi.controllers;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.laurencetuchin.employeesystemapi.entities.*;
 import com.laurencetuchin.employeesystemapi.exceptions.TaskNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
@@ -427,7 +426,7 @@ public class TaskController {
                     content = @Content)})
     @Query("select t from Task t where t.project.id = ?1 order by t.name")
     @GetMapping("/project/{id}/tasks")
-    public List<Task> findByProject_IdOrderByNameAsc(@PathVariable Long id) {
-        return service.findByProject_IdOrderByNameAsc(id);
+    public List<Task> findTaskByProjectId(@PathVariable Long id) {
+        return service.findTaskByProjectId(id);
     }
 }

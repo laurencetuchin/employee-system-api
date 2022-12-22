@@ -10,7 +10,6 @@ import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -122,7 +121,7 @@ public class TaskService {
 
 
     @Query("select t from Task t where t.project.id = ?1 order by t.name")
-    public List<Task> findByProject_IdOrderByNameAsc(Long id) {
+    public List<Task> findTaskByProjectId(Long id) {
         Optional<Project> project = projectService.findById(id);
         if (project.isEmpty()){
             throw new ProjectNotFoundException("Project with id: %d not found".formatted(id));
