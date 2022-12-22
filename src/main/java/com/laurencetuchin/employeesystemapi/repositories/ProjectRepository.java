@@ -2,7 +2,6 @@ package com.laurencetuchin.employeesystemapi.repositories;
 
 import com.laurencetuchin.employeesystemapi.entities.Project;
 import com.laurencetuchin.employeesystemapi.entities.ProjectStatus;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProjectRepository extends JpaRepository<Project,Long> {
+public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("select p from Project p where p.status = ?1")
     List<Project> findByStatus(ProjectStatus status);
 
@@ -31,14 +30,14 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
     @Query("select p from Project p where p.employee.id = ?1 order by p.name")
     List<Project> findByEmployee_IdOrderByNameAsc(Long id);
 
+    @Query("select p from Project p inner join p.task task where task.id = ?1")
+    List<Project> findByTask_Id(Long id);
 
 
 //    Optional<Project> findById(Long id);
 
 
-
     //    List<Project> findProjectByAssignedEmployeesIgnoreCaseContains(String assignedEmployee);
-
 
 
 }
