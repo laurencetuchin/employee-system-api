@@ -1,8 +1,10 @@
 package com.laurencetuchin.employeesystemapi.services;
 
+import com.laurencetuchin.employeesystemapi.entities.Project;
 import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.entities.TaskPriority;
 import com.laurencetuchin.employeesystemapi.entities.TaskStatus;
+import com.laurencetuchin.employeesystemapi.exceptions.ProjectNotFoundException;
 import com.laurencetuchin.employeesystemapi.exceptions.TaskNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
+    @Autowired
+    private ProjectService projectService;
 
     public Optional<Task> findTaskById(Long id) {
         return taskRepository.findTaskById(id);
@@ -40,14 +44,14 @@ public class TaskService {
     }
 
 
-    public Task saveTask(Task task){
+    public Task saveTask(Task task) {
         return taskRepository.save(task);
     }
 
-    public Task updateTask(Task task, Long id){
+    public Task updateTask(Task task, Long id) {
 //        boolean taskExists = taskRepository.existsById(task.getId());
         Optional<Task> _task = taskRepository.findTaskById(id);
-        if (!_task.isPresent()){
+        if (!_task.isPresent()) {
             throw new NoSuchElementException("Task with id: " + id + " does not exist");
         } else {
             _task.get().setName(task.getName());
@@ -58,16 +62,16 @@ public class TaskService {
             _task.get().setEmployees(task.getEmployees());
             _task.get().setPriority(task.getPriority());
             _task.get().setProject(task.getProject());
-         taskRepository.save(_task.get());
+            taskRepository.save(_task.get());
         }
         return _task.get();
     }
 
-    public void deleteTaskById(Long id){
+    public void deleteTaskById(Long id) {
         taskRepository.deleteById(id);
     }
 
-    public List<Task> findAll(){
+    public List<Task> findAll() {
         return taskRepository.findAll();
     }
 
@@ -76,8 +80,8 @@ public class TaskService {
     public List<Task> findByStartDateLessThanAndEndDateGreaterThan(LocalDateTime startDate, LocalDateTime endDate) {
 
         List<Task> tasks = taskRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByEndDateAsc(startDate, endDate);
-        if (tasks.isEmpty()){
-            throw new TaskNotFoundException("Task with startDate: "+startDate+" or endDate: "+endDate+" not found");
+        if (tasks.isEmpty()) {
+            throw new TaskNotFoundException("Task with startDate: " + startDate + " or endDate: " + endDate + " not found");
         } else
             return tasks;
     }
@@ -88,7 +92,7 @@ public class TaskService {
         LocalDateTime endsIn7Days = LocalDateTime.now().plusDays(7);
 
         List<Task> tasks = taskRepository.findByEndDateGreaterThanEqual(endsIn7Days);
-        if (tasks.isEmpty()){
+        if (tasks.isEmpty()) {
             throw new TaskNotFoundException("No tasks ending in 7 days found");
         }
         return tasks;
@@ -97,7 +101,7 @@ public class TaskService {
     @Query("select t from Task t where t.status <> ?1 order by t.name")
     public List<Task> findByStatusNotOrderByNameAsc(TaskStatus status) {
         List<Task> tasks = taskRepository.findByStatusNotOrderByNameAsc(status);
-        if (tasks.isEmpty()){
+        if (tasks.isEmpty()) {
             throw new TaskNotFoundException("No tasks found excluding status: %s".formatted(status));
         }
         return tasks;
@@ -118,7 +122,16 @@ public class TaskService {
 
     @Query("select t from Task t where t.project.id = ?1 order by t.name")
     public List<Task> findByProject_IdOrderByNameAsc(Long id) {
-        return taskRepository.findByProject_IdOrderByNameAsc(id);
+        Optional<Project> project = projectService.findById(id);
+        if (project.isEmpty()){
+            throw new ProjectNotFoundException("Project with id: %d not found".formatted(id));
+        }
+
+        List<Task> tasks = taskRepository.findByProject_IdOrderByNameAsc(id);
+        if (tasks.isEmpty()){
+            throw new TaskNotFoundException("Tasks with project id: %d not found".formatted(id));
+        }
+        return tasks;
     }
 
 
