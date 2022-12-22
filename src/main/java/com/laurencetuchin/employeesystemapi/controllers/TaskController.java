@@ -416,6 +416,15 @@ public class TaskController {
         return service.findByEndDateLessThanEqualOrderByEndDateAsc();
     }
 
+    @Operation(summary = "Find Tasks by Project id", description = "Find Tasks by Project id", tags = "Task")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "500", description = "Internal Server error",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Task not found",
+                    content = @Content)})
     @Query("select t from Task t where t.project.id = ?1 order by t.name")
     @GetMapping("/project/{id}/tasks")
     public List<Task> findByProject_IdOrderByNameAsc(@PathVariable Long id) {
