@@ -415,4 +415,10 @@ public class TaskController {
     public List<Task> findByEndDateLessThanEqualOrderByEndDateAsc() {
         return service.findByEndDateLessThanEqualOrderByEndDateAsc();
     }
+
+    @Query("select t from Task t where t.project.id = ?1 order by t.name")
+    @GetMapping("/project/{id}/tasks")
+    public List<Task> findByProject_IdOrderByNameAsc(@PathVariable Long id) {
+        return service.findByProject_IdOrderByNameAsc(id);
+    }
 }
