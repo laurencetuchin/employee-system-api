@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Project {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
