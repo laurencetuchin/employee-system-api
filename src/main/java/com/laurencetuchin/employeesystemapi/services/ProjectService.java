@@ -3,8 +3,10 @@ package com.laurencetuchin.employeesystemapi.services;
 import com.laurencetuchin.employeesystemapi.entities.Employee;
 import com.laurencetuchin.employeesystemapi.entities.Project;
 import com.laurencetuchin.employeesystemapi.entities.ProjectStatus;
+import com.laurencetuchin.employeesystemapi.entities.Task;
 import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException;
 import com.laurencetuchin.employeesystemapi.exceptions.ProjectNotFoundException;
+import com.laurencetuchin.employeesystemapi.exceptions.TaskNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
@@ -22,6 +24,9 @@ public class ProjectService {
     private ProjectRepository projectRepository;
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private TaskService taskService;
 
     public List<Project> findProjectByName(String projectName){
         return projectRepository.findProjectByNameIgnoreCaseContains(projectName);
@@ -109,6 +114,17 @@ public class ProjectService {
 
     @Query("select p from Project p inner join p.task task where task.id = ?1")
     public List<Project> findByTask_Id(Long id) {
-        return projectRepository.findByTask_Id(id);
+
+        Optional<Task> task = taskService.findTaskById(id);
+        if (task.isEmpty()){
+            throw new TaskNotFoundException("Task with id %d not found".formatted(id));
+        }
+
+        List<Project> projects = projectRepository.findByTask_Id(id);
+        if (projects.isEmpty()){
+            throw new ProjectNotFoundException("Project with task id: %d not found".formatted(id));
+        }
+        return projects;
+
     }
 }
