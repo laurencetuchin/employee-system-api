@@ -8,6 +8,7 @@ import com.laurencetuchin.employeesystemapi.exceptions.EmployeeNotFoundException
 import com.laurencetuchin.employeesystemapi.exceptions.ProjectNotFoundException;
 import com.laurencetuchin.employeesystemapi.exceptions.TaskNotFoundException;
 import com.laurencetuchin.employeesystemapi.repositories.ProjectRepository;
+import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class ProjectService {
     private EmployeeService employeeService;
 
     @Autowired
-    private TaskService taskService;
+    private TaskRepository taskRepository;
 
     public List<Project> findProjectByName(String projectName){
         return projectRepository.findProjectByNameIgnoreCaseContains(projectName);
@@ -50,18 +51,20 @@ public class ProjectService {
 
     public Project updateProjectById( Project project, Long id){
         Optional<Project> _project = projectRepository.findProjectById(id);
+        //noinspection OptionalGetWithoutIsPresent
+        Project project1 = _project.get();
         if (_project.isEmpty()){
             throw new NoSuchElementException("Project with id: " + id + " does not exist");
         } else {
-            _project.get().setName(project.getName());
+            project1.setName(project.getName());
 //            _project.get().setEmployee(project.getEmployee());
-            _project.get().setStatus(project.getStatus());
-            _project.get().setStartDate(project.getStartDate());
-            _project.get().setEndDate(project.getEndDate());
-            _project.get().setTask(project.getTask());
-            projectRepository.save(_project.get());
+            project1.setStatus(project.getStatus());
+            project1.setStartDate(project.getStartDate());
+            project1.setEndDate(project.getEndDate());
+            project1.setTask(project.getTask());
+            projectRepository.save(project1);
         }
-        return _project.get();
+        return project1;
     }
 
 
@@ -115,7 +118,7 @@ public class ProjectService {
     @Query("select p from Project p inner join p.task task where task.id = ?1")
     public List<Project> findByTask_Id(Long id) {
 
-        Optional<Task> task = taskService.findTaskById(id);
+        Optional<Task> task = taskRepository.findTaskById(id);
         if (task.isEmpty()){
             throw new TaskNotFoundException("Task with id %d not found".formatted(id));
         }

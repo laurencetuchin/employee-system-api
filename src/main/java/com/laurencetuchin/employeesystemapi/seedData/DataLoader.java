@@ -4,8 +4,10 @@ import com.laurencetuchin.employeesystemapi.entities.*;
 import com.laurencetuchin.employeesystemapi.repositories.EmployeeRepository;
 import com.laurencetuchin.employeesystemapi.repositories.ProjectRepository;
 import com.laurencetuchin.employeesystemapi.repositories.TaskRepository;
+import com.laurencetuchin.employeesystemapi.services.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +29,15 @@ public class DataLoader {
 //    private static List<Employee> createEmployeeData(EmployeeRepository employeeRepository, ProjectRepository projectRepository, TaskRepository taskRepository){
 //        return em
 //    }
+////
+//    @Autowired
+//    private EmployeeRepository employeeRepository;
 //
+//    @Autowired
+//    private ProjectRepository projectRepository;
+//
+//    @Autowired
+//    private TaskRepository taskRepository;
 
     @Bean
     CommandLineRunner loadData(EmployeeRepository employeeRepository, ProjectRepository projectRepository, TaskRepository taskRepository) {
