@@ -76,7 +76,7 @@ Version numbers are available in the pom.xml file
 
 ### Screenshots and demos for a better understanding of how it works 
 
-
+    ![](src/main/resources/demos/intellij-debugging.png)
 
 
 ### Link to demo site 
