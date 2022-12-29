@@ -78,6 +78,10 @@ Version numbers are available in the pom.xml file
 
 Application debugging with IntelliJ, checking the line break that an Employee object is successfully associated with a Task object. We can check the values are behaving as expected. 
 ![](src/main/resources/demos/intellij-debugging.png "IntelliJ Debugging with Employee entity")
+
+
+Error handling when incorrect type of String is sent to the API when the correct type is a Boolean value
+![](src/main/resources/demos/error-handling-incorrect-type.png "Error handling with incorrect type of boolean")
 ### Link to demo site 
 
 #### Api Documentation Available at [swagger link]
