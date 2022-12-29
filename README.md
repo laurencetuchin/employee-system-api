@@ -13,13 +13,13 @@
 
 Our employee management system is designed to help managers keep track of important employee information and streamline team collaboration. With this system, managers can easily access and update employee profiles, track employment status, and set career goals.
 
-Additionally, the system enables employees to create projects and assign tasks to team members, helping them stay organized and on track with their workload. By providing a central platform for managing employee information and project tasks, our system helps teams work more efficiently and effectively. It solves the problem of disorganized and fragmented communication, helping managers and employees stay informed and focused on their work.
+Additionally, the system enables employees to create projects and assign tasks to team members, helping them stay organised and on track with their workload. By providing a central platform for managing employee information and project tasks, our system helps teams work more efficiently and effectively. It solves the problem of disorganised and fragmented communication, helping managers and employees stay informed and focused on their work.
 
 
 #### List of the key features of the employee management system:
 
 - Employee profiles: Provides a central platform for storing and updating employee information, including name, role, employment status, and career goals.
-- Project and task management: Allows employees to create projects and assign tasks to team members, helping them stay organized and on track with their workload.
+- Project and task management: Allows employees to create projects and assign tasks to team members, helping them stay organised and on track with their workload.
 - Strong error handling: Features an Error Dto to help users understand why they are seeing an error and what they should do to submit correct information.
 - Flexible database queries: Provides a range of options for finding information, including tasks between a range of dates, tasks associated with a specific employee or project, and tasks that are ending soon.
 - Custom exceptions: Throws unique exceptions based on whether an entity does not exist or there is no association between entities found.
@@ -41,10 +41,10 @@ Additionally, the system enables employees to create projects and assign tasks t
 - slf4j: A logging framework for Java that allows you to output log statements from your code.
 - H2: An in-memory database that can be used for testing and prototyping.
 - Postman: A tool for testing and documenting APIs.
-- Docker: A containerization platform that allows you to package and deploy applications in a portable way.
+- Docker: A containerisation platform that allows you to package and deploy applications in a portable way.
 - JavaScript: A programming language used to build web applications and other software.
 - React: A JavaScript library for building user interfaces, commonly used for building web applications.
-- Tailwindcss: A CSS framework for building responsive and customizable user interfaces.
+- Tailwindcss: A CSS framework for building responsive and customisable user interfaces.
 - Maven: A build automation tool for Java that helps you manage dependencies and build your project.
 - IntelliJ: An integrated development environment (IDE) for Java and other programming languages.
 - PostgreSQL: An open-source relational database management system (RDBMS) used for storing and manipulating data.
