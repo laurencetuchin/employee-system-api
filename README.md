@@ -80,7 +80,7 @@ Application debugging with IntelliJ, checking the line break that an Employee ob
 ![](src/main/resources/demos/intellij-debugging.png "IntelliJ Debugging with Employee entity")
 
 
-Error handling when incorrect type of String is sent to the API when the correct type is a Boolean value
+Error handling when incorrect type of String is sent to the API when the correct type is a Boolean value. Photo of client side after inputting incorrect information. 
 ![](src/main/resources/demos/error-handling-incorrect-type.png "Error handling with incorrect type of boolean")
 ### Link to demo site 
 
