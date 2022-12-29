@@ -49,6 +49,15 @@ Additionally, the system enables employees to create projects and assign tasks t
 - IntelliJ: An integrated development environment (IDE) for Java and other programming languages.
 - PostgreSQL: An open-source relational database management system (RDBMS) used for storing and manipulating data.
 
+### Setup and install
 
+To install and set up the employee management system project, you will need to follow these steps:
+
+- Clone the project from the repository using Git.
+- Make sure you have the required dependencies installed, including Java 17 and Maven.
+- Navigate to the root directory of the project in your terminal and run the command mvn install. This will download and install all of the project's dependencies.
+- Run the command mvn package to build the project and create a jar file.
+- Run the command java -jar target/employee-management-system-0.0.1-SNAPSHOT.jar to start the application.
+- The application should now be running on localhost at the default port (8081). You can access it in your web browser by navigating to http://localhost:8081. The project is configured with port 8081 in the application.properties file, to change it please update the server port in application properties. 
 
 
