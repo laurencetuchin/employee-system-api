@@ -1,12 +1,6 @@
 ### Welcome to Employee Management System
 
 
-#### Api Documentation Available at [swagger link]
-
-#### Postman Api Documentation at [postman link]
-
-
-
 ## Efficient Management System for Organised Teams
 
 #### Brief overview of the project, including its purpose and the problem it solves.
@@ -80,4 +74,11 @@ Version numbers are available in the pom.xml file
 - testng
 - annotations
 
+### Screenshots and demos for a better understanding of how it works 
 
+
+
+
+### Link to demo site 
+
+#### Api Documentation Available at [swagger link]
