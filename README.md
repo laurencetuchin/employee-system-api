@@ -76,7 +76,7 @@ Version numbers are available in the pom.xml file
 
 ### Screenshots and demos for a better understanding of how it works 
 
-
+Application debugging with IntelliJ, checking the line break that an Employee object is successfully associated with a Task object. We can check the values are behaving as expected. 
 ![](src/main/resources/demos/intellij-debugging.png "IntelliJ Debugging with Employee entity")
 ### Link to demo site 
 
