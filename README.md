@@ -76,9 +76,8 @@ Version numbers are available in the pom.xml file
 
 ### Screenshots and demos for a better understanding of how it works 
 
-    ![](src/main/resources/demos/intellij-debugging.png)
 
-
+![](src/main/resources/demos/intellij-debugging.png "IntelliJ Debugging with Employee entity")
 ### Link to demo site 
 
 #### Api Documentation Available at [swagger link]
