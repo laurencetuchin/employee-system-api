@@ -60,4 +60,24 @@ To install and set up the employee management system project, you will need to f
 - Run the command java -jar target/employee-management-system-0.0.1-SNAPSHOT.jar to start the application.
 - The application should now be running on localhost at the default port (8081). You can access it in your web browser by navigating to http://localhost:8081. The project is configured with port 8081 in the application.properties file, to change it please update the server port in application properties. 
 
+### A list of the dependencies used in the application: 
+Version numbers are available in the pom.xml file
+
+- spring-boot-starter-parent
+- spring-boot-starter-data-jpa
+- spring-boot-starter-web
+- spring-boot-starter-validation
+- validation-api
+- hibernate-core
+- spring-boot-devtools
+- h2
+- junit-jupiter-api
+- jackson-databind
+- lombok
+- spring-boot-starter-test
+- springdoc-openapi-ui
+- spring-webflux
+- testng
+- annotations
+
 
