@@ -101,6 +101,8 @@ Showing associations between Employee, Project and Tasks after they have been as
 Initial seed data for an Employee, ran using CommandLineRunner, may update to more sophisticated data later.
 ![](src\main\resources\demos\seed-data.png)
 
+Project dates, assigns default Project dates for the user but can be overridden by the user.
+![](src\main\resources\demos\project-dates.png)
 
 ### Link to demo site 
 
