@@ -74,7 +74,7 @@ Version numbers are available in the pom.xml file
 - testng
 - annotations
 
-### Screenshots and demos for a better understanding of how it works 
+### Screenshots and demos for a better understanding of how it works  
 
 Application debugging with IntelliJ, checking the line break that an Employee object is successfully associated with a Task object. We can check the values are behaving as expected. 
 ![](src/main/resources/demos/intellij-debugging.png "IntelliJ Debugging with Employee entity")
@@ -83,26 +83,27 @@ Application debugging with IntelliJ, checking the line break that an Employee ob
 Error handling when incorrect type of String is sent to the API when the correct type is a Boolean value. Photo of client side after inputting incorrect information. 
 ![](src/main/resources/demos/error-handling-incorrect-type.png "Error handling with incorrect type of boolean")
 
+
 Debugging unit test to see what objects are showing under the hood when running the test, instead of only looking at pass/fail
-![](src\main\resources\demos\debugging-junit.png "Debugging Unit test until it passes as expected")
+![](src/main/resources/demos/debugging-junit.png "Debugging Unit test until it passes as expected")
 
 
 Query using Postman on the Project controller to search for Projects assigned to an Employee named "frodo" in lowercase which will return a case-insensitive match 
-![](src\main\resources\demos\employee-find-by-name.png)
+![](src/main/resources/demos/employee-find-by-name.png)
 
 Testing seed data is coming through as expected with Employees 
-![](src\main\resources\demos\h2-local-data.png)
+![](src/main/resources/demos/h2-local-data.png)
 
 
 Showing associations between Employee, Project and Tasks after they have been assigned. 
-![](src\main\resources\demos\project-associations.png)
+![](src/main/resources/demos/project-associations.png)
 
 
 Initial seed data for an Employee, ran using CommandLineRunner, may update to more sophisticated data later.
-![](src\main\resources\demos\seed-data.png)
+![](src/main/resources/demos/seed-data.png)
 
 Project dates, assigns default Project dates for the user but can be overridden by the user.
-![](src\main\resources\demos\project-dates.png)
+![](src/main/resources/demos/project-dates.png)
 
 ### Link to demo site 
 
